@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Token Burn Ticker — 7.27B tokens</title>
-<meta name="description" content="7.27B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 7.27B tokens, measured">
+<title>Token Burn Ticker — 7.37B tokens</title>
+<meta name="description" content="7.37B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 7.37B tokens, measured">
 <meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -200,7 +200,12 @@
   /* Hero */
   .hero {
     text-align: center;
-    padding: 1.5rem 0.5rem 2rem;
+    /* Bottom padding nudged up slightly (2rem -> 2.4rem) after the honest
+       paragraph moved out (boss markup) -- the odometer+abbrev alone read a
+       touch short against the old 2rem without the paragraph's visual
+       weight beneath them. Small, reversible judgment call -- flagged in
+       the report. */
+    padding: 1.5rem 0.5rem 2.4rem;
     margin-bottom: 1.5rem;
     position: relative;
   }
@@ -322,6 +327,18 @@
     line-height: 1.55;
     color: var(--text-dim);
     opacity: 0.9;
+  }
+
+  /* Boss markup: the honest paragraph moved out of the (centered) hero
+     section into the (left-flowing) Monthly burn panel -- the base .honest
+     rule above was tuned for a wide, centered context (max-width + auto
+     margins), so left as-is it would float oddly centered inside a
+     left-aligned panel next to .carry-note/.fleet-note. Font/line-height/
+     color/opacity are untouched (same look); only width/centering is
+     dropped so it reads as normal panel prose in its new home. */
+  .panel .honest {
+    max-width: none;
+    margin: 0.7rem 0 0;
   }
 
   /* Panels grid */
@@ -1330,7 +1347,6 @@
       <div class="sr-only" id="odometer-status" role="status" aria-live="polite"></div>
     </div>
     <div class="abbrev" id="abbrev">—</div>
-    <p class="honest">Total tokens processed, measured from local CLI logs. Cache reads included. The headline counts Claude Code + Codex CLI exactly; Grok CLI is measured separately below and excluded from it. Claude web and Desktop apps leave no logs and are never counted. The corpus re-measures in full on every refresh and is banked at a cumulative high-water mark: once real work is measured, it is never un-counted, even when ephemeral orchestration logs age out and get pruned — a month's or a tool's total can only rise. The headline reports the bank: measured, never estimated, never un-counted.</p>
   </section>
 
   <div class="panels">
@@ -1341,6 +1357,7 @@
       </h2>
       <div class="chart" id="chart" role="img" aria-label="Monthly token totals bar chart"></div>
       <p class="carry-note" id="month-carry-note" hidden></p>
+      <p class="honest">Total tokens processed, measured from local CLI logs. Cache reads included. The headline counts Claude Code + Codex CLI exactly; Grok CLI is measured separately below and excluded from it. Claude web and Desktop apps leave no logs and are never counted. The corpus re-measures in full on every refresh and is banked at a cumulative high-water mark: once real work is measured, it is never un-counted, even when ephemeral orchestration logs age out and get pruned — a month's or a tool's total can only rise. The headline reports the bank: measured, never estimated, never un-counted.</p>
     </section>
 
     <section class="panel" aria-labelledby="tools-title">
@@ -1390,17 +1407,17 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-18T21:14:59Z",
+  "as_of": "2026-07-18T22:35:47Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 7272505297,
+    "all": 7367502709,
     "by_tool": {
       "claude_code": 6639442235,
-      "codex_cli": 287499329
+      "codex_cli": 287641161
     },
     "month_carry": 0,
-    "tool_carry": 345563733
+    "tool_carry": 440419313
   },
   "monthly": [
     {
@@ -1417,10 +1434,10 @@
     },
     {
       "month": "2026-07",
-      "tokens": 4964063376
+      "tokens": 5059060788
     }
   ],
-  "sessions_total": 281,
+  "sessions_total": 282,
   "fleet": [
     {
       "vendor": "Anthropic",
@@ -1429,16 +1446,16 @@
       "status": "measured",
       "measured_tokens": 6639442235,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-18T21:15:02Z"
+      "scanned_at": "2026-07-18T22:35:50Z"
     },
     {
       "vendor": "OpenAI",
       "tool": "codex_cli",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 287499329,
+      "measured_tokens": 287641161,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-18T21:15:02Z"
+      "scanned_at": "2026-07-18T22:35:50Z"
     },
     {
       "vendor": "xAI",
@@ -1447,7 +1464,7 @@
       "status": "measured",
       "measured_tokens": 16332067,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-18T21:15:02Z"
+      "scanned_at": "2026-07-18T22:35:50Z"
     },
     {
       "vendor": "Google",
@@ -1456,7 +1473,7 @@
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 793079,
-      "scanned_at": "2026-07-18T21:15:02Z"
+      "scanned_at": "2026-07-18T22:35:50Z"
     }
   ]
 }
@@ -1918,6 +1935,19 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
   const toolCarry = DATA.totals.tool_carry || 0;
   const toolCarryPct = (toolCarry / total) * 100;
 
+  // Boss cleanup ("what is the deal with antigravities numbers lol"): a tiny
+  // real share (e.g. Antigravity's dispatch-measured sliver) formatted at 4
+  // decimals was rendering as a wall of zeros ("0.0000%"). Any pct strictly
+  // between 0 and 0.01 now renders as "<0.01%" instead -- an honest floor on
+  // the DISPLAY only, never on the underlying token count. Exact zero and
+  // anything >= 0.01 format exactly as before.
+  function formatPct(pct, decimals) {
+    if (pct > 0 && pct < 0.01) {
+      return "<0.01%";
+    }
+    return pct.toFixed(decimals) + "%";
+  }
+
   // FOUR-SEAT STRIP (boss ruling, 2026-07-18: "added grok and antigravity" --
   // the combined visual now represents ALL MEASURED WORK, not the two-tool-
   // era headline split). 100% data-driven: no hardcoded tool list, no
@@ -1946,12 +1976,26 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
   const allMeasuredTotal = total + externalFleetTotal;
   const STRIP_SWATCH = { grok_cli: "grok", antigravity_cli: "antigravity" };
 
+  // Boss cleanup: carry moves to the BOTTOM of the row list (was right after
+  // Codex) -- built here as its own variable, appended after the fleet rows
+  // below rather than inline, same vanish-at-zero conditional as always.
+  const carryRowHtml = toolCarry > 0 ?
+    '<div class="tool" title="measured work whose attribution was lost to pruning">' +
+      '<div class="tool-head">' +
+        '<span class="tool-name"><span class="swatch carry"></span>Unattributed (banked)</span>' +
+        '<span class="tool-stats">' + fmt(toolCarry) +
+          '<span class="pct">' + formatPct(toolCarryPct, 1) + "</span></span>" +
+      "</div>" +
+      '<div class="tool-track"><div class="tool-fill carry" id="fill-carry"></div></div>' +
+    "</div>"
+  : "";
+
   var toolsHtml =
     '<div class="tool">' +
       '<div class="tool-head">' +
         '<span class="tool-name"><span class="swatch claude"></span>Claude Code</span>' +
         '<span class="tool-stats">' + fmt(claudeTokens) +
-          '<span class="pct">' + claudePct.toFixed(1) + "%</span></span>" +
+          '<span class="pct">' + formatPct(claudePct, 1) + "</span></span>" +
       "</div>" +
       '<div class="tool-track"><div class="tool-fill claude" id="fill-claude"></div></div>' +
     "</div>" +
@@ -1959,20 +2003,10 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       '<div class="tool-head">' +
         '<span class="tool-name"><span class="swatch codex"></span>Codex CLI</span>' +
         '<span class="tool-stats">' + fmt(codexTokens) +
-          '<span class="pct">' + codexPct.toFixed(1) + "%</span></span>" +
+          '<span class="pct">' + formatPct(codexPct, 1) + "</span></span>" +
       "</div>" +
       '<div class="tool-track"><div class="tool-fill codex" id="fill-codex"></div></div>' +
-    "</div>" +
-    (toolCarry > 0 ?
-      '<div class="tool" title="measured work whose attribution was lost to pruning">' +
-        '<div class="tool-head">' +
-          '<span class="tool-name"><span class="swatch carry"></span>Unattributed (banked)</span>' +
-          '<span class="tool-stats">' + fmt(toolCarry) +
-            '<span class="pct">' + toolCarryPct.toFixed(1) + "%</span></span>" +
-        "</div>" +
-        '<div class="tool-track"><div class="tool-fill carry" id="fill-carry"></div></div>' +
-      "</div>"
-    : "");
+    "</div>";
 
   const dynamicFills = [];
   if (DATA && Array.isArray(DATA.fleet)) {
@@ -1999,11 +2033,11 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       if (entry.status === "measured") {
         pct = (entry.measured_tokens / total) * 100;
         statsHtml = fmt(entry.measured_tokens) +
-          '<span class="pct">' + pct.toFixed(4) + '% · measured — outside headline total</span>';
+          '<span class="pct">' + formatPct(pct, 4) + ' · measured — outside headline total</span>';
       } else if (entry.status === "dispatch-measured") {
         pct = (entry.measured_tokens / total) * 100;
         statsHtml = fmt(entry.measured_tokens) +
-          '<span class="pct">' + pct.toFixed(4) + '% · dispatch-measured — partial floor</span>';
+          '<span class="pct">' + formatPct(pct, 4) + ' · dispatch-measured — partial floor</span>';
       } else if (entry.status === "detected — no measurable token logs" || entry.status === "detected — measurement unavailable") {
         statsHtml = '<span class="pct">' + entry.status + '</span>';
         pct = 0;
@@ -2045,22 +2079,26 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     });
   }
 
+  // Boss cleanup: carry's row is last in the list now -- appended here,
+  // after the fleet rows, before the combined strip.
+  toolsHtml += carryRowHtml;
+
   // FOUR-SEAT STRIP markup (boss ruling, 2026-07-18): built LAST, after every
   // row above, so it reads as the combined visual summary of the whole
-  // breakdown just listed. Data-driven slice list: claude/codex always
-  // present (they ARE the headline); carry only when nonzero (same
-  // conditional as its row above -- "keep it in so the strip is truthful");
-  // each external fleet entry only when it actually carries a real number.
+  // breakdown just listed. Data-driven slice list, mirroring the row order
+  // above: claude, codex, each external fleet entry, then carry LAST (only
+  // when nonzero -- same conditional as its row, "keep it in so the strip is
+  // truthful").
   const stripSlices = [
     { key: "claude", tokens: claudeTokens },
     { key: "codex", tokens: codexTokens },
   ];
-  if (toolCarry > 0) {
-    stripSlices.push({ key: "carry", tokens: toolCarry });
-  }
   externalFleetSlices.forEach(function (entry) {
     stripSlices.push({ key: STRIP_SWATCH[entry.tool] || entry.tool, tokens: entry.measured_tokens });
   });
+  if (toolCarry > 0) {
+    stripSlices.push({ key: "carry", tokens: toolCarry });
+  }
 
   const stripFills = [];
   var stripHtml = '<div class="split-visual" aria-hidden="true" title="all measured work across ' +
