@@ -626,6 +626,20 @@
     color: var(--text-faint);
   }
 
+  /* Visit strip — only inserted by script when counter is live + read succeeds */
+  .visit-counter {
+    margin: -1.15rem 0 2rem;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.68rem;
+    line-height: 1.55;
+    letter-spacing: 0.03em;
+    color: var(--text-dim);
+    text-align: center;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
   /* Visually hidden — accessible text only */
   .sr-only {
     position: absolute;
@@ -768,6 +782,20 @@
 (function () {
   "use strict";
 
+  /* ── VISIT COUNTER CONFIG — the owner's knobs. Edit these three lines only. ── */
+  const COUNTER = {
+    enabled: true,        // false = no counter, no network call, strip never renders
+    siteCode: "",         // GoatCounter site code, e.g. "medick-ticker". "" = counter off.
+    baseline: 1000        // displayed as its own LABELED "estimated" figure. 0 = hidden.
+  };
+
+  /* Copy template — reword freely. {baseline} / {measured} stay separate labeled figures. */
+  const COUNTER_COPY =
+    "Yes, this page fired a tick at its counter the moment you arrived. No, you didn't feel it — no cookies sent, no fingerprinting, no consent banner. Whether yours landed is between you and the counter. Tracking is easy; knowing what NOT to collect is the craft. VISITS: {baseline} estimated + {measured} measured.";
+  /* When baseline is 0, only the measured figure is shown (still labeled). */
+  const COUNTER_COPY_MEASURED_ONLY =
+    "VISITS: {measured} measured so far. (Yours was just fired at the counter.)";
+
   const CREDITS = `Built by Medick (medick51o) with a self-orchestrating multi-model crew:
   🟠 Fable 5 + Claude agents (Anthropic) — orchestration, coaching + measurement
   🟣 Grok 4.5 (xAI)                      — build
@@ -788,6 +816,179 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
   function fmt(n) {
     return Math.round(n).toLocaleString("en-US");
   }
+
+  /* ── Visit counter (GoatCounter fetch + JSON; no third-party script) ── */
+  function counterIsLive() {
+    if (COUNTER.enabled !== true) return false;
+    if (typeof COUNTER.siteCode !== "string") return false;
+    var code = COUNTER.siteCode.trim();
+    if (!code) return false;
+    /* Subdomain-safe only — bad values fail closed (no network). */
+    if (!/^[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(code)) return false;
+    return true;
+  }
+
+  function counterSiteCode() {
+    return COUNTER.siteCode.trim();
+  }
+
+  function counterPagePath() {
+    /* Fixed path only: one shared total for the whole deploy.
+       Never transmit location.pathname — file:// leaks the owner path;
+       hosted deploys would otherwise couple the total to the URL path. */
+    return "/";
+  }
+
+  /* Accept only a safe integer number, or a pure digit / comma-grouped digit string. */
+  function parseGoatCount(raw) {
+    if (typeof raw === "number") {
+      if (!Number.isSafeInteger(raw) || raw < 0) return null;
+      return raw;
+    }
+    if (typeof raw !== "string") return null;
+    var s = raw;
+    if (/^\d{1,15}$/.test(s)) {
+      var n = Number(s);
+      if (!Number.isSafeInteger(n) || n < 0) return null;
+      return n;
+    }
+    if (/^\d{1,3}(,\d{3})*$/.test(s)) {
+      var n2 = Number(s.replace(/,/g, ""));
+      if (!Number.isSafeInteger(n2) || n2 < 0) return null;
+      return n2;
+    }
+    return null;
+  }
+
+  function visitCopy(measured) {
+    var baseline = COUNTER.baseline;
+    if (typeof baseline !== "number" || !Number.isFinite(baseline) || baseline < 0) {
+      baseline = 0;
+    }
+    baseline = Math.floor(baseline);
+    var measuredLabel = fmt(measured);
+    /* Structural honesty: never sum baseline + measured into one figure. */
+    if (baseline > 0) {
+      return COUNTER_COPY
+        .replace("{baseline}", fmt(baseline))
+        .replace("{measured}", measuredLabel);
+    }
+    return COUNTER_COPY_MEASURED_ONLY.replace("{measured}", measuredLabel);
+  }
+
+  function renderVisitStrip(measured) {
+    try {
+      if (document.getElementById("visit-counter")) return;
+      var stats = document.getElementById("stats");
+      if (!stats || !stats.parentNode) return;
+      var el = document.createElement("div");
+      el.id = "visit-counter";
+      el.className = "visit-counter";
+      el.setAttribute("role", "note");
+      el.textContent = visitCopy(measured);
+      stats.insertAdjacentElement("afterend", el);
+    } catch (e) {
+      /* silent */
+    }
+  }
+
+  function appendHonestNetworkSentence() {
+    var honest = document.querySelector("p.honest");
+    if (!honest) return;
+    var marker = "exactly one external service";
+    if ((honest.textContent || "").indexOf(marker) !== -1) return;
+    honest.appendChild(
+      document.createTextNode(
+        " This page makes network requests to exactly one external service: its own credential-free visit counter."
+      )
+    );
+  }
+
+  function readVisitTotal(code, path) {
+    if (typeof fetch !== "function") return;
+    /* Fixed path "/": GoatCounter key is /counter//.json (root path key). */
+    var pathKey = path === "/" ? "/" : path.charAt(0) === "/" ? path.slice(1) : path;
+    var primaryUrl = "https://" + code + ".goatcounter.com/counter/" + pathKey + ".json";
+    var altUrl = "https://" + code + ".goatcounter.com/counter/.json"; /* silent alt root key */
+
+    function attempt(url, allowAlt) {
+      fetch(url, {
+        method: "GET",
+        mode: "cors",
+        credentials: "omit",
+        cache: "no-store"
+      })
+        .then(function (res) {
+          if (!res || !res.ok) {
+            if (allowAlt) attempt(altUrl, false);
+            return null;
+          }
+          return res.json();
+        })
+        .then(function (data) {
+          if (data === null) return;
+          if (!data) {
+            if (allowAlt) attempt(altUrl, false);
+            return;
+          }
+          var n = parseGoatCount(data.count);
+          if (n === null) {
+            if (allowAlt) attempt(altUrl, false);
+            return;
+          }
+          renderVisitStrip(n);
+        })
+        .catch(function () {
+          if (allowAlt) attempt(altUrl, false);
+        });
+    }
+
+    attempt(primaryUrl, true);
+  }
+
+  function bootVisitCounter() {
+    if (!counterIsLive()) return;
+
+    var code = counterSiteCode();
+    var path = counterPagePath();
+
+    try {
+      appendHonestNetworkSentence();
+    } catch (e) {
+      /* silent */
+    }
+
+    /* Count via credential-free fetch — do not load GoatCounter's script file. */
+    if (typeof fetch !== "function") return;
+    var countUrl =
+      "https://" +
+      code +
+      ".goatcounter.com/count?p=" +
+      encodeURIComponent(path);
+    try {
+      fetch(countUrl, {
+        method: "GET",
+        mode: "no-cors",
+        credentials: "omit",
+        referrerPolicy: "no-referrer",
+        cache: "no-store",
+        keepalive: true
+      })
+        .then(function () {
+          /* Opaque no-cors resolve counts: settle, then read. */
+          setTimeout(function () {
+            readVisitTotal(code, path);
+          }, 300);
+        })
+        .catch(function () {
+          /* Reject: no read, no strip. Honest sentence already on attempt. */
+        });
+    } catch (e) {
+      /* silent */
+    }
+  }
+
+  bootVisitCounter();
 
   function abbreviate(n) {
     if (n >= 1e9) return (n / 1e9).toFixed(2).replace(/\.?0+$/, "") + "B";
