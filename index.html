@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Token Burn Ticker — 6.49B tokens</title>
-<meta name="description" content="6.49B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 6.49B tokens, measured">
+<title>Token Burn Ticker — 6.68B tokens</title>
+<meta name="description" content="6.68B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 6.68B tokens, measured">
 <meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -562,6 +562,56 @@
     flex: 0;
   }
 
+  /* Fleet block — four CLIs, one crew */
+  .fleet {
+    margin-top: 1.1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .fleet-title {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--text-faint);
+    margin-bottom: 0.55rem;
+  }
+
+  .fleet-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .fleet-chip {
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    padding: 0.22rem 0.45rem;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    background: var(--bg);
+  }
+
+  .fleet-chip em {
+    font-style: normal;
+    margin-left: 0.3rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .fleet-chip.measured em { color: var(--accent-text); }
+  .fleet-chip.dispatch em { color: var(--codex); }
+  .fleet-chip.unlogged em { color: var(--text-faint); }
+  .fleet-chip.absent em { color: var(--warn); }
+
+  .fleet-note {
+    margin-top: 0.6rem;
+    font-size: 0.64rem;
+    line-height: 1.55;
+    color: var(--text-dim);
+  }
+
   /* Stats strip */
   .stats {
     display: grid;
@@ -769,6 +819,12 @@
         <span class="tag">CLI ONLY</span>
       </h2>
       <div class="tools" id="tools"></div>
+      <div class="fleet">
+        <div class="fleet-title">THE FLEET — FOUR CLIs, ONE CREW</div>
+        <div class="fleet-chips" id="fleet-chips"></div>
+        <p class="fleet-note" id="fleet-note">All four work this shop in one orchestrated
+        multi-agent environment. Fleet scan data unavailable in this snapshot.</p>
+      </div>
     </section>
   </div>
 
@@ -799,14 +855,14 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-18T02:37:13Z",
+  "as_of": "2026-07-18T06:14:50Z",
   "started": "2026-04-08",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 6493954103,
+    "all": 6681661280,
     "by_tool": {
-      "claude_code": 6212555767,
-      "codex_cli": 281398336
+      "claude_code": 6399877790,
+      "codex_cli": 281783490
     }
   },
   "monthly": [
@@ -824,10 +880,44 @@
     },
     {
       "month": "2026-07",
-      "tokens": 4185512182
+      "tokens": 4373219359
     }
   ],
-  "sessions_total": 272
+  "sessions_total": 273,
+  "fleet": [
+    {
+      "vendor": "Anthropic",
+      "tool": "claude_code",
+      "detected": true,
+      "status": "measured",
+      "measured_tokens": 6399877790,
+      "scanned_at": "2026-07-18T06:14:54Z"
+    },
+    {
+      "vendor": "OpenAI",
+      "tool": "codex_cli",
+      "detected": true,
+      "status": "measured",
+      "measured_tokens": 281783490,
+      "scanned_at": "2026-07-18T06:14:54Z"
+    },
+    {
+      "vendor": "xAI",
+      "tool": "grok_cli",
+      "detected": true,
+      "status": "measured",
+      "measured_tokens": 16105839,
+      "scanned_at": "2026-07-18T06:14:54Z"
+    },
+    {
+      "vendor": "Google",
+      "tool": "antigravity_cli",
+      "detected": true,
+      "status": "detected — no measurable token logs",
+      "measured_tokens": null,
+      "scanned_at": "2026-07-18T06:14:54Z"
+    }
+  ]
 }
 </script>
 
@@ -1283,6 +1373,74 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       document.getElementById("slice-codex").style.flex = String(codexPct);
     }, reduceMotion ? 0 : 220);
   });
+
+  /* Fleet block — rendered FROM the ledger's own "fleet" key (a machine-verified
+     scan the refresh pipeline performs every run), not hand-written claims. If
+     the key is absent (an older ledger snapshot), the chips stay empty and the
+     static fallback note above is left alone -- no chips, no error. */
+  renderFleet(DATA.fleet);
+
+  function renderFleet(fleet) {
+    const chipsEl = document.getElementById("fleet-chips");
+    const noteEl = document.getElementById("fleet-note");
+    if (!chipsEl || !noteEl || !Array.isArray(fleet) || fleet.length === 0) return;
+
+    const TOOL_LABELS = {
+      claude_code: "Claude Code", codex_cli: "Codex CLI",
+      grok_cli: "Grok CLI", antigravity_cli: "Antigravity CLI"
+    };
+    const CHIP_CLASS = {
+      "measured": "measured",
+      "dispatch-measured": "dispatch",
+      "detected — no measurable token logs": "unlogged",
+      "detected — measurement unavailable": "unlogged",
+      "not detected": "absent"
+    };
+    const CHIP_TEXT = {
+      "measured": "measured",
+      "dispatch-measured": "dispatch floor",
+      "detected — no measurable token logs": "unmeasurable",
+      "detected — measurement unavailable": "unavailable",
+      "not detected": "not detected"
+    };
+
+    let measuredCount = 0, dispatchCount = 0, scannedAt = null;
+    chipsEl.innerHTML = ""; // defense-in-depth: build chips via DOM/textContent, never innerHTML+string-concat
+    fleet.forEach(function (entry) {
+      const label = TOOL_LABELS[entry.tool] || entry.tool;
+      const cls = CHIP_CLASS[entry.status] || "unlogged";
+      const text = CHIP_TEXT[entry.status] || entry.status;
+      if (entry.status === "measured") measuredCount++;
+      else if (entry.status === "dispatch-measured") dispatchCount++;
+      scannedAt = entry.scanned_at;
+      const title = entry.status === "measured"
+        ? "measured — " + fmt(entry.measured_tokens) + " tokens, from its own local log"
+        : entry.status === "dispatch-measured"
+        ? "dispatch-measured — " + fmt(entry.measured_tokens) + " tokens (partial floor: only " +
+          "dispatches this shop tracked, not full account usage)"
+        : entry.status;
+
+      const chip = document.createElement("span");
+      chip.className = "fleet-chip " + cls;
+      chip.title = title;
+      chip.appendChild(document.createTextNode(label + " · " + entry.vendor + " "));
+      const em = document.createElement("em");
+      em.textContent = text;
+      chip.appendChild(em);
+      chipsEl.appendChild(chip);
+    });
+
+    const otherCount = fleet.length - measuredCount - dispatchCount;
+    const scanDate = scannedAt ? scannedAt.slice(0, 10) : null;
+    const clauses = [measuredCount + " fully measured from local logs"];
+    if (dispatchCount > 0) clauses.push(dispatchCount + " dispatch-measured (partial floor)");
+    if (otherCount > 0) clauses.push(otherCount + " detected but unlogged");
+    noteEl.textContent =
+      "All four work this shop in one orchestrated multi-agent environment — " +
+      clauses.join(", ") + ". The headline above counts only the fully-measured ones; " +
+      "the number you're reading is a floor, not a ceiling." +
+      (scanDate ? " Scanned " + scanDate + "." : "");
+  }
 
   /* Credits */
   renderCredits();
