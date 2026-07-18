@@ -698,6 +698,19 @@
     color: var(--text-faint);
   }
 
+  .credits .credits-link {
+    color: var(--accent-text);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--border-hot);
+  }
+
+  .credits .credits-link:hover,
+  .credits .credits-link:focus-visible {
+    color: var(--text);
+    border-bottom-style: solid;
+    text-shadow: 0 0 10px var(--accent-dim);
+  }
+
   .shop-gap {
     margin-top: 1rem;
     max-width: 44rem;
@@ -841,6 +854,26 @@
   /* When baseline is 0, only the measured figure is shown (still labeled). */
   const COUNTER_COPY_MEASURED_ONLY =
     "VISITS: {measured} measured so far. (Yours was just fired at the counter.)";
+
+  /* Renders CREDITS as text, with "Anderson Method" as a safe DOM-built link
+     (never innerHTML). The TRM name stays unlinked: that repo is private, and
+     the locked door in the shop row already says so. */
+  function renderCredits() {
+    var el = document.getElementById("credits");
+    el.textContent = "";
+    var parts = CREDITS.split("Anderson Method");
+    el.appendChild(document.createTextNode(parts[0]));
+    for (var i = 1; i < parts.length; i++) {
+      var a = document.createElement("a");
+      a.href = "https://github.com/medick51o/anderson-method";
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.className = "credits-link";
+      a.textContent = "Anderson Method";
+      el.appendChild(a);
+      el.appendChild(document.createTextNode(parts[i]));
+    }
+  }
 
   const CREDITS = `Built by Medick (medick51o) with a self-orchestrating multi-model crew:
   🟠 Fable 5 + Claude agents (Anthropic) — orchestration, coaching + measurement
@@ -1133,7 +1166,7 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     odo.classList.add("integrity-fail");
     odoStatus.textContent = msg;
     document.getElementById("abbrev").textContent = "";
-    document.getElementById("credits").textContent = CREDITS;
+    renderCredits();
     document.title = "Token Burn Ticker — ledger integrity failure";
   }
 
@@ -1258,7 +1291,7 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
   });
 
   /* Credits */
-  document.getElementById("credits").textContent = CREDITS;
+  renderCredits();
 
   /* Odometer */
   const odo = document.getElementById("odometer");
