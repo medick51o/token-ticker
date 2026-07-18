@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Token Burn Ticker — 7.24B tokens</title>
-<meta name="description" content="7.24B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 7.24B tokens, measured">
+<title>Token Burn Ticker — 7.27B tokens</title>
+<meta name="description" content="7.27B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 7.27B tokens, measured">
 <meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -592,6 +592,28 @@
     flex: 0;
   }
 
+  /* FOUR-SEAT STRIP additions (boss ruling): carry stays the same dim,
+     unanimated swatch as its row above (never loud); grok/antigravity reuse
+     their own established row colors so the strip reads as the same seats,
+     just combined. */
+  .split-visual .carry-slice {
+    background: var(--text-dim);
+    transition: flex 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    flex: 0;
+  }
+
+  .split-visual .grok-slice {
+    background: #a855f7;
+    transition: flex 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    flex: 0;
+  }
+
+  .split-visual .antigravity-slice {
+    background: var(--accent);
+    transition: flex 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    flex: 0;
+  }
+
   /* Fleet block — four CLIs, one crew */
   .fleet {
     display: flex;
@@ -839,7 +861,10 @@
     .bar,
     .tool-fill,
     .split-visual .claude-slice,
-    .split-visual .codex-slice { transition: none; }
+    .split-visual .codex-slice,
+    .split-visual .carry-slice,
+    .split-visual .grok-slice,
+    .split-visual .antigravity-slice { transition: none; }
   }
 
   /* ── ANTIGRAVITY LIVING BOARD & WATCHING EYE ENHANCEMENTS ── */
@@ -978,6 +1003,27 @@
   @keyframes codex-glow-breath {
     0%, 100% { box-shadow: 0 0 8px var(--codex-glow); filter: brightness(1); }
     50% { box-shadow: 0 0 16px var(--codex-glow), 0 0 24px var(--codex-glow); filter: brightness(1.2); }
+  }
+
+  /* FOUR-SEAT STRIP: grok/antigravity slices breathe like claude/codex do --
+     same peer treatment. carry-slice deliberately has NO entry here (kept
+     calm/unanimated, matching its row above -- "don't make it loud"). */
+  .grok-slice {
+    animation: grok-glow-breath 4s ease-in-out infinite;
+  }
+
+  .antigravity-slice {
+    animation: antigravity-glow-breath 4s ease-in-out infinite;
+  }
+
+  @keyframes grok-glow-breath {
+    0%, 100% { box-shadow: 0 0 8px rgba(168, 85, 247, 0.45); filter: brightness(1); }
+    50% { box-shadow: 0 0 16px rgba(168, 85, 247, 0.45), 0 0 24px rgba(168, 85, 247, 0.45); filter: brightness(1.2); }
+  }
+
+  @keyframes antigravity-glow-breath {
+    0%, 100% { box-shadow: 0 0 8px var(--accent-glow); filter: brightness(1); }
+    50% { box-shadow: 0 0 16px var(--accent-glow), 0 0 24px var(--accent-glow); filter: brightness(1.2); }
   }
 
   /* Sentinel Badge & SVG Eye styling (No Gold) */
@@ -1216,21 +1262,10 @@
     text-shadow: 0 0 4px var(--accent-glow);
   }
 
-  /* Intersecting divider line on split bar */
-  .split-visual {
-    position: relative;
-  }
-  .split-visual::after {
-    content: "";
-    position: absolute;
-    top: 0; bottom: 0;
-    left: calc(var(--claude-pct, 0) * 1%);
-    width: 2px;
-    background: #ffffff;
-    box-shadow: 0 0 8px #ffffff;
-    transform: translateX(-50%);
-    z-index: 2;
-  }
+  /* The old two-slice claude/codex divider line was removed with the
+     four-seat strip rewrite -- it only ever marked ONE boundary and doesn't
+     generalize to five slices; the slices' own distinct colors carry the
+     segment boundaries now. */
 
   /* Extends prefers-reduced-motion to still everything */
   @media (prefers-reduced-motion: reduce) {
@@ -1244,6 +1279,8 @@
     .tool-fill::after,
     .claude-slice,
     .codex-slice,
+    .grok-slice,
+    .antigravity-slice,
     .panel,
     .brand-text strong,
     .tag,
@@ -1353,17 +1390,17 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-18T21:00:12Z",
+  "as_of": "2026-07-18T21:14:59Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 7237193656,
+    "all": 7272505297,
     "by_tool": {
       "claude_code": 6639442235,
       "codex_cli": 287499329
     },
     "month_carry": 0,
-    "tool_carry": 310252092
+    "tool_carry": 345563733
   },
   "monthly": [
     {
@@ -1380,7 +1417,7 @@
     },
     {
       "month": "2026-07",
-      "tokens": 4928751735
+      "tokens": 4964063376
     }
   ],
   "sessions_total": 281,
@@ -1392,7 +1429,7 @@
       "status": "measured",
       "measured_tokens": 6639442235,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-18T21:00:15Z"
+      "scanned_at": "2026-07-18T21:15:02Z"
     },
     {
       "vendor": "OpenAI",
@@ -1401,7 +1438,7 @@
       "status": "measured",
       "measured_tokens": 287499329,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-18T21:00:15Z"
+      "scanned_at": "2026-07-18T21:15:02Z"
     },
     {
       "vendor": "xAI",
@@ -1410,7 +1447,7 @@
       "status": "measured",
       "measured_tokens": 16332067,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-18T21:00:15Z"
+      "scanned_at": "2026-07-18T21:15:02Z"
     },
     {
       "vendor": "Google",
@@ -1419,7 +1456,7 @@
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 793079,
-      "scanned_at": "2026-07-18T21:00:15Z"
+      "scanned_at": "2026-07-18T21:15:02Z"
     }
   ]
 }
@@ -1881,6 +1918,34 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
   const toolCarry = DATA.totals.tool_carry || 0;
   const toolCarryPct = (toolCarry / total) * 100;
 
+  // FOUR-SEAT STRIP (boss ruling, 2026-07-18: "added grok and antigravity" --
+  // the combined visual now represents ALL MEASURED WORK, not the two-tool-
+  // era headline split). 100% data-driven: no hardcoded tool list, no
+  // hardcoded figures. Any DATA.fleet entry OUTSIDE the headline (not
+  // claude_code/codex_cli -- those are already inside totals.all) with a
+  // real number contributes to both the denominator and its own slice.
+  // CLAIMS-CAP: only status "measured" or "dispatch-measured" counts -- an
+  // entry with no such number (not-detected / detected-only) gets NO slice,
+  // never a fabricated one; the Antigravity ESTIMATE (estimated_tokens)
+  // never enters this at all, dispatch-measured only. This never implies
+  // fold-in: Grok/Antigravity stay OUT of totals.all/the headline (a
+  // separate, still-queued boss ruling) -- the strip just shows them
+  // alongside it, honestly labeled as outside.
+  const externalFleetSlices = [];
+  let externalFleetTotal = 0;
+  if (Array.isArray(DATA.fleet)) {
+    DATA.fleet.forEach(function (entry) {
+      if (entry.tool === "claude_code" || entry.tool === "codex_cli") return;
+      if ((entry.status === "measured" || entry.status === "dispatch-measured")
+          && typeof entry.measured_tokens === "number") {
+        externalFleetTotal += entry.measured_tokens;
+        externalFleetSlices.push(entry);
+      }
+    });
+  }
+  const allMeasuredTotal = total + externalFleetTotal;
+  const STRIP_SWATCH = { grok_cli: "grok", antigravity_cli: "antigravity" };
+
   var toolsHtml =
     '<div class="tool">' +
       '<div class="tool-head">' +
@@ -1907,11 +1972,7 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
         "</div>" +
         '<div class="tool-track"><div class="tool-fill carry" id="fill-carry"></div></div>' +
       "</div>"
-    : "") +
-    '<div class="split-visual" aria-hidden="true">' +
-      '<div class="claude-slice" id="slice-claude"></div>' +
-      '<div class="codex-slice" id="slice-codex"></div>' +
-    "</div>";
+    : "");
 
   const dynamicFills = [];
   if (DATA && Array.isArray(DATA.fleet)) {
@@ -1984,14 +2045,43 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     });
   }
 
+  // FOUR-SEAT STRIP markup (boss ruling, 2026-07-18): built LAST, after every
+  // row above, so it reads as the combined visual summary of the whole
+  // breakdown just listed. Data-driven slice list: claude/codex always
+  // present (they ARE the headline); carry only when nonzero (same
+  // conditional as its row above -- "keep it in so the strip is truthful");
+  // each external fleet entry only when it actually carries a real number.
+  const stripSlices = [
+    { key: "claude", tokens: claudeTokens },
+    { key: "codex", tokens: codexTokens },
+  ];
+  if (toolCarry > 0) {
+    stripSlices.push({ key: "carry", tokens: toolCarry });
+  }
+  externalFleetSlices.forEach(function (entry) {
+    stripSlices.push({ key: STRIP_SWATCH[entry.tool] || entry.tool, tokens: entry.measured_tokens });
+  });
+
+  const stripFills = [];
+  var stripHtml = '<div class="split-visual" aria-hidden="true" title="all measured work across ' +
+    'the four seats — sub-1% seats shown at a 1% visual floor; Grok + Antigravity are measured ' +
+    'outside the headline total.">';
+  stripSlices.forEach(function (slice) {
+    const pct = (slice.tokens / allMeasuredTotal) * 100;
+    const flooredPct = (pct > 0 && pct < 1) ? 1 : pct;
+    const fillId = "strip-slice-" + slice.key;
+    stripHtml += '<div class="' + slice.key + '-slice" id="' + fillId + '"></div>';
+    stripFills.push({ id: fillId, pct: flooredPct });
+  });
+  stripHtml += "</div>";
+  toolsHtml += stripHtml;
+
   toolsEl.innerHTML = toolsHtml;
 
   requestAnimationFrame(function () {
     setTimeout(function () {
       document.getElementById("fill-claude").style.width = claudePct + "%";
       document.getElementById("fill-codex").style.width = codexPct + "%";
-      document.getElementById("slice-claude").style.flex = String(claudePct);
-      document.getElementById("slice-codex").style.flex = String(codexPct);
       const fillCarry = document.getElementById("fill-carry");
       if (fillCarry) {
         fillCarry.style.width = toolCarryPct + "%";
@@ -2000,6 +2090,12 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
         const el = document.getElementById(fill.id);
         if (el) {
           el.style.width = fill.pct + "%";
+        }
+      });
+      stripFills.forEach(function (fill) {
+        const el = document.getElementById(fill.id);
+        if (el) {
+          el.style.flex = String(fill.pct);
         }
       });
     }, reduceMotion ? 0 : 220);
@@ -2211,20 +2307,11 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     }
   }
 
-  // 2. Split bar visual percentage property sync
-  try {
-    var data = window.__tickerLedger;
-    if (data) {
-      var total = data.totals.all;
-      var claudePct = (data.totals.by_tool.claude_code / total) * 100;
-      var splitEl = document.querySelector(".split-visual");
-      if (splitEl) {
-        splitEl.style.setProperty("--claude-pct", claudePct.toFixed(1));
-      }
-    }
-  } catch (err) {
-    /* silent */
-  }
+  // 2. (removed, four-seat strip rewrite) -- the old claude/codex-only
+  // divider-line property sync doesn't generalize to five slices and would
+  // now compute against the wrong denominator (total, not allMeasuredTotal);
+  // removed rather than shipped subtly wrong. The strip's own colors carry
+  // the segment boundaries now.
 
   // 3. Sentinel Eye Pupil & 3D Parallax Tracking
   var wrap = document.querySelector(".wrap");
