@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Token Burn Ticker — 6.38B tokens</title>
-<meta name="description" content="6.38B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 6.38B tokens, measured">
+<title>Token Burn Ticker — 7.24B tokens</title>
+<meta name="description" content="7.24B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 7.24B tokens, measured">
 <meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -522,6 +522,13 @@
     box-shadow: 0 0 8px var(--accent-glow);
   }
 
+  /* Unattributed (banked) carry row — deliberately the dimmest swatch on the
+     page (round 2, Cassidy's mandate: render, don't hide, don't make loud). */
+  .swatch.carry {
+    background: var(--text-dim);
+    box-shadow: 0 0 6px rgba(122, 143, 163, 0.3);
+  }
+
   .tool-stats {
     text-align: right;
     font-size: 0.68rem;
@@ -558,6 +565,11 @@
   .tool-fill.codex {
     background: linear-gradient(90deg, var(--codex), #a0b4ff);
     box-shadow: 0 0 12px var(--codex-glow);
+  }
+
+  .tool-fill.carry {
+    background: linear-gradient(90deg, var(--text-dim), #55677a);
+    box-shadow: 0 0 6px rgba(122, 143, 163, 0.25);
   }
 
   .split-visual {
@@ -634,6 +646,16 @@
     font-size: 0.64rem;
     line-height: 1.55;
     color: var(--text-dim);
+  }
+
+  /* THE BANK's carry note (round 2, Cassidy's mandate: render honestly-but-
+     minimally — same quiet register as .fleet-note, never styled to draw
+     the eye). Hidden entirely when month_carry is 0. */
+  .carry-note {
+    margin-top: 0.5rem;
+    font-size: 0.64rem;
+    line-height: 1.55;
+    color: var(--text-faint);
   }
 
   /* Stats strip */
@@ -895,6 +917,14 @@
   .tool-fill.codex {
     background: linear-gradient(90deg, var(--codex), #a0b4ff, var(--codex));
     box-shadow: 0 0 12px var(--codex-glow);
+  }
+
+  /* Carry row: no flowing shimmer -- the ONE fill deliberately left calm,
+     round 2's "don't make it loud" mandate applied literally. */
+  .tool-fill.carry {
+    animation: none;
+    background: linear-gradient(90deg, var(--text-dim), #55677a);
+    box-shadow: 0 0 6px rgba(122, 143, 163, 0.25);
   }
 
   .tool-fill.grok {
@@ -1263,7 +1293,7 @@
       <div class="sr-only" id="odometer-status" role="status" aria-live="polite"></div>
     </div>
     <div class="abbrev" id="abbrev">—</div>
-    <p class="honest">Total tokens processed, measured from local CLI logs. Cache reads included. The headline counts Claude Code + Codex CLI exactly; Grok CLI is measured separately below and excluded from it. Claude web and Desktop apps leave no logs and are never counted. The corpus re-measures in full on every refresh — ephemeral orchestration logs can age out over time, so history may breathe. The headline reports what exists right now: measured, never estimated.</p>
+    <p class="honest">Total tokens processed, measured from local CLI logs. Cache reads included. The headline counts Claude Code + Codex CLI exactly; Grok CLI is measured separately below and excluded from it. Claude web and Desktop apps leave no logs and are never counted. The corpus re-measures in full on every refresh and is banked at a cumulative high-water mark: once real work is measured, it is never un-counted, even when ephemeral orchestration logs age out and get pruned — a month's or a tool's total can only rise. The headline reports the bank: measured, never estimated, never un-counted.</p>
   </section>
 
   <div class="panels">
@@ -1273,6 +1303,7 @@
         <span class="tag">4 MO</span>
       </h2>
       <div class="chart" id="chart" role="img" aria-label="Monthly token totals bar chart"></div>
+      <p class="carry-note" id="month-carry-note" hidden></p>
     </section>
 
     <section class="panel" aria-labelledby="tools-title">
@@ -1322,20 +1353,26 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-18T19:05:22Z",
+  "as_of": "2026-07-18T21:00:12Z",
   "started": "2026-05-31",
-  "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
+  "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 6376993617,
+    "all": 7237193656,
     "by_tool": {
-      "claude_code": 6089785160,
-      "codex_cli": 287208457
-    }
+      "claude_code": 6639442235,
+      "codex_cli": 287499329
+    },
+    "month_carry": 0,
+    "tool_carry": 310252092
   },
   "monthly": [
     {
+      "month": "2026-04",
+      "tokens": 724564909
+    },
+    {
       "month": "2026-05",
-      "tokens": 1532572
+      "tokens": 8246866
     },
     {
       "month": "2026-06",
@@ -1343,7 +1380,7 @@
     },
     {
       "month": "2026-07",
-      "tokens": 4799830899
+      "tokens": 4928751735
     }
   ],
   "sessions_total": 281,
@@ -1353,18 +1390,18 @@
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 6089785160,
+      "measured_tokens": 6639442235,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-18T19:05:25Z"
+      "scanned_at": "2026-07-18T21:00:15Z"
     },
     {
       "vendor": "OpenAI",
       "tool": "codex_cli",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 287208457,
+      "measured_tokens": 287499329,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-18T19:05:25Z"
+      "scanned_at": "2026-07-18T21:00:15Z"
     },
     {
       "vendor": "xAI",
@@ -1373,7 +1410,7 @@
       "status": "measured",
       "measured_tokens": 16332067,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-18T19:05:25Z"
+      "scanned_at": "2026-07-18T21:00:15Z"
     },
     {
       "vendor": "Google",
@@ -1382,7 +1419,7 @@
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 793079,
-      "scanned_at": "2026-07-18T19:05:25Z"
+      "scanned_at": "2026-07-18T21:00:15Z"
     }
   ]
 }
@@ -1695,6 +1732,16 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     if (!isNonnegSafeInt(d.totals.all) || d.totals.all <= 0) return false;
     if (!isNonnegSafeInt(d.totals.by_tool.claude_code)) return false;
     if (!isNonnegSafeInt(d.totals.by_tool.codex_cli)) return false;
+    // THE BANK's carry fields (round 2, BLOCKER 1 fix) — a byte-for-byte
+    // mirror of validate_ledger()'s Python side. Absent → 0 (the raw
+    // collector.py ledger never carries these; reduces to the pre-bank
+    // checks exactly). Present and nonzero on the published/banked ledger
+    // whenever months/by_tool's marginal sums don't independently agree
+    // with totals.all — see propose_bank_merge()'s docstring.
+    const monthCarry = d.totals.month_carry === undefined ? 0 : d.totals.month_carry;
+    const toolCarry = d.totals.tool_carry === undefined ? 0 : d.totals.tool_carry;
+    if (!isNonnegSafeInt(monthCarry)) return false;
+    if (!isNonnegSafeInt(toolCarry)) return false;
     if (!Number.isSafeInteger(d.sessions_total) || d.sessions_total <= 0) return false;
     if (!Array.isArray(d.monthly) || d.monthly.length === 0) return false;
     for (let i = 0; i < d.monthly.length; i++) {
@@ -1704,8 +1751,8 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     }
     const monthSum = d.monthly.reduce(function (acc, m) { return acc + m.tokens; }, 0);
     const toolSum = d.totals.by_tool.claude_code + d.totals.by_tool.codex_cli;
-    if (monthSum !== d.totals.all) return false;
-    if (toolSum !== d.totals.all) return false;
+    if (monthSum + monthCarry !== d.totals.all) return false;
+    if (toolSum + toolCarry !== d.totals.all) return false;
     return true;
   }
 
@@ -1804,6 +1851,22 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     "Monthly token totals bar chart. " + chartAriaParts.join(". ") + "."
   );
 
+  /* THE BANK's month_carry (round 2, BLOCKER 1 fix): rendered honestly-but-
+     minimally as a small note under the chart, never as a phantom bar --
+     hidden entirely when there's nothing to carry. */
+  const monthCarry = DATA.totals.month_carry || 0;
+  const monthCarryNote = document.getElementById("month-carry-note");
+  if (monthCarryNote) {
+    if (monthCarry > 0) {
+      monthCarryNote.textContent = "+ " + fmt(monthCarry) + " tokens banked but unattributed " +
+        "to a specific month (measured work whose attribution was lost to pruning)";
+      monthCarryNote.title = "measured work whose attribution was lost to pruning";
+      monthCarryNote.hidden = false;
+    } else {
+      monthCarryNote.hidden = true;
+    }
+  }
+
   /* Tool breakdown — from ledger totals.by_tool */
   const toolsEl = document.getElementById("tools");
   const total = DATA.totals.all;
@@ -1811,6 +1874,12 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
   const codexTokens = DATA.totals.by_tool.codex_cli;
   const claudePct = (claudeTokens / total) * 100;
   const codexPct = (codexTokens / total) * 100;
+  // THE BANK's tool_carry (round 2, BLOCKER 1 fix): the gap between
+  // totals.all and by_tool's marginal sum -- honest, never assigned to a
+  // real tool. Rendered as its own quiet row, never folded into the pie
+  // slices above (those stay a pure claude/codex split).
+  const toolCarry = DATA.totals.tool_carry || 0;
+  const toolCarryPct = (toolCarry / total) * 100;
 
   var toolsHtml =
     '<div class="tool">' +
@@ -1829,6 +1898,16 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       "</div>" +
       '<div class="tool-track"><div class="tool-fill codex" id="fill-codex"></div></div>' +
     "</div>" +
+    (toolCarry > 0 ?
+      '<div class="tool" title="measured work whose attribution was lost to pruning">' +
+        '<div class="tool-head">' +
+          '<span class="tool-name"><span class="swatch carry"></span>Unattributed (banked)</span>' +
+          '<span class="tool-stats">' + fmt(toolCarry) +
+            '<span class="pct">' + toolCarryPct.toFixed(1) + "%</span></span>" +
+        "</div>" +
+        '<div class="tool-track"><div class="tool-fill carry" id="fill-carry"></div></div>' +
+      "</div>"
+    : "") +
     '<div class="split-visual" aria-hidden="true">' +
       '<div class="claude-slice" id="slice-claude"></div>' +
       '<div class="codex-slice" id="slice-codex"></div>' +
@@ -1913,6 +1992,10 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       document.getElementById("fill-codex").style.width = codexPct + "%";
       document.getElementById("slice-claude").style.flex = String(claudePct);
       document.getElementById("slice-codex").style.flex = String(codexPct);
+      const fillCarry = document.getElementById("fill-carry");
+      if (fillCarry) {
+        fillCarry.style.width = toolCarryPct + "%";
+      }
       dynamicFills.forEach(function (fill) {
         const el = document.getElementById(fill.id);
         if (el) {
