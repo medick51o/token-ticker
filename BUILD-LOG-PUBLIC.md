@@ -700,3 +700,59 @@ live · Medick byline · zero page errors. https://medick51o.github.io/token-tic
 serving the ticker to the world.** Remaining for the boss: the LinkedIn post (drafts
 ready, mp4 ready) · the daily auto-updater blessing.
 
+
+# EPISODE 9 — "THE BANK" (2026-07-18, evening — born from a wound)
+
+**The wound:** the 08:00 corpus scan came back light — Claude Code had pruned its own
+subagent scratch logs (59 files; April vanished outright, May bled 6.7M) and the
+approved ship carried the headline DOWN from 6.92B to 6.38B. Measured, honest, and
+heartbreaking. The boss ruled the constitution on the spot, verbatim:
+*"we aint cutting anything... c makes us honest and thats what we will frame and put it
+as but our mentality how we want to operate for this is B... if i turn on fable and say
+HELLO and the cat starts dancing a jig and it cost me a million tokens i want that
+million tokens counted as work thats the philosophy."*
+
+**The build (Jessie 🟠, two rounds + a tighten):** banked-ledger.json — a cumulative
+high-water ledger. Pipeline grew to 10 stages (BANK is stage 3): reported =
+max(banked, scanned) per month/per tool; the bank NEVER decreases, never deletes a key.
+Seeded by walking publish/'s FULL git history for "the highest values preserved in
+available public history" (deliberately NOT sworn as lifetime highs) — restoring the
+headline past the coronation number the same night it fell.
+
+**Cassidy's 🩷 audit drew real blood (round 1: NOT CLEAR, 2 blockers):**
+- Her kill: the reconciliation FABRICATED attribution — when the month-ledger and
+  tool-ledger disagreed, the delta was credited to a real tool that never provably
+  burned it. Fix shipped: explicit month_carry/tool_carry — "measured work whose
+  attribution was lost to pruning" — never forged onto a real month or tool; both the
+  Python and page-JS validators enforce sum+carry==total; the page renders the carry
+  as its dimmest, quietest row. The 5 fabricated entries were STRIPPED in a live
+  schema-v2 migration; claude_code rolled back to its last legitimately-observed high.
+- Her second kill: the bank advanced BEFORE its gates (a poisoned scan could bank
+  itself forever even if the ship aborted). Fix shipped: propose-in-memory,
+  promote-after-gates, dry-runs never touch the authoritative bank — the cat proved it
+  live by hashing the bank through real dry-runs AND real gate-aborts: byte-identical.
+- Plus: hash-chained history + out-of-repo HMAC anchor (tamper evidence with teeth),
+  crash-recovery .prev pair, her 8 threshold laws in the inventory gate (1%/3% caps,
+  gross-loss-only, human-only checkpoint resets, month-vanish and >10%-month blocks),
+  and Grok's 16,332,067 banked rotation-proof on her explicit overrule of deferral.
+
+**The cat's 😼 own gate caught the counter-bug:** Cassidy's widened "changed files
+block" rule, taken literally, bricked the daily automation on every day the boss
+works — active session logs GROWING is the product, not an anomaly. The carve-out that
+followed got HER tighten in round 2: stats can't prove append-only, so growth now
+proves innocence cryptographically — a keyed digest of every baseline file, and growth
+is only carved when the old bytes still hash identical beneath the new ones. The
+rewrite-attack test (first byte mutated, file still grown) blocks; genuine append
+carves. Nothing carves until the first digest-bearing baseline exists.
+
+**Verdict, after 6/7 discharged and the kill-shot confirm: "THE BANK: CLEAR."**
+
+**Awaiting the boss's one word:** the stage-4 gate holds a benign anomaly (a 70MB
+session log's mtime moved with zero byte/line/token change — a resume-touch) and the
+digest baseline needs its first human checkpoint. Both clear on a single
+approve-inventory.json — his word, not the cat's, by Cassidy's own law. Then: repin →
+the machine ships the restored headline (7.2B+ proposed at last dry-run), banked,
+chained, anchored, and provably append-only.
+
+# EPISODE 9: COMPLETE (pending the boss's word) — the ticker only rises now. Every
+hello, every jig, banked into eternity. C keeps us honest; B keeps us whole.
