@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Token Burn Ticker — 6.68B tokens</title>
-<meta name="description" content="6.68B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 6.68B tokens, measured">
+<title>Token Burn Ticker — 6.69B tokens</title>
+<meta name="description" content="6.69B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 6.69B tokens, measured">
 <meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -855,13 +855,13 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-18T06:14:50Z",
+  "as_of": "2026-07-18T06:17:07Z",
   "started": "2026-04-08",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 6681661280,
+    "all": 6689765563,
     "by_tool": {
-      "claude_code": 6399877790,
+      "claude_code": 6407982073,
       "codex_cli": 281783490
     }
   },
@@ -880,7 +880,7 @@
     },
     {
       "month": "2026-07",
-      "tokens": 4373219359
+      "tokens": 4381323642
     }
   ],
   "sessions_total": 273,
@@ -890,8 +890,8 @@
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 6399877790,
-      "scanned_at": "2026-07-18T06:14:54Z"
+      "measured_tokens": 6407982073,
+      "scanned_at": "2026-07-18T06:17:11Z"
     },
     {
       "vendor": "OpenAI",
@@ -899,7 +899,7 @@
       "detected": true,
       "status": "measured",
       "measured_tokens": 281783490,
-      "scanned_at": "2026-07-18T06:14:54Z"
+      "scanned_at": "2026-07-18T06:17:11Z"
     },
     {
       "vendor": "xAI",
@@ -907,7 +907,7 @@
       "detected": true,
       "status": "measured",
       "measured_tokens": 16105839,
-      "scanned_at": "2026-07-18T06:14:54Z"
+      "scanned_at": "2026-07-18T06:17:11Z"
     },
     {
       "vendor": "Google",
@@ -915,7 +915,7 @@
       "detected": true,
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
-      "scanned_at": "2026-07-18T06:14:54Z"
+      "scanned_at": "2026-07-18T06:17:11Z"
     }
   ]
 }
@@ -1437,8 +1437,9 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     if (otherCount > 0) clauses.push(otherCount + " detected but unlogged");
     noteEl.textContent =
       "All four work this shop in one orchestrated multi-agent environment — " +
-      clauses.join(", ") + ". The headline above counts only the fully-measured ones; " +
-      "the number you're reading is a floor, not a ceiling." +
+      clauses.join(", ") + ". The headline above keeps its original definition — " +
+      "Claude Code + Codex CLI only; everything else runs beyond it. " +
+      "The number you're reading is a floor, not a ceiling." +
       (scanDate ? " Scanned " + scanDate + "." : "");
   }
 
