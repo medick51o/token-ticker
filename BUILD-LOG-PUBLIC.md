@@ -756,3 +756,24 @@ chained, anchored, and provably append-only.
 
 # EPISODE 9: COMPLETE (pending the boss's word) — the ticker only rises now. Every
 hello, every jig, banked into eternity. C keeps us honest; B keeps us whole.
+
+## EPISODE 9 ADDENDUM — the proof grows teeth, then learns mercy (2026-07-18, late)
+
+The tightened gate FIRED ON NIGHT ONE: a routine ship aborted because a 71MB session log
+failed the prefix proof while its stats looked innocent. Forensics: line 1 of every
+Claude Code session jsonl is a `last-prompt` pointer the harness REWRITES IN PLACE on
+every advance — Claude session files are not pure-append BY DESIGN of their own writer
+(retroactively explaining the evening's same-size mtime "touches"). The cure — the
+MUTABLE-HEAD FALLBACK — was designed by the cat, tightened by Cassidy in parallel
+(exact key set {type,leafUuid,sessionId} · UUID-shaped values · sessionId must equal
+baseline AND filename · head byte length frozen vs baseline + 512-byte cap), built by
+Jessie with 11 fresh scenarios green: line 1 alone may be forgiven, and only after
+interrogation; line 2 onward stays cryptographically immutable. Same convoy carried the
+boss's panel cleanups (Unattributed row to the bottom, the honest `<0.01%` instead of a
+zero-wall, the four-seat strip — his own ruling: "added grok and antigravity" — and the
+honest paragraph relocated below the monthly chart per his red-box markup). His
+"Approved" checkpoint consumed one-shot: schema-3 baseline born (head-excluded digests
+on all 1,010 claude-corpus files), rolling budget re-anchored, pushed a54e1b2 —
+**7,367,502,709**. The 08:00 machine now has every tool it needs to run green
+unattended: growth proves itself, the known quirk is forgiven under oath, and
+everything else still fails closed.
