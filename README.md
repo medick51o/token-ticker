@@ -10,10 +10,11 @@ model processed. Nothing estimated, ever.
 ## The actual point
 
 The ticker is simple on purpose. The **build** is the showcase: a four-vendor AI crew
-(Anthropic · xAI · OpenAI · Google) orchestrated under two written methodologies — the
-**Anderson Method** (human↔model intent) and the **Team Rocket Method** (model↔model
-collaboration) — where no model may approve its own work, every review finding needs a
-failure mechanism, disputes escalate on evidence, and a human is the only merge authority.
+(Anthropic · xAI · OpenAI · Google) orchestrated under two written methods — the
+[**Anderson Method**](https://github.com/medick51o/anderson-method) (human↔model intent,
+published) and the **Team Rocket Method** (used here; you won't find it 😉). No model
+approves its own work, and a human is the only merge authority. The rest is the crew's
+business.
 
 Was a four-vendor crew overkill for a token counter? Completely — on purpose.
 
