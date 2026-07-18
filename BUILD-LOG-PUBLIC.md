@@ -546,6 +546,71 @@ for the daily automated push given by the boss in-session.
 # EPISODE 5: COMPLETE ✅ — the machine is licensed, scheduled, and already shipped once.
 The boss's remaining button: the LinkedIn post. Everything else winds itself now.
 
+---
+
+# EPISODE 7 — "THE FLEET SCAN" (2026-07-18, pre-dawn)
+
+**The boss's orders, verbatim:** _"i want to state i have 4 [CLIs] … working together in
+multi agentic orcastrated enviroment"_ → _"not just us stating it and making up numbers
+but actual messured... somehow"_ → _"we need to devlop a way to get our cli to call back
+to the model to grab tht info when we start this 'routine'"_. Law derived: fleet claims
+must be SCAN RESULTS, never prose. Hallucination guard: no model self-reports; only
+machine-emitted counters (CLI logs, printed usage lines, authenticated endpoints).
+
+- **Jessie 🟠 (phase 1 forensics):** **GROK CLI IS MEASURABLE** — ~/.grok/logs/unified.jsonl,
+  per-turn inference events (350 found, 0 malformed, cache⊆prompt in all, dedup pairs
+  unique): **16,105,839 tokens.** Antigravity: honestly NOT — opaque protobuf; its "token"
+  grep hits were this project's own JS variable names embedded in conversation blobs
+  (the snake ate its tail). Best line of the episode: the hand-written fleet chip draft
+  saying "Grok runs unlogged" **was already false when actually checked** — the boss's
+  measure-don't-state order caught a lie before it shipped.
+- **Jessie 🟠 (phase 2):** fleet scan wired into stage 4 — binary detection for all four
+  CLIs every run, Grok measured from his own log, all riding the canonical ledger under a
+  new validate_fleet_entries gate; page renders chips from scanned data only. Design
+  calls flagged not guessed: Grok's number stays OUT of the flagship total (folding it in
+  would integrity-fail live visitors against the page's own toolSum check — queued as a
+  deliberate boss-ruling follow-up); measurement failure degrades the chip, never the run.
+- **😼:** ratified both calls; caught + fixed a note overclaim ("counted above" while
+  Grok's number isn't). Cassidy 🩷 delta verify: calls ACCEPTED ×3 (one with a dispute
+  folded into M2), **NOT CLEAR — 2 MATERIAL, 2 MINOR**: a half-corrupted Grok log could
+  publish a silent undercount still labeled "measured"; and the fallback status "no local
+  usage logs" is PROVABLY FALSE for Antigravity (it has logs — they're unmeasurable).
+  **Even failure labels must be true.** Repair round dispatched to Jessie.
+- **Dawn safety:** the 08:00 unattended run will hit template-pin drift (the fleet
+  containers aren't re-pinned yet) and correctly ABORT — the live site stays on last
+  night's good push until the fleet clears review. Fail-closed doing its job while the
+  crew works.
+- **Jessie 🟠 (dispatch-capture addendum):** probed every CLI's subcommands with real
+  invocations — Grok's trace exports context-WINDOW occupancy, not tokens processed
+  (verified against her own log-scan for the same session: 6,755 vs the real 16,768 —
+  a worse source, correctly rejected); Codex's --json streams what the disk already
+  holds; agy exposes nothing. Built the dispatch-ledger scaffold (read-only external
+  input, hallucination-guard written into the code as law: counters only, never model
+  prose). Her two open questions answered from the session's own receipts: agy prints
+  no usage counter (four real runs checked), and no wrapper files exist to wire — the
+  fleet-wide dispatch wrapper is queued as its own future mission.
+- **Jessie 🟠 (round 4):** all Cassidy findings landed — the Grok parser now fails the
+  whole measurement closed on ANY malformed/conflicting evidence (10-scenario red-team
+  incl. the isinstance(True,int) trap), the five-status truth table shipped with page
+  maps synced, iff-both-ways detection, strict full-timestamp validation, canonical
+  by_tool, DOM-built chips. **Cassidy 🩷: M1 ✓ M2 ✓ m3 ✓ m4 ✓ — "FLEET SCAN: CLEAR."**
+- **😼 (go-live):** repin → pipeline run → **pushed 8ff3596: 6,681,661,280 live with the
+  fleet panel** — Claude 6,399,877,790 · Codex 281,783,490 · **Grok 16,105,839, all
+  measured from their own logs** · Antigravity honestly "unmeasurable". The baseline
+  gate ran its first real production comparison (benign) — B3 machinery working.
+- **😼 (a near-miss owned, then killed):** the live note said "the headline counts only
+  the fully-measured ones" — false for Grok (fully measured, deliberately excluded).
+  The slip survived because the orchestrator's summary to the reviewer paraphrased the
+  final string instead of quoting it — the exact curation hazard the three-lists law
+  exists for, on the one artifact that skipped it. Caught by the cat's own live gate
+  minutes after deploy; fixed to "the headline keeps its original definition — Claude
+  Code + Codex CLI only; everything else runs beyond it"; repinned; **pushed 66f0c47
+  (6.69B)**. Recorded so the lesson outlives the night.
+
+# EPISODE 7: COMPLETE ✅ — the fleet claim became a fleet MEASUREMENT. Four CLIs
+detected by machine, three measured from their own logs, one honestly unmeasurable,
+and a page that tells no lie even in its failure labels.
+
 ## SHIPPED 🚀 (2026-07-17, night — the boss's order, verbatim: "push it")
 
 The judge ruled the publish in-session; the crew did the plumbing (principle 10: his hands
