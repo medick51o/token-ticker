@@ -658,6 +658,42 @@
     color: var(--accent-text);
   }
 
+  /* Shop row — the showroom door */
+  .shop-row {
+    margin-top: 1.4rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.45rem 0.55rem;
+  }
+
+  .shop-lbl {
+    letter-spacing: 0.18em;
+    font-size: 0.62rem;
+    color: var(--text-dim);
+  }
+
+  .shop-row a {
+    color: var(--accent-text);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--border-hot);
+    padding-bottom: 1px;
+  }
+
+  .shop-row a:hover,
+  .shop-row a:focus-visible {
+    color: var(--text);
+    border-bottom-style: solid;
+    text-shadow: 0 0 10px var(--accent-dim);
+  }
+
+  .shop-sep {
+    opacity: 0.4;
+  }
+
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .scan-beam,
@@ -718,6 +754,18 @@
 
   <footer>
     <pre class="credits" id="credits"></pre>
+    <nav class="shop-row" aria-label="More projects">
+      <span class="shop-lbl">SHIPPED FROM THIS SHOP →</span>
+      <a href="https://github.com/medick51o/anderson-method" target="_blank" rel="noopener">Anderson Method</a>
+      <span class="shop-sep">·</span>
+      <a href="https://github.com/medick51o/medicks-might" target="_blank" rel="noopener">Medick's Might (D4)</a>
+      <span class="shop-sep">·</span>
+      <a href="https://github.com/medick51o/LastEpoch-Mods" target="_blank" rel="noopener">Last Epoch Mods</a>
+      <span class="shop-sep">·</span>
+      <a href="https://github.com/medick51o/LEBuildConverter" target="_blank" rel="noopener">LE Build Converter</a>
+      <span class="shop-sep">·</span>
+      <a href="https://github.com/medick51o" target="_blank" rel="noopener">full shop</a>
+    </nav>
   </footer>
 </div>
 
