@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Token Burn Ticker — 6.92B tokens</title>
-<meta name="description" content="6.92B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 6.92B tokens, measured">
+<title>Token Burn Ticker — 6.38B tokens</title>
+<meta name="description" content="6.38B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 6.38B tokens, measured">
 <meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -627,6 +627,7 @@
   .fleet-chip.dispatch em { color: var(--codex); }
   .fleet-chip.unlogged em { color: var(--text-faint); }
   .fleet-chip.absent em { color: var(--warn); }
+  .fleet-chip.estimate em { color: var(--text-dim); }
 
   .fleet-note {
     margin-top: 0;
@@ -787,6 +788,25 @@
     line-height: 1.6;
     letter-spacing: 0.04em;
     color: var(--text-dim);
+  }
+
+  .canon-plaque {
+    margin-top: 1.4rem;
+    padding: 0.7rem 0.9rem;
+    max-width: 44rem;
+    font-size: 0.64rem;
+    line-height: 1.6;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent);
+    background: var(--bg-elevated);
+  }
+
+  .canon-plaque strong {
+    color: var(--accent-text);
+    font-weight: 600;
+    letter-spacing: 0.08em;
   }
 
   /* Reduced motion */
@@ -1243,7 +1263,7 @@
       <div class="sr-only" id="odometer-status" role="status" aria-live="polite"></div>
     </div>
     <div class="abbrev" id="abbrev">—</div>
-    <p class="honest">Total tokens processed, measured from local CLI logs. Cache reads included. The headline counts Claude Code + Codex CLI exactly; Grok CLI is measured separately below and excluded from it. Claude web and Desktop apps leave no logs and are never counted.</p>
+    <p class="honest">Total tokens processed, measured from local CLI logs. Cache reads included. The headline counts Claude Code + Codex CLI exactly; Grok CLI is measured separately below and excluded from it. Claude web and Desktop apps leave no logs and are never counted. The corpus re-measures in full on every refresh — ephemeral orchestration logs can age out over time, so history may breathe. The headline reports what exists right now: measured, never estimated.</p>
   </section>
 
   <div class="panels">
@@ -1291,30 +1311,31 @@
       this shop doesn't show in public. Willing to share demonstrations of the work —
       serious inquiries and recruiters only. The Issues tab is the front door.
     </p>
+    <div class="canon-plaque">
+      ⚜ CANON — the coronation portrait, 2026-07-18 —
+      <strong>6,922,988,366</strong> tokens. This plaque never updates.
+      Whatever the number above says now is how far it's come since.
+    </div>
   </footer>
 </div>
 
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-18T15:00:10Z",
-  "started": "2026-04-08",
+  "as_of": "2026-07-18T19:05:22Z",
+  "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 6922988366,
+    "all": 6376993617,
     "by_tool": {
-      "claude_code": 6639442235,
-      "codex_cli": 283546131
+      "claude_code": 6089785160,
+      "codex_cli": 287208457
     }
   },
   "monthly": [
     {
-      "month": "2026-04",
-      "tokens": 724564909
-    },
-    {
       "month": "2026-05",
-      "tokens": 8246866
+      "tokens": 1532572
     },
     {
       "month": "2026-06",
@@ -1322,26 +1343,28 @@
     },
     {
       "month": "2026-07",
-      "tokens": 4614546445
+      "tokens": 4799830899
     }
   ],
-  "sessions_total": 279,
+  "sessions_total": 281,
   "fleet": [
     {
       "vendor": "Anthropic",
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 6639442235,
-      "scanned_at": "2026-07-18T15:00:16Z"
+      "measured_tokens": 6089785160,
+      "estimated_tokens": null,
+      "scanned_at": "2026-07-18T19:05:25Z"
     },
     {
       "vendor": "OpenAI",
       "tool": "codex_cli",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 283546131,
-      "scanned_at": "2026-07-18T15:00:16Z"
+      "measured_tokens": 287208457,
+      "estimated_tokens": null,
+      "scanned_at": "2026-07-18T19:05:25Z"
     },
     {
       "vendor": "xAI",
@@ -1349,7 +1372,8 @@
       "detected": true,
       "status": "measured",
       "measured_tokens": 16332067,
-      "scanned_at": "2026-07-18T15:00:16Z"
+      "estimated_tokens": null,
+      "scanned_at": "2026-07-18T19:05:25Z"
     },
     {
       "vendor": "Google",
@@ -1357,7 +1381,8 @@
       "detected": true,
       "status": "dispatch-measured",
       "measured_tokens": 101,
-      "scanned_at": "2026-07-18T15:00:16Z"
+      "estimated_tokens": 793079,
+      "scanned_at": "2026-07-18T19:05:25Z"
     }
   ]
 }
@@ -1827,12 +1852,18 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       let statsHtml = "";
       let pct = 0;
 
+      // Real percentages, always -- the boss's rule: "if you show a %
+      // figure for them, it's the REAL one." toFixed(4) rather than the
+      // claude/codex convention's toFixed(1): these shares are expected to
+      // be small, and 1 decimal would just print "0.0%" for most of them.
       if (entry.status === "measured") {
-        statsHtml = fmt(entry.measured_tokens) + '<span class="pct">measured — outside headline total</span>';
         pct = (entry.measured_tokens / total) * 100;
+        statsHtml = fmt(entry.measured_tokens) +
+          '<span class="pct">' + pct.toFixed(4) + '% · measured — outside headline total</span>';
       } else if (entry.status === "dispatch-measured") {
-        statsHtml = fmt(entry.measured_tokens) + '<span class="pct">dispatch-measured — partial floor</span>';
         pct = (entry.measured_tokens / total) * 100;
+        statsHtml = fmt(entry.measured_tokens) +
+          '<span class="pct">' + pct.toFixed(4) + '% · dispatch-measured — partial floor</span>';
       } else if (entry.status === "detected — no measurable token logs" || entry.status === "detected — measurement unavailable") {
         statsHtml = '<span class="pct">' + entry.status + '</span>';
         pct = 0;
@@ -1844,16 +1875,33 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       const swatchClass = TOOL_SWATCHES[toolKey] || "unlogged";
       const fillId = "fill-" + swatchClass;
 
+      // GRAPH FLOOR (the May-sliver law, third application): a real-but-tiny
+      // share still gets a VISIBLE bar (>=1% of track width) so a glancing
+      // viewer never misreads an empty bar as a broken seat. The floor is
+      // PIXELS ONLY, disclosed right here -- the number above is always the
+      // true one, never touched by this.
+      const isFloored = pct > 0 && pct < 1;
+      const trackTitle = isFloored
+        ? ' title="bar floored for visibility — true share &lt;1%"' : "";
+
+      // Grok's standing disclaimer: a static fact, not scanned data, riding
+      // this row's tooltip (and echoed in the fleet note as a sibling
+      // sentence to Antigravity's -- "every seat confesses what it cannot see").
+      const rowTitle = toolKey === "grok_cli"
+        ? ' title="CLI usage measured exactly from local logs; Grok\'s web and X ' +
+          'usage leaves no local records and appears in no figure on this page."'
+        : "";
+
       toolsHtml +=
-        '<div class="tool">' +
+        '<div class="tool"' + rowTitle + '>' +
           '<div class="tool-head">' +
             '<span class="tool-name"><span class="swatch ' + swatchClass + '"></span>' + label + " · " + entry.vendor + "</span>" +
             '<span class="tool-stats">' + statsHtml + '</span>' +
           "</div>" +
-          '<div class="tool-track"><div class="tool-fill ' + swatchClass + '" id="' + fillId + '"></div></div>' +
+          '<div class="tool-track"' + trackTitle + '><div class="tool-fill ' + swatchClass + '" id="' + fillId + '"></div></div>' +
         "</div>";
 
-      dynamicFills.push({ id: fillId, pct: pct });
+      dynamicFills.push({ id: fillId, pct: isFloored ? 1 : pct });
     });
   }
 
@@ -1904,21 +1952,45 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       "not detected": "not detected"
     };
 
-    let measuredCount = 0, dispatchCount = 0, scannedAt = null;
+    let measuredCount = 0, dispatchCount = 0, estimateCount = 0, scannedAt = null;
+    let estimatedTokensValue = null; // captured for the visible disclaimer sentence below
     chipsEl.innerHTML = ""; // defense-in-depth: build chips via DOM/textContent, never innerHTML+string-concat
     fleet.forEach(function (entry) {
       const label = TOOL_LABELS[entry.tool] || entry.tool;
-      const cls = CHIP_CLASS[entry.status] || "unlogged";
-      const text = CHIP_TEXT[entry.status] || entry.status;
-      if (entry.status === "measured") measuredCount++;
-      else if (entry.status === "dispatch-measured") dispatchCount++;
+      const hasEstimate = typeof entry.estimated_tokens === "number";
       scannedAt = entry.scanned_at;
-      const title = entry.status === "measured"
-        ? "measured — " + fmt(entry.measured_tokens) + " tokens, from its own local log"
-        : entry.status === "dispatch-measured"
-        ? "dispatch-measured — " + fmt(entry.measured_tokens) + " tokens (partial floor: only " +
-          "dispatches this shop tracked, not full account usage)"
-        : entry.status;
+
+      let cls, text, title;
+      if (hasEstimate) {
+        // House precedent: the visit counter's "1,000 estimated + N measured"
+        // side-by-side. Two figures, clearly severed, estimate first for
+        // magnitude -- NEITHER folds into measured_tokens or the headline.
+        estimateCount++;
+        estimatedTokensValue = entry.estimated_tokens;
+        const estAbbrev = "~" + abbreviate(entry.estimated_tokens);
+        const dispatchPart = entry.status === "dispatch-measured"
+          ? fmt(entry.measured_tokens) + " dispatch-measured"
+          : "not yet dispatch-measured";
+        cls = "estimate";
+        text = estAbbrev + " transcript-estimated · " + dispatchPart;
+        title = "estimated from local transcripts (chars÷4 — deliberately excludes " +
+          "re-sent context and may undercount); " +
+          (entry.status === "dispatch-measured"
+            ? "dispatch-measured figure is exact API metadata"
+            : "no dispatch-measured figure yet") +
+          "; neither is in the headline.";
+      } else {
+        if (entry.status === "measured") measuredCount++;
+        else if (entry.status === "dispatch-measured") dispatchCount++;
+        cls = CHIP_CLASS[entry.status] || "unlogged";
+        text = CHIP_TEXT[entry.status] || entry.status;
+        title = entry.status === "measured"
+          ? "measured — " + fmt(entry.measured_tokens) + " tokens, from its own local log"
+          : entry.status === "dispatch-measured"
+          ? "dispatch-measured — " + fmt(entry.measured_tokens) + " tokens (partial floor: only " +
+            "dispatches this shop tracked, not full account usage)"
+          : entry.status;
+      }
 
       const chip = document.createElement("span");
       chip.className = "fleet-chip " + cls;
@@ -1930,17 +2002,38 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       chipsEl.appendChild(chip);
     });
 
-    const otherCount = fleet.length - measuredCount - dispatchCount;
+    const otherCount = fleet.length - measuredCount - dispatchCount - estimateCount;
     const scanDate = scannedAt ? scannedAt.slice(0, 10) : null;
     const clauses = [measuredCount + " fully measured from local logs"];
+    if (estimateCount > 0) clauses.push(estimateCount + " transcript-estimated (dispatch-measured floor included)");
     if (dispatchCount > 0) clauses.push(dispatchCount + " dispatch-measured (partial floor)");
     if (otherCount > 0) clauses.push(otherCount + " detected but unlogged");
-    noteEl.textContent =
+    let noteText =
       "All four work this shop in one orchestrated multi-agent environment — " +
       clauses.join(", ") + ". The headline above keeps its original definition — " +
       "Claude Code + Codex CLI only; everything else runs beyond it. " +
       "The number you're reading is a floor, not a ceiling." +
       (scanDate ? " Scanned " + scanDate + "." : "");
+
+    // Boss's addendum, verbatim (cat-drafted, boss-approved pending his read):
+    // a VISIBLE disclaimer, not just a chip tooltip -- rendered only when an
+    // estimate actually exists this scan, {EST} live from the data.
+    if (estimatedTokensValue !== null) {
+      noteText += " Antigravity carries an additional ~" + abbreviate(estimatedTokensValue) +
+        " tokens of estimated usage that appears in no total above: the local Antigravity " +
+        "artifacts expose no per-token accounting, so that figure is reconstructed from " +
+        "local transcripts by a method that deliberately excludes conversation history " +
+        "and may undercount — and on this page, estimates never enter the measured " +
+        "totals. It's real work. It just can't be sworn to.";
+    }
+
+    // Grok's sibling disclaimer: a standing fact, not scanned data -- always
+    // rendered, reading alongside Antigravity's confession as siblings ("every
+    // seat confesses what it cannot see"). Not conditional on any scan result.
+    noteText += " CLI usage measured exactly from local logs; Grok's web and X usage " +
+      "leaves no local records and appears in no figure on this page.";
+
+    noteEl.textContent = noteText;
   }
 
   /* Credits */
