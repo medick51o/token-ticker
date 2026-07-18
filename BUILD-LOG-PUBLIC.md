@@ -479,3 +479,80 @@ counts. Butch's 2 skin MINORs archive with the shelf.
   and #7 (daily auto-updater standing approval — pipeline is pure Python+git, zero model
   calls, zero API cost).
 
+# EPISODE 5 — "PERPETUAL MOTION" (2026-07-17→18, the boss: "ok lets wire it up")
+
+The daily auto-updater: pure plumbing (collector → manifest → gates → inject → sweep →
+push), zero AI at runtime, zero API cost, fail-closed at every stage. Standing approval
+for the daily automated push given by the boss in-session.
+
+- **Jessie 🟠 (build):** `refresh_ticker.py` delivered — 8 stages, dry-run proven twice
+  against the live corpus (which now reads **6.457B** — the crew's own night added ~280M).
+  Design highlights: belt-and-suspenders sha cross-check on collect; manifest with
+  inventory diffing (the June-audit standing mandate, implemented); a line-for-line port
+  of the page's own validator run server-side first; inject with .bak-restore forensics;
+  **the identity sweep runs against an IN-MEMORY staging copy so a leaking file can never
+  even touch disk**; push-failure self-heals on the next run. Four ambiguities flagged
+  honestly instead of guessed.
+- **⚖️ Adjudications:** 3 accepted as built; her flag #2 ruled a DEFECT — the head carries
+  the abbreviated total in THREE places (title + meta description + og:title) and only the
+  title was synced; first refresh would ship a self-contradicting head (Butch's episode-2
+  class). Fix ticketed to Jessie; a rate-limit gremlin ate her first attempt; re-dispatched.
+- **The boss (copy ruling, his own final cut, LOCKED VERBATIM for install):**
+  _"This number refreshes itself daily. Agent-built skills, routine-run deployment, no
+  hands at runtime. One human stays on the loop, not in it. There's a difference, and
+  knowing it is the job. He judges. Everything you're reading survived him."_
+  (Boss's amendment: no em-dash — clean full stops throughout.)
+  Placement: the honest-paragraph zone + an `AUTO-REFRESH: DAILY` chip in the meta row.
+  **Claims-cap gate: installs ONLY after the first green UNATTENDED scheduled run** — the
+  page earns the sentence the morning the routine ships a number with no human awake.
+- **Jessie 🟠 (head-sync fix):** landed + triple-proven (red-teamed her own gates:
+  sabotaged og:title/description/missing-tags all correctly rejected). A sync-lag false
+  alarm on the orchestrator's grep was investigated and honestly closed by BOTH sides.
+- **Cassidy 🩷 (pipeline verify): NOT CLEAR FOR SCHEDULING — 4 BLOCKER / 2 MATERIAL /
+  1 MINOR.** The adversarial channel earning its keep on the highest-stakes artifact yet
+  (a script with unattended push keys): `git add -A` could ship unswept bytes · raw
+  ledger bytes aren't key-allowlisted (an escape-encoded first name would beat the
+  literal sweep) · **the manifest OBSERVES inventory anomalies but doesn't GATE them — the exact
+  June-class event it was mandated for could ship unattended** · no concurrency lock ·
+  rollback window gaps · stranded PUSH-FAILED commits · duplicate-tag brittleness. Plus
+  two rulings: stealth law CLEAN in the script; path-sha manifest IDs acceptable while
+  strictly local.
+- **⚖️ Adjudication: ALL findings ACCEPTED.** Repair ticket to Jessie with concrete
+  shapes: publish allowlist + template-pin sidecar + remote/branch pin · canonical
+  allowlist-serialized public ledger (dup-key/NaN rejection, pinned measurement_note) ·
+  baseline-gated inventory (publish-baseline.json advanced only on OK, anomalies ABORT
+  pending one-shot human approval file) · O_EXCL lockfile + subprocess timeouts +
+  GIT_TERMINAL_PROMPT=0 · single-transaction writes after ALL gates · ahead-of-upstream
+  push retry · exactly-one-tag requirement. _Repair in flight._
+- **Jessie 🟠 (rebuild):** all 7 implemented + 12 red-team probes (sabotaged gates all
+  correctly reject); her fence flag (publish-baseline.json as a required second sidecar)
+  adjudicated ACCEPTED. Live anecdote for the ages: **the template-pin gate fired twice
+  during her own testing because the crew was editing the page concurrently upstairs** —
+  the gate caught its own shop on day zero.
+- **Cassidy 🩷 (discharge): 6/7 DISCHARGED**, B3 held on one surgical hole — the baseline
+  never advanced on NO-CHANGE runs (a corpus file could appear and vanish between
+  publishes unregistered). Her flagged StageFailure(0) KeyError was moot with evidence
+  (STAGE_NAMES already carries 0: LOCK). One-line fix applied per her exact shape;
+  **final verdict: "PIPELINE: CLEAR FOR SCHEDULING."**
+- **😼 (go-live):** template re-pinned to the night's final reviewed design
+  (sha e6578ade…) · **MAIDEN RUN: ALL 8 STAGES GREEN — the machine's own first commit
+  `cbea60f` pushed 6,493,954,103 (6.49B) to the live site**, all three head tags synced,
+  baseline bootstrapped · Task Scheduler entry `TokenTickerDailyRefresh` installed:
+  DAILY 08:00, next fire 2026-07-18 08:00 — **the first UNATTENDED run.**
+- **Claims-cap chamber:** the boss's locked on-the-loop copy + the AUTO-REFRESH chip
+  install ONLY after that first unattended run goes green in refresh-log.txt (then
+  --repin + push, a deliberate crew action).
+
+# EPISODE 5: COMPLETE ✅ — the machine is licensed, scheduled, and already shipped once.
+The boss's remaining button: the LinkedIn post. Everything else winds itself now.
+
+## SHIPPED 🚀 (2026-07-17, night — the boss's order, verbatim: "push it")
+
+The judge ruled the publish in-session; the crew did the plumbing (principle 10: his hands
+are for ruling, not transport — `gh` held the medick51o keys). Repo created
+(medick51o/token-ticker, public), 3 staged commits pushed, Pages enabled on master/root.
+**Post-live check against the real URL: 200 · odometer 6,176,972,559 · og:url/og:image
+live · Medick byline · zero page errors. https://medick51o.github.io/token-ticker/ is
+serving the ticker to the world.** Remaining for the boss: the LinkedIn post (drafts
+ready, mp4 ready) · the daily auto-updater blessing.
+
