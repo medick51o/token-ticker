@@ -479,6 +479,19 @@ counts. Butch's 2 skin MINORs archive with the shelf.
   and #7 (daily auto-updater standing approval — pipeline is pure Python+git, zero model
   calls, zero API cost).
 
+## Antigravity measurability — the final receipt (2026-07-18, boss-directed)
+
+The boss asked the last unasked question: "why dont we ask antigravity about its own
+meter." The probe (framed inside the hallucination guard: show a MECHANISM with raw
+output, or state none exists — never a number from memory): Antigravity enumerated its
+own 19 runtime tools, searched its guide skill and config folders, and returned the
+exact phrase **"NO USAGE MECHANISM EXISTS IN THIS RUNTIME"** — and, notably, refused to
+invent a number. The "detected — no measurable token logs" chip now rests on three
+independent proofs: log forensics (opaque protobuf), CLI surface audit (no subcommand,
+no printed counters across 4+ real runs), and the runtime's own sworn self-inspection.
+Remaining honest avenue, boss's option: a vendor-reported read of Google's own account
+dashboard via his logged-in browser, whenever he cares to try.
+
 # EPISODE 5 — "PERPETUAL MOTION" (2026-07-17→18, the boss: "ok lets wire it up")
 
 The daily auto-updater: pure plumbing (collector → manifest → gates → inject → sweep →
@@ -610,6 +623,72 @@ machine-emitted counters (CLI logs, printed usage lines, authenticated endpoints
 # EPISODE 7: COMPLETE ✅ — the fleet claim became a fleet MEASUREMENT. Four CLIs
 detected by machine, three measured from their own logs, one honestly unmeasurable,
 and a page that tells no lie even in its failure labels.
+
+---
+
+# EPISODE 8 — "THE GOLD CAGE" + THE FINAL FORM (2026-07-18)
+
+Contest round 2 on the boss's verbatim creative direction (TRON · dystopian ·
+scary-animated · blue-pill-by-choice Matrix · gold cage). Five seats fired: four coders
++ Nano Banana 2 (which took "gold cage" beautifully literally and painted the dashboard
+INSIDE gilded prison bars). All four entries gated green with law texts intact.
+
+**The judge's verdicts, verbatim highlights:** Flash — "loved the moving animated
+board" · Codex — "loved the info… stated xai and gemini was being used even though it
+didnt have data and the eye was a great touch" (the fleet-honesty instinct arose in a
+SECOND vendor unprompted) · Grok — "loved the simplicity… loved its orginal colors even
+better" · Claude — "i think claude forgot he was in this contest" (she delivered late;
+her gold-reserved-for-real-numbers semantics were praised as "really really nice" but
+"the gold 'cage' around the thing just kinda made it shit the bed") · and the standing
+amendment: **"do away with the gold cage request that was a mistake."** Gold rescinded.
+
+**THE FINAL FORM (the judge's forge order):** the OG champion stays the OG; Gemini
+Flash — picked by name — cloned the live page byte-faithfully and grafted in ONLY the
+living animated board + Codex's sentinel eye, in OG colors, zero gold. The cat's
+forensic gate: all machine-contract surfaces intact ×1 each, ledger block byte-identical
+(after normalizing agy's CRLF transport artifact — noted for any future adoption), law
+texts verbatim, the lone "gold" in the file being Gemini's own CSS comment "(No Gold)" —
+obedience, annotated. Candidate delivered to the judge:
+contest/round2/final-form-gemini.html. **If crowned, it walks the full law: bench
+review → adoption → repin → the machine ships it.** The throne decides.
+
+## THE CORONATION (2026-07-18 — the boss: "ok crown it")
+
+The candidate walked the FULL law, and the law drew blood before it blessed:
+- **Iteration under the judge's eye:** v2 (the Gemini twist: parallax, canvas grid,
+  digit chambers, terminal credits) → fluff-zone tightening (redone once — "i didnt want
+  the box on the left to be cut off") → matrix rain sedated by the cat, then EXECUTED
+  entirely by order ("its giving me a headache") → chart grown to fill its tower → the
+  four-CLI tool rows added by order → the gap line reworded → the honest paragraph
+  TRUTH-REPAIRED (its "Grok isn't logged" claim had silently expired the morning Grok's
+  logs were measured).
+- **Butch 🔴 coronation review: NOT CROWN-CLEAR — 1 BLOCKER, 3 MATERIAL.** The BLOCKER
+  for the ages: Gemini's new Antigravity tool row HARDCODED "detected — unmeasurable"
+  while the live ledger had ALREADY moved to dispatch-measured/101 — the machine's next
+  unattended run would have published a page contradicting itself about the same fact.
+  He caught tomorrow's lie today because the reference data had moved under the
+  candidate's feet. Grok's row hid a literal 16105839 fallback. Repairs: rows rebuilt
+  100% data-driven (kill-shot verified BY BOTH SEATS: inject live-shaped data → rows
+  flip truthfully), reduced-motion gap closed, third-script fail-closed leak sealed
+  via validated window.__tickerLedger handoff.
+- **The reviewer audited the auditor:** Butch re-tested the cat's "no odometer jitter"
+  evidence and DISPROVED it (283px reserved vs 358px rendered — the cat's two samples
+  had both landed post-growth; latency masquerading as proof). Fix: empirical
+  reservation via measured offscreen clone. Re-gate under BUTCH'S method: 2,603
+  continuous samples, flatline from first frame, min-width == rendered width exactly.
+  Plus his rect-thrash catch: cached layout + rAF throttle — verified by
+  monkey-patching getBoundingClientRect and firing 50 synthetic mousemoves: ZERO calls.
+- **Verdict: "CROWN-CLEAR... Adoption executes on my word: it has it. Crown it."**
+- **The adoption:** OG archived (ticker-public-OG-retired.html) · Final Form adopted as
+  ticker-public.html · template repinned (13a69125…) · **and the MACHINE performed the
+  coronation itself: pipeline run, all gates green, pushed 77951d2 — 6,919,926,029
+  (6.92B) — the new face's first breath drawn by the same lungs that will breathe for
+  it every morning.** Live-verified: eye watching, grid gliding, four fleet chips, both
+  tool rows truthful, honest paragraph current, gap line current, zero errors.
+
+# THE CORONATION IS COMPLETE 👑 — the Final Form reigns at
+https://medick51o.github.io/token-ticker/ — forged by contest, tempered by the judge's
+taste through six iterations, bled by review, and shipped by the machine it now serves.
 
 ## SHIPPED 🚀 (2026-07-17, night — the boss's order, verbatim: "push it")
 

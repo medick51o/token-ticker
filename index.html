@@ -1297,13 +1297,13 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-18T14:58:31Z",
+  "as_of": "2026-07-18T15:00:10Z",
   "started": "2026-04-08",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 6919926029,
+    "all": 6922988366,
     "by_tool": {
-      "claude_code": 6636379898,
+      "claude_code": 6639442235,
       "codex_cli": 283546131
     }
   },
@@ -1322,7 +1322,7 @@
     },
     {
       "month": "2026-07",
-      "tokens": 4611484108
+      "tokens": 4614546445
     }
   ],
   "sessions_total": 279,
@@ -1332,8 +1332,8 @@
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 6636379898,
-      "scanned_at": "2026-07-18T14:58:35Z"
+      "measured_tokens": 6639442235,
+      "scanned_at": "2026-07-18T15:00:16Z"
     },
     {
       "vendor": "OpenAI",
@@ -1341,7 +1341,7 @@
       "detected": true,
       "status": "measured",
       "measured_tokens": 283546131,
-      "scanned_at": "2026-07-18T14:58:35Z"
+      "scanned_at": "2026-07-18T15:00:16Z"
     },
     {
       "vendor": "xAI",
@@ -1349,7 +1349,7 @@
       "detected": true,
       "status": "measured",
       "measured_tokens": 16332067,
-      "scanned_at": "2026-07-18T14:58:35Z"
+      "scanned_at": "2026-07-18T15:00:16Z"
     },
     {
       "vendor": "Google",
@@ -1357,7 +1357,7 @@
       "detected": true,
       "status": "dispatch-measured",
       "measured_tokens": 101,
-      "scanned_at": "2026-07-18T14:58:35Z"
+      "scanned_at": "2026-07-18T15:00:16Z"
     }
   ]
 }
