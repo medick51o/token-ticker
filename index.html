@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Token Burn Ticker — 6.88B tokens</title>
-<meta name="description" content="6.88B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 6.88B tokens, measured">
+<title>Token Burn Ticker — 6.92B tokens</title>
+<meta name="description" content="6.92B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 6.92B tokens, measured">
 <meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -335,7 +335,6 @@
   @media (min-width: 700px) {
     .panels {
       grid-template-columns: 1.4fr 1fr;
-      align-items: stretch;
     }
   }
 
@@ -372,6 +371,16 @@
     gap: 0.5rem;
   }
 
+  .panel[aria-labelledby="tools-title"] {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .panel[aria-labelledby="tools-title"] .panel-title {
+    margin-bottom: 0;
+  }
+
   .panel-title .tag {
     font-size: 0.65rem;
     letter-spacing: 0.1em;
@@ -388,7 +397,7 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 0.6rem;
-    height: 180px;
+    height: 360px;
     padding-top: 0.5rem;
   }
 
@@ -460,15 +469,15 @@
   .tools {
     display: flex;
     flex-direction: column;
-    gap: 1.15rem;
-    height: calc(100% - 1.5rem);
-    justify-content: center;
+    justify-content: space-between;
+    flex: 1.3;
+    gap: 0.5rem;
   }
 
   .tool {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.3rem;
   }
 
   .tool-head {
@@ -501,6 +510,16 @@
   .swatch.codex {
     background: var(--codex);
     box-shadow: 0 0 8px var(--codex-glow);
+  }
+
+  .swatch.grok {
+    background: #a855f7;
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.45);
+  }
+
+  .swatch.antigravity {
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
   }
 
   .tool-stats {
@@ -546,7 +565,6 @@
     height: 6px;
     border-radius: 2px;
     overflow: hidden;
-    margin-top: 0.25rem;
     border: 1px solid var(--border);
   }
 
@@ -564,16 +582,21 @@
 
   /* Fleet block — four CLIs, one crew */
   .fleet {
-    margin-top: 1.1rem;
-    padding-top: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
     border-top: 1px solid var(--border);
+    gap: 0.4rem;
   }
 
   .fleet-title {
     font-size: 0.6rem;
     letter-spacing: 0.2em;
     color: var(--text-faint);
-    margin-bottom: 0.55rem;
+    margin-bottom: 0;
   }
 
   .fleet-chips {
@@ -606,7 +629,7 @@
   .fleet-chip.absent em { color: var(--warn); }
 
   .fleet-note {
-    margin-top: 0.6rem;
+    margin-top: 0;
     font-size: 0.64rem;
     line-height: 1.55;
     color: var(--text-dim);
@@ -776,9 +799,416 @@
     .split-visual .claude-slice,
     .split-visual .codex-slice { transition: none; }
   }
-</style>
+
+  /* ── ANTIGRAVITY LIVING BOARD & WATCHING EYE ENHANCEMENTS ── */
+  @keyframes bar-glow-breath {
+    0%, 100% {
+      box-shadow: 0 0 12px var(--accent-dim);
+      filter: brightness(1);
+    }
+    50% {
+      box-shadow: 0 0 24px var(--accent-glow);
+      filter: brightness(1.2);
+    }
+  }
+
+  .bar {
+    background: 
+      linear-gradient(to top, rgba(0, 255, 200, 0.1) 0%, rgba(0, 255, 200, 0.6) 50%, rgba(0, 255, 200, 0.1) 100%),
+      linear-gradient(180deg, var(--accent) 0%, rgba(0, 255, 200, 0.15) 100%);
+    background-size: 100% 20px, 100% 100%;
+    background-repeat: no-repeat, no-repeat;
+    animation: bar-glow-breath 3.5s ease-in-out infinite, bar-pulse-flow 3s linear infinite;
+  }
+
+  .bar-col:nth-child(1) .bar { animation-delay: 0.1s; }
+  .bar-col:nth-child(2) .bar { animation-delay: 0.3s; }
+  .bar-col:nth-child(3) .bar { animation-delay: 0.5s; }
+  .bar-col:nth-child(4) .bar { animation-delay: 0.7s; }
+
+  @keyframes bar-pulse-flow {
+    0% { background-position: 0% 120%, 0% 0%; }
+    100% { background-position: 0% -20%, 0% 0%; }
+  }
+
+  /* Signal-pulse accents on monthly bars */
+  .bar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--text);
+    box-shadow: 0 0 8px var(--accent), 0 0 15px var(--accent);
+    opacity: 0.8;
+    z-index: 2;
+    animation: cap-pulse 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes cap-pulse {
+    0% { opacity: 0.5; box-shadow: 0 0 4px var(--accent); }
+    100% { opacity: 1; box-shadow: 0 0 12px var(--accent), 0 0 20px var(--accent); }
+  }
+
+  /* Bar track styling */
+  .bar-track {
+    background: rgba(0, 255, 200, 0.01);
+    border-left: 1px solid rgba(0, 255, 200, 0.04);
+    border-right: 1px solid rgba(0, 255, 200, 0.04);
+    border-radius: 2px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Per-tool split animations */
+  .tool-fill {
+    position: relative;
+    background-size: 200% 100% !important;
+    animation: tool-fill-flow 4s linear infinite;
+  }
+
+  .tool-fill.claude {
+    background: linear-gradient(90deg, var(--claude), #f0a080, var(--claude));
+    box-shadow: 0 0 12px var(--claude-glow);
+  }
+
+  .tool-fill.codex {
+    background: linear-gradient(90deg, var(--codex), #a0b4ff, var(--codex));
+    box-shadow: 0 0 12px var(--codex-glow);
+  }
+
+  .tool-fill.grok {
+    background: linear-gradient(90deg, #a855f7, #c084fc, #a855f7);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.45);
+  }
+
+  .tool-fill.antigravity {
+    background: linear-gradient(90deg, var(--accent), #5eead4, var(--accent));
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  @keyframes tool-fill-flow {
+    0% { background-position: 0% 0%; }
+    100% { background-position: -200% 0%; }
+  }
+
+  /* Glowing head cap for tool-fill bar */
+  .tool-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2px;
+    background: #ffffff;
+    box-shadow: 0 0 8px #ffffff, 0 0 15px currentColor;
+    opacity: 0.9;
+    animation: tool-cap-pulse 1.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes tool-cap-pulse {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+  }
+
+  /* Split visual slice breathing */
+  .claude-slice {
+    animation: claude-glow-breath 4s ease-in-out infinite;
+  }
+
+  .codex-slice {
+    animation: codex-glow-breath 4s ease-in-out infinite;
+  }
+
+  @keyframes claude-glow-breath {
+    0%, 100% { box-shadow: 0 0 8px var(--claude-glow); filter: brightness(1); }
+    50% { box-shadow: 0 0 16px var(--claude-glow), 0 0 24px var(--claude-glow); filter: brightness(1.2); }
+  }
+
+  @keyframes codex-glow-breath {
+    0%, 100% { box-shadow: 0 0 8px var(--codex-glow); filter: brightness(1); }
+    50% { box-shadow: 0 0 16px var(--codex-glow), 0 0 24px var(--codex-glow); filter: brightness(1.2); }
+  }
+
+  /* Sentinel Badge & SVG Eye styling (No Gold) */
+  .sentinel-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0, 255, 200, 0.04);
+    border: 1px solid var(--border-hot);
+    padding: 0.25rem 0.55rem;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 255, 200, 0.08);
+    height: 30px;
+    user-select: none;
+    animation: scan-flicker 8s infinite;
+  }
+
+  @keyframes scan-flicker {
+    0%, 100% { opacity: 0.95; }
+    45% { opacity: 0.95; }
+    50% { opacity: 0.6; }
+    55% { opacity: 0.95; }
+    80% { opacity: 0.95; }
+    82% { opacity: 0.3; }
+    84% { opacity: 0.95; }
+  }
+
+  .sentinel-svg {
+    width: 20px;
+    height: 20px;
+    overflow: visible;
+  }
+
+  .sentinel-txt {
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--accent-glow);
+  }
+
+  .rot-cw {
+    animation: rot-cw 30s linear infinite;
+    transform-origin: center;
+  }
+
+  .rot-ccw {
+    animation: rot-ccw 20s linear infinite, outer-ring-pulse 4s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes outer-ring-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+
+  .eye-pupil {
+    transition: transform 0.15s ease-out;
+  }
+
+  .eye-lens {
+    animation: eye-lens-pulse 3s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .eye-iris-back {
+    animation: eye-blink 7s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes rot-cw {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes rot-ccw {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-360deg); }
+  }
+
+  @keyframes eye-lens-pulse {
+    0%, 100% {
+      fill: var(--accent);
+      filter: drop-shadow(0 0 2px var(--accent-glow));
+      r: 8px;
+    }
+    50% {
+      fill: #ffffff;
+      filter: drop-shadow(0 0 5px var(--accent-glow)) drop-shadow(0 0 10px var(--accent));
+      r: 6.5px;
+    }
+  }
+
+  @keyframes eye-blink {
+    0%, 96%, 100% {
+      transform: scaleY(1);
+    }
+    98% {
+      transform: scaleY(0.1);
+    }
+  }
+
+  /* General Hum / Alive Energy CSS */
+  @keyframes panel-hum {
+    0%, 100% {
+      border-color: var(--border);
+      box-shadow: var(--shadow);
+    }
+    50% {
+      border-color: rgba(0, 255, 200, 0.22);
+      box-shadow: 0 0 60px rgba(0, 255, 200, 0.12);
+    }
+  }
+
+  .panel {
+    animation: panel-hum 6s ease-in-out infinite;
+    background:
+      /* Top-Left Corner */
+      linear-gradient(to right, var(--accent) 8px, transparent 8px) no-repeat left top / 8px 2px,
+      linear-gradient(to bottom, var(--accent) 8px, transparent 8px) no-repeat left top / 2px 8px,
+      /* Top-Right Corner */
+      linear-gradient(to left, var(--accent) 8px, transparent 8px) no-repeat right top / 8px 2px,
+      linear-gradient(to bottom, var(--accent) 8px, transparent 8px) no-repeat right top / 2px 8px,
+      /* Bottom-Left Corner */
+      linear-gradient(to right, var(--accent) 8px, transparent 8px) no-repeat left bottom / 8px 2px,
+      linear-gradient(to top, var(--accent) 8px, transparent 8px) no-repeat left bottom / 2px 8px,
+      /* Bottom-Right Corner */
+      linear-gradient(to left, var(--accent) 8px, transparent 8px) no-repeat right bottom / 8px 2px,
+      linear-gradient(to top, var(--accent) 8px, transparent 8px) no-repeat right bottom / 2px 8px,
+      /* Main panel background */
+      var(--bg-panel);
+  }
+
+  .panel:nth-child(2) {
+    animation-delay: 3s;
+  }
+
+  @keyframes text-glow-pulse {
+    0%, 100% { text-shadow: 0 0 4px var(--accent-glow); }
+    50% { text-shadow: 0 0 8px var(--accent-glow), 0 0 12px var(--accent); }
+  }
+
+  .brand-text strong, .tag {
+    animation: text-glow-pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes grid-breathe {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1.2; }
+  }
+
+  body::before {
+    animation: grid-breathe 8s ease-in-out infinite;
+  }
+
+  /* Odometer modular display styling */
+  .odometer .digit {
+    display: inline-block;
+    min-width: 0.65em;
+    text-align: center;
+    border-left: 1px solid rgba(0, 255, 200, 0.15);
+    border-right: 1px solid rgba(0, 255, 200, 0.15);
+    background: rgba(0, 255, 200, 0.02);
+    margin: 0 2px;
+    border-radius: 4px;
+    box-shadow: inset 0 0 10px rgba(0, 255, 200, 0.04);
+    transition: filter 0.15s ease-out;
+  }
+  .odometer.counting .digit {
+    filter: blur(1px);
+  }
+
+  /* 3D perspective wrapper tilt */
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 1.25rem 1rem 3rem;
+    transform-style: preserve-3d;
+    will-change: transform;
+    --rx: 0deg;
+    --ry: 0deg;
+    transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry));
+    transition: transform 0.1s ease-out;
+  }
+
+  /* Scrolling hazard strip above footer */
+  footer::before {
+    content: "";
+    display: block;
+    height: 4px;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--accent-dim) 0,
+      var(--accent-dim) 10px,
+      transparent 10px,
+      transparent 20px
+    );
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    animation: hazard-scroll 25s linear infinite;
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+  
+  @keyframes hazard-scroll {
+    0% { background-position: 0 0; }
+    100% { background-position: 500px 0; }
+  }
+
+  /* Terminal window credits decoration */
+  .credits {
+    background:
+      radial-gradient(circle, #ff5f56 4px, transparent 5px) no-repeat 12px 14px / 10px 10px,
+      radial-gradient(circle, #ffbd2e 4px, transparent 5px) no-repeat 26px 14px / 10px 10px,
+      radial-gradient(circle, #27c93f 4px, transparent 5px) no-repeat 40px 14px / 10px 10px,
+      linear-gradient(to right, var(--border), var(--border)) no-repeat 0px 36px / 100% 1px,
+      rgba(3, 5, 8, 0.92);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3.25rem 1.25rem 1.25rem;
+    box-shadow: 0 0 15px rgba(0, 255, 200, 0.04);
+    position: relative;
+  }
+  
+  .credits::before {
+    content: "SYS.CREDITS // SECURE_LOG";
+    display: block;
+    position: absolute;
+    top: 12px;
+    left: 60px;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    text-shadow: 0 0 4px var(--accent-glow);
+  }
+
+  /* Intersecting divider line on split bar */
+  .split-visual {
+    position: relative;
+  }
+  .split-visual::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    left: calc(var(--claude-pct, 0) * 1%);
+    width: 2px;
+    background: #ffffff;
+    box-shadow: 0 0 8px #ffffff;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+
+  /* Extends prefers-reduced-motion to still everything */
+  @media (prefers-reduced-motion: reduce) {
+    .rot-cw,
+    .rot-ccw,
+    .eye-lens,
+    .eye-iris-back,
+    .bar,
+    .bar::before,
+    .tool-fill,
+    .tool-fill::after,
+    .claude-slice,
+    .codex-slice,
+    .panel,
+    .brand-text strong,
+    .tag,
+    body::before,
+    .sentinel-badge,
+    footer::before,
+    .wrap {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+    }
+  }</style>
 </head>
 <body>
+<canvas id="bg-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none;"></canvas>
 <div class="scanlines" aria-hidden="true"></div>
 <div class="scan-beam" aria-hidden="true"></div>
 
@@ -787,6 +1217,21 @@
     <div class="brand">
       <span class="status-dot" aria-hidden="true"></span>
       <span class="brand-text"><strong>TOKEN BURN</strong> // OPS CONSOLE</span>
+    </div>
+    <!-- Sentinel watching eye (aria-hidden decorative) -->
+    <div class="sentinel-badge" aria-hidden="true">
+      <svg class="sentinel-svg" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="5 5" class="rot-cw" />
+        <circle cx="50" cy="50" r="35" fill="none" stroke="var(--accent-glow)" stroke-width="1.5" stroke-dasharray="10 15" class="rot-ccw" />
+        <g class="eye-iris-back">
+          <g class="eye-pupil">
+            <circle cx="50" cy="50" r="16" fill="var(--bg-panel)" stroke="var(--accent-glow)" stroke-width="1.5" />
+            <circle cx="50" cy="50" r="8" fill="var(--accent)" class="eye-lens" />
+            <circle cx="47" cy="47" r="2.5" fill="#ffffff" opacity="0.8" />
+          </g>
+        </g>
+      </svg>
+      <span class="sentinel-txt">SENTINEL ACTIVE</span>
     </div>
     <div class="meta-row" id="meta"></div>
   </header>
@@ -798,10 +1243,7 @@
       <div class="sr-only" id="odometer-status" role="status" aria-live="polite"></div>
     </div>
     <div class="abbrev" id="abbrev">—</div>
-    <p class="honest">
-      Total tokens processed, measured from local CLI logs. Cache reads included.
-      Grok and web apps aren't logged, so they aren't counted.
-    </p>
+    <p class="honest">Total tokens processed, measured from local CLI logs. Cache reads included. The headline counts Claude Code + Codex CLI exactly; Grok CLI is measured separately below and excluded from it. Claude web and Desktop apps leave no logs and are never counted.</p>
   </section>
 
   <div class="panels">
@@ -855,13 +1297,13 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-18T14:30:12Z",
+  "as_of": "2026-07-18T14:58:31Z",
   "started": "2026-04-08",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 6877246070,
+    "all": 6919926029,
     "by_tool": {
-      "claude_code": 6593699939,
+      "claude_code": 6636379898,
       "codex_cli": 283546131
     }
   },
@@ -880,7 +1322,7 @@
     },
     {
       "month": "2026-07",
-      "tokens": 4568804149
+      "tokens": 4611484108
     }
   ],
   "sessions_total": 279,
@@ -890,8 +1332,8 @@
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 6593699939,
-      "scanned_at": "2026-07-18T14:30:16Z"
+      "measured_tokens": 6636379898,
+      "scanned_at": "2026-07-18T14:58:35Z"
     },
     {
       "vendor": "OpenAI",
@@ -899,7 +1341,7 @@
       "detected": true,
       "status": "measured",
       "measured_tokens": 283546131,
-      "scanned_at": "2026-07-18T14:30:16Z"
+      "scanned_at": "2026-07-18T14:58:35Z"
     },
     {
       "vendor": "xAI",
@@ -907,7 +1349,7 @@
       "detected": true,
       "status": "measured",
       "measured_tokens": 16332067,
-      "scanned_at": "2026-07-18T14:30:16Z"
+      "scanned_at": "2026-07-18T14:58:35Z"
     },
     {
       "vendor": "Google",
@@ -915,7 +1357,7 @@
       "detected": true,
       "status": "dispatch-measured",
       "measured_tokens": 101,
-      "scanned_at": "2026-07-18T14:30:16Z"
+      "scanned_at": "2026-07-18T14:58:35Z"
     }
   ]
 }
@@ -1269,6 +1711,8 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     return;
   }
 
+  window.__tickerLedger = DATA;
+
   /* One source of truth for the title: static <title> for no-JS + runtime sync. */
   document.title = "Token Burn Ticker — " + abbreviate(DATA.totals.all) + " tokens";
 
@@ -1343,7 +1787,7 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
   const claudePct = (claudeTokens / total) * 100;
   const codexPct = (codexTokens / total) * 100;
 
-  toolsEl.innerHTML =
+  var toolsHtml =
     '<div class="tool">' +
       '<div class="tool-head">' +
         '<span class="tool-name"><span class="swatch claude"></span>Claude Code</span>' +
@@ -1365,12 +1809,68 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       '<div class="codex-slice" id="slice-codex"></div>' +
     "</div>";
 
+  const dynamicFills = [];
+  if (DATA && Array.isArray(DATA.fleet)) {
+    const TOOL_LABELS = {
+      grok_cli: "Grok CLI",
+      antigravity_cli: "Antigravity CLI"
+    };
+    const TOOL_SWATCHES = {
+      grok_cli: "grok",
+      antigravity_cli: "antigravity"
+    };
+
+    ["grok_cli", "antigravity_cli"].forEach(function (toolKey) {
+      const entry = DATA.fleet.find(function (f) { return f.tool === toolKey; });
+      if (!entry) return;
+
+      let statsHtml = "";
+      let pct = 0;
+
+      if (entry.status === "measured") {
+        statsHtml = fmt(entry.measured_tokens) + '<span class="pct">measured — outside headline total</span>';
+        pct = (entry.measured_tokens / total) * 100;
+      } else if (entry.status === "dispatch-measured") {
+        statsHtml = fmt(entry.measured_tokens) + '<span class="pct">dispatch-measured — partial floor</span>';
+        pct = (entry.measured_tokens / total) * 100;
+      } else if (entry.status === "detected — no measurable token logs" || entry.status === "detected — measurement unavailable") {
+        statsHtml = '<span class="pct">' + entry.status + '</span>';
+        pct = 0;
+      } else {
+        return;
+      }
+
+      const label = TOOL_LABELS[toolKey] || toolKey;
+      const swatchClass = TOOL_SWATCHES[toolKey] || "unlogged";
+      const fillId = "fill-" + swatchClass;
+
+      toolsHtml +=
+        '<div class="tool">' +
+          '<div class="tool-head">' +
+            '<span class="tool-name"><span class="swatch ' + swatchClass + '"></span>' + label + " · " + entry.vendor + "</span>" +
+            '<span class="tool-stats">' + statsHtml + '</span>' +
+          "</div>" +
+          '<div class="tool-track"><div class="tool-fill ' + swatchClass + '" id="' + fillId + '"></div></div>' +
+        "</div>";
+
+      dynamicFills.push({ id: fillId, pct: pct });
+    });
+  }
+
+  toolsEl.innerHTML = toolsHtml;
+
   requestAnimationFrame(function () {
     setTimeout(function () {
       document.getElementById("fill-claude").style.width = claudePct + "%";
       document.getElementById("fill-codex").style.width = codexPct + "%";
       document.getElementById("slice-claude").style.flex = String(claudePct);
       document.getElementById("slice-codex").style.flex = String(codexPct);
+      dynamicFills.forEach(function (fill) {
+        const el = document.getElementById(fill.id);
+        if (el) {
+          el.style.width = fill.pct + "%";
+        }
+      });
     }, reduceMotion ? 0 : 220);
   });
 
@@ -1455,7 +1955,25 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
   const finalFormatted = fmt(target);
 
   /* Reserve final formatted width so count-up never reflows the centered shell. */
-  odo.style.minWidth = finalFormatted.length + "ch";
+  const clone = document.createElement("div");
+  clone.className = odo.className;
+  clone.style.position = "absolute";
+  clone.style.visibility = "hidden";
+  clone.style.pointerEvents = "none";
+  let cloneHtml = "";
+  for (let i = 0; i < finalFormatted.length; i++) {
+    const ch = finalFormatted[i];
+    if (ch === ",") {
+      cloneHtml += '<span class="sep">,</span>';
+    } else {
+      cloneHtml += '<span class="digit">' + ch + "</span>";
+    }
+  }
+  clone.innerHTML = cloneHtml;
+  odo.parentNode.appendChild(clone);
+  const measuredWidth = clone.offsetWidth;
+  odo.style.minWidth = measuredWidth + "px";
+  odo.parentNode.removeChild(clone);
 
   function renderOdo(n) {
     const s = fmt(Math.round(n));
@@ -1498,6 +2016,214 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       }
     }
     requestAnimationFrame(tick);
+  }
+})();
+</script>
+<script>
+(function () {
+  "use strict";
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // 1. Odometer change tracking (motion blur)
+  if (!reduceMotion) {
+    var odo = document.getElementById("odometer");
+    if (odo) {
+      odo.classList.add("counting");
+      setTimeout(function () {
+        odo.classList.remove("counting");
+      }, 2450);
+    }
+  }
+
+  // 2. Split bar visual percentage property sync
+  try {
+    var data = window.__tickerLedger;
+    if (data) {
+      var total = data.totals.all;
+      var claudePct = (data.totals.by_tool.claude_code / total) * 100;
+      var splitEl = document.querySelector(".split-visual");
+      if (splitEl) {
+        splitEl.style.setProperty("--claude-pct", claudePct.toFixed(1));
+      }
+    }
+  } catch (err) {
+    /* silent */
+  }
+
+  // 3. Sentinel Eye Pupil & 3D Parallax Tracking
+  var wrap = document.querySelector(".wrap");
+  var badge = document.querySelector(".sentinel-badge");
+  var pupil = document.querySelector(".eye-pupil");
+
+  if (!reduceMotion) {
+    var badgeRect = null;
+    var wW = window.innerWidth;
+    var wH = window.innerHeight;
+
+    var cacheLayout = function () {
+      wW = window.innerWidth;
+      wH = window.innerHeight;
+      if (badge) {
+        badgeRect = badge.getBoundingClientRect();
+      }
+    };
+
+    // Compute at startup
+    cacheLayout();
+
+    // Recompute only on window resize
+    window.addEventListener("resize", cacheLayout);
+
+    var latestX = 0;
+    var latestY = 0;
+    var ticking = false;
+
+    var updateVisuals = function () {
+      var x = (latestX - wW / 2) / (wW / 2);
+      var y = (latestY - wH / 2) / (wH / 2);
+
+      if (wrap) {
+        wrap.style.setProperty("--rx", (-y * 4) + "deg");
+        wrap.style.setProperty("--ry", (x * 4) + "deg");
+      }
+
+      if (badgeRect && pupil) {
+        var sX = badgeRect.left + badgeRect.width / 2;
+        var sY = badgeRect.top + badgeRect.height / 2;
+        var dX = latestX - sX;
+        var dY = latestY - sY;
+        var dist = Math.sqrt(dX * dX + dY * dY) || 1;
+        var maxTranslate = 5;
+        var moveX = (dX / dist) * Math.min(maxTranslate, dist * 0.05);
+        var moveY = (dY / dist) * Math.min(maxTranslate, dist * 0.05);
+        pupil.style.transform = "translate(" + moveX + "px, " + moveY + "px)";
+      }
+
+      ticking = false;
+    };
+
+    window.addEventListener("mousemove", function (e) {
+      latestX = e.clientX;
+      latestY = e.clientY;
+
+      if (!ticking) {
+        requestAnimationFrame(updateVisuals);
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  // 4. Background Tron Perspective Grid + Matrix rain
+  var canvas = document.getElementById("bg-canvas");
+  if (canvas) {
+    var ctx = canvas.getContext("2d");
+    var w = (canvas.width = window.innerWidth);
+    var h = (canvas.height = window.innerHeight);
+
+    window.addEventListener("resize", function () {
+      w = (canvas.width = window.innerWidth);
+      h = (canvas.height = window.innerHeight);
+    });
+
+    var gridOffset = 0;
+
+    var drawGrid = function (offset) {
+      var horizon = h * 0.45;
+      ctx.strokeStyle = "rgba(0, 255, 200, 0.04)";
+      ctx.lineWidth = 1;
+
+      // Vertical perspective lines
+      var centerX = w / 2;
+      var verticalLines = 36;
+      for (var i = -verticalLines; i <= verticalLines; i++) {
+        ctx.beginPath();
+        ctx.moveTo(centerX, horizon);
+        var xTarget = centerX + i * (w / verticalLines) * 2.2;
+        ctx.lineTo(xTarget, h);
+        ctx.stroke();
+      }
+
+      // Horizontal lines scroll down
+      var horizontalLines = 14;
+      for (var j = 0; j < horizontalLines; j++) {
+        var yNorm = ((j + (offset % 1)) / horizontalLines);
+        var y = horizon + (h - horizon) * Math.pow(yNorm, 2.2);
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      // Scrolling highlight light cycles
+      ctx.strokeStyle = "rgba(0, 255, 200, 0.2)";
+      ctx.lineWidth = 2;
+      var trailsCount = 4;
+      for (var t = 0; t < trailsCount; t++) {
+        var seed = Math.floor((Date.now() / 1500) + t * 9) % (verticalLines * 2);
+        var idx = seed - verticalLines;
+        var speed = 0.045;
+        var progress = ((Date.now() * speed) % 100) / 100;
+        
+        var startY = horizon + (h - horizon) * Math.pow(progress, 2.2);
+        var endY = horizon + (h - horizon) * Math.pow(Math.min(1, progress + 0.12), 2.2);
+        
+        var startX = centerX + idx * (w / verticalLines) * 2.2 * ((startY - horizon) / (h - horizon));
+        var endX = centerX + idx * (w / verticalLines) * 2.2 * ((endY - horizon) / (h - horizon));
+
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+      }
+    };
+
+    var animFrameId = null;
+    var isRunning = false;
+
+    var run = function () {
+      if (document.hidden) {
+        isRunning = false;
+        animFrameId = null;
+        return;
+      }
+      ctx.fillStyle = "rgba(7, 9, 13, 0.28)"; // Base color #07090d
+      ctx.fillRect(0, 0, w, h);
+
+      if (reduceMotion) {
+        ctx.fillStyle = "#07090d";
+        ctx.fillRect(0, 0, w, h);
+        drawGrid(0);
+        isRunning = false;
+        animFrameId = null;
+        return;
+      }
+
+      // Grid
+      drawGrid(gridOffset);
+      gridOffset += 0.35;
+
+      animFrameId = requestAnimationFrame(run);
+    };
+
+    if (!document.hidden) {
+      isRunning = true;
+      run();
+    }
+
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        isRunning = false;
+        if (animFrameId) {
+          cancelAnimationFrame(animFrameId);
+          animFrameId = null;
+        }
+      } else {
+        if (!isRunning && !reduceMotion) {
+          isRunning = true;
+          animFrameId = requestAnimationFrame(run);
+        }
+      }
+    });
   }
 })();
 </script>
