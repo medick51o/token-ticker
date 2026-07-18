@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark light">
+<meta name="color-scheme" content="dark">
 <title>Token Burn Ticker — 6.18B tokens</title>
 <meta name="description" content="6.18B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
 <meta property="og:title" content="Token Burn Ticker — 6.18B tokens, measured">
@@ -42,33 +42,7 @@
     color-scheme: dark;
   }
 
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #f4f6f8;
-      --bg-elevated: #ffffff;
-      --bg-panel: #eef2f6;
-      --border: rgba(20, 40, 60, 0.12);
-      --border-hot: rgba(0, 140, 110, 0.4);
-      --text: #0d1520;
-      --text-dim: #4a5d70;
-      --text-faint: #5a6b7c;
-      --accent: #008f72;
-      --accent-text: #006a55;
-      --accent-dim: rgba(0, 143, 114, 0.12);
-      --accent-glow: rgba(0, 143, 114, 0.25);
-      --warn: #a33d16;
-      --warn-dim: rgba(196, 74, 26, 0.12);
-      --claude: #b85a3a;
-      --claude-glow: rgba(184, 90, 58, 0.3);
-      --codex: #3d5ccc;
-      --codex-glow: rgba(61, 92, 204, 0.3);
-      --grid: rgba(0, 100, 80, 0.05);
-      --scan: rgba(0, 100, 80, 0.02);
-      --grain: 0.03;
-      --shadow: 0 8px 40px rgba(0, 40, 30, 0.08);
-      color-scheme: light;
-    }
-  }
+  /* Dark only, by the owner's ruling: the console does not do daylight. */
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -445,12 +419,6 @@
     height: 0;
     transition: height 1.1s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
-  }
-
-  @media (prefers-color-scheme: light) {
-    .bar {
-      background: linear-gradient(180deg, var(--accent) 0%, rgba(0, 143, 114, 0.35) 100%);
-    }
   }
 
   .bar::after {
