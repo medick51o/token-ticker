@@ -608,6 +608,16 @@
     border-radius: 4px;
   }
 
+  .visit-counter .visit-figures {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--accent-text);
+    text-shadow: 0 0 12px var(--accent-dim), 0 0 28px var(--accent-dim);
+  }
+
   /* Visually hidden — accessible text only */
   .sr-only {
     position: absolute;
@@ -853,7 +863,17 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       el.id = "visit-counter";
       el.className = "visit-counter";
       el.setAttribute("role", "note");
-      el.textContent = visitCopy(measured);
+      var full = visitCopy(measured);
+      var split = full.indexOf("VISITS:");
+      if (split > 0) {
+        el.appendChild(document.createTextNode(full.slice(0, split).trim()));
+        var fig = document.createElement("span");
+        fig.className = "visit-figures";
+        fig.textContent = full.slice(split);
+        el.appendChild(fig);
+      } else {
+        el.textContent = full;
+      }
       stats.insertAdjacentElement("afterend", el);
     } catch (e) {
       /* silent */
