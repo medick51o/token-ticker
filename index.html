@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <title>Token Burn Ticker — 9.04B tokens</title>
-<meta name="description" content="9.04B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
+<meta name="description" content="9.04B tokens processed since April 2026 — headline measured from local CLI logs by a four-vendor AI crew, never estimated.">
 <meta property="og:title" content="Token Burn Ticker — 9.04B tokens, measured">
 <meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
@@ -1437,7 +1437,7 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-22T20:50:04Z",
+  "as_of": "2026-07-22T20:53:46Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
@@ -1476,7 +1476,7 @@
       "status": "measured",
       "measured_tokens": 7909433494,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-22T20:50:07Z"
+      "scanned_at": "2026-07-22T20:53:50Z"
     },
     {
       "vendor": "OpenAI",
@@ -1485,7 +1485,7 @@
       "status": "measured",
       "measured_tokens": 403407703,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-22T20:50:07Z"
+      "scanned_at": "2026-07-22T20:53:50Z"
     },
     {
       "vendor": "xAI",
@@ -1494,7 +1494,7 @@
       "status": "measured",
       "measured_tokens": 16332067,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-22T20:50:07Z"
+      "scanned_at": "2026-07-22T20:53:50Z"
     },
     {
       "vendor": "Google",
@@ -1503,7 +1503,7 @@
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 1746129,
-      "scanned_at": "2026-07-22T20:50:07Z"
+      "scanned_at": "2026-07-22T20:53:50Z"
     }
   ]
 }
@@ -2306,28 +2306,26 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     if (otherCount > 0) clauses.push(otherCount + " detected but unlogged");
     let noteText =
       "All four work this shop in one orchestrated multi-agent environment — " +
-      clauses.join(", ") + ". The headline above keeps its original definition — " +
-      "Claude Code + Codex CLI only; everything else runs beyond it. " +
-      "The number you're reading is a floor, not a ceiling." +
+      clauses.join(", ") + ". The headline stays Claude Code + Codex CLI only — " +
+      "a floor, not a ceiling." +
       (scanDate ? " Scanned " + scanDate + "." : "");
 
-    // Boss's addendum, verbatim (cat-drafted, boss-approved pending his read):
-    // a VISIBLE disclaimer, not just a chip tooltip -- rendered only when an
-    // estimate actually exists this scan, {EST} live from the data.
+    // Boss's addendum (trimmed per his order 2026-07-22): a VISIBLE disclaimer,
+    // not just a chip tooltip -- rendered only when an estimate actually exists
+    // this scan, {EST} live from the data.
     if (estimatedTokensValue !== null) {
-      noteText += " Antigravity carries an additional ~" + abbreviate(estimatedTokensValue) +
-        " tokens of estimated usage that appears in no total above: the local Antigravity " +
-        "artifacts expose no per-token accounting, so that figure is reconstructed from " +
-        "local transcripts by a method that deliberately excludes conversation history " +
-        "and may undercount — and on this page, estimates never enter the measured " +
-        "totals. It's real work. It just can't be sworn to.";
+      noteText += " Antigravity carries ~" + abbreviate(estimatedTokensValue) +
+        " more tokens of estimated usage, in no total above: its local artifacts " +
+        "expose no per-token accounting, so the figure is reconstructed from " +
+        "transcripts (history excluded — may undercount), and estimates never " +
+        "enter the measured totals. It's real work. It just can't be sworn to.";
     }
 
     // Grok's sibling disclaimer: a standing fact, not scanned data -- always
     // rendered, reading alongside Antigravity's confession as siblings ("every
     // seat confesses what it cannot see"). Not conditional on any scan result.
-    noteText += " CLI usage measured exactly from local logs; Grok's web and X usage " +
-      "leaves no local records and appears in no figure on this page.";
+    noteText += " Grok's web and X usage leaves no local records and appears " +
+      "in no figure on this page.";
 
     noteEl.textContent = noteText;
   }
