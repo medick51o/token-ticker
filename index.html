@@ -499,9 +499,10 @@
 
   .tool-head {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: baseline;
-    gap: 0.5rem;
+    gap: 0.15rem 0.5rem;
     font-size: 0.75rem;
   }
 
@@ -511,6 +512,8 @@
     gap: 0.4rem;
     font-weight: 600;
     letter-spacing: 0.04em;
+    white-space: nowrap;
+    flex: 0 0 auto;
   }
 
   .swatch {
@@ -530,13 +533,14 @@
   }
 
   .swatch.grok {
-    background: #a855f7;
-    box-shadow: 0 0 8px rgba(168, 85, 247, 0.45);
+    background: #0a0a0c;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.22);
   }
 
   .swatch.antigravity {
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent-glow);
+    background: #34a853;
+    box-shadow: 0 0 8px rgba(52, 168, 83, 0.5);
   }
 
   /* Unattributed (banked) carry row — deliberately the dimmest swatch on the
@@ -551,11 +555,24 @@
     font-size: 0.68rem;
     color: var(--text-dim);
     font-variant-numeric: tabular-nums;
+    flex: 1 1 auto;
+    min-width: 55%;
+    margin-left: auto;
   }
 
   .tool-stats .pct {
     color: var(--text-faint);
     margin-left: 0.35rem;
+  }
+
+  /* Fleet-row stat stacking: number+pct on one clean line, status phrases on
+     their own muted line below — kills the ragged mid-phrase wrapping. */
+  .tool-stats .stat-note {
+    display: block;
+    color: var(--text-faint);
+    font-size: 0.62rem;
+    letter-spacing: 0.02em;
+    margin-top: 1px;
   }
 
   .tool-track {
@@ -1000,13 +1017,15 @@
   }
 
   .tool-fill.grok {
-    background: linear-gradient(90deg, #a855f7, #c084fc, #a855f7);
-    box-shadow: 0 0 12px rgba(168, 85, 247, 0.45);
+    background: linear-gradient(90deg, #050507, #2c2c34, #050507);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+    outline: 1px solid rgba(255, 255, 255, 0.3);
+    outline-offset: -1px;
   }
 
   .tool-fill.antigravity {
-    background: linear-gradient(90deg, var(--accent), #5eead4, var(--accent));
-    box-shadow: 0 0 12px var(--accent-glow);
+    background: linear-gradient(90deg, #34a853, #6fdc8f, #34a853);
+    box-shadow: 0 0 12px rgba(52, 168, 83, 0.5);
   }
 
   @keyframes tool-fill-flow {
@@ -1437,7 +1456,7 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-22T21:03:16Z",
+  "as_of": "2026-07-22T21:09:41Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
@@ -1476,7 +1495,7 @@
       "status": "measured",
       "measured_tokens": 7909433494,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-22T21:03:20Z"
+      "scanned_at": "2026-07-22T21:09:44Z"
     },
     {
       "vendor": "OpenAI",
@@ -1485,7 +1504,7 @@
       "status": "measured",
       "measured_tokens": 403407703,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-22T21:03:20Z"
+      "scanned_at": "2026-07-22T21:09:44Z"
     },
     {
       "vendor": "xAI",
@@ -1494,7 +1513,7 @@
       "status": "measured",
       "measured_tokens": 16332067,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-22T21:03:20Z"
+      "scanned_at": "2026-07-22T21:09:44Z"
     },
     {
       "vendor": "Google",
@@ -1503,7 +1522,7 @@
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 1746129,
-      "scanned_at": "2026-07-22T21:03:20Z"
+      "scanned_at": "2026-07-22T21:09:44Z"
     }
   ]
 }
@@ -2072,8 +2091,8 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       const hasComposition = (entry.status === "measured" || entry.status === "dispatch-measured")
         && typeof entry.estimated_tokens === "number" && entry.estimated_tokens > 0
         && typeof entry.measured_tokens === "number";
-      const compPrefix = hasComposition
-        ? "~" + fmt(entry.estimated_tokens) + " transcript-estimated · " : "";
+      const compNote = hasComposition
+        ? '<span class="stat-note">~' + fmt(entry.estimated_tokens) + " transcript-estimated</span>" : "";
 
       // Real percentages, always -- the boss's rule: "if you show a %
       // figure for them, it's the REAL one." toFixed(4) rather than the
@@ -2081,12 +2100,14 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       // be small, and 1 decimal would just print "0.0%" for most of them.
       if (entry.status === "measured") {
         pct = (entry.measured_tokens / total) * 100;
-        statsHtml = compPrefix + fmt(entry.measured_tokens) +
-          '<span class="pct">' + formatPct(pct, 4) + ' · measured — outside headline total</span>';
+        statsHtml = compNote + fmt(entry.measured_tokens) +
+          '<span class="pct">' + formatPct(pct, 4) + "</span>" +
+          '<span class="stat-note">measured — outside headline total</span>';
       } else if (entry.status === "dispatch-measured") {
         pct = (entry.measured_tokens / total) * 100;
-        statsHtml = compPrefix + fmt(entry.measured_tokens) +
-          '<span class="pct">' + formatPct(pct, 4) + ' · dispatch-measured — partial floor</span>';
+        statsHtml = compNote + fmt(entry.measured_tokens) +
+          '<span class="pct">' + formatPct(pct, 4) + "</span>" +
+          '<span class="stat-note">dispatch-measured — partial floor</span>';
       } else if (entry.status === "detected — no measurable token logs" || entry.status === "detected — measurement unavailable") {
         statsHtml = '<span class="pct">' + entry.status + '</span>';
         pct = 0;
