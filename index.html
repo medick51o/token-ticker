@@ -1437,7 +1437,7 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-22T20:59:08Z",
+  "as_of": "2026-07-22T21:03:16Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
@@ -1476,7 +1476,7 @@
       "status": "measured",
       "measured_tokens": 7909433494,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-22T20:59:12Z"
+      "scanned_at": "2026-07-22T21:03:20Z"
     },
     {
       "vendor": "OpenAI",
@@ -1485,7 +1485,7 @@
       "status": "measured",
       "measured_tokens": 403407703,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-22T20:59:12Z"
+      "scanned_at": "2026-07-22T21:03:20Z"
     },
     {
       "vendor": "xAI",
@@ -1494,7 +1494,7 @@
       "status": "measured",
       "measured_tokens": 16332067,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-22T20:59:12Z"
+      "scanned_at": "2026-07-22T21:03:20Z"
     },
     {
       "vendor": "Google",
@@ -1503,7 +1503,7 @@
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 1746129,
-      "scanned_at": "2026-07-22T20:59:12Z"
+      "scanned_at": "2026-07-22T21:03:20Z"
     }
   ]
 }
@@ -2028,7 +2028,7 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
   var toolsHtml =
     '<div class="tool">' +
       '<div class="tool-head">' +
-        '<span class="tool-name"><span class="swatch claude"></span>Claude Code</span>' +
+        '<span class="tool-name"><span class="swatch claude"></span>Anthropic · Claude Code</span>' +
         '<span class="tool-stats">' + fmt(claudeTokens) +
           '<span class="pct">' + formatPct(claudePct, 1) + "</span></span>" +
       "</div>" +
@@ -2036,7 +2036,7 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     "</div>" +
     '<div class="tool">' +
       '<div class="tool-head">' +
-        '<span class="tool-name"><span class="swatch codex"></span>Codex CLI</span>' +
+        '<span class="tool-name"><span class="swatch codex"></span>OpenAI · Codex</span>' +
         '<span class="tool-stats">' + fmt(codexTokens) +
           '<span class="pct">' + formatPct(codexPct, 1) + "</span></span>" +
       "</div>" +
@@ -2046,8 +2046,8 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
   const dynamicFills = [];
   if (DATA && Array.isArray(DATA.fleet)) {
     const TOOL_LABELS = {
-      grok_cli: "Grok CLI",
-      antigravity_cli: "Antigravity CLI"
+      grok_cli: "Grok · Grok CLI",
+      antigravity_cli: "Google · Antigravity CLI (Gemini)"
     };
     const TOOL_SWATCHES = {
       grok_cli: "grok",
@@ -2148,7 +2148,7 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       toolsHtml +=
         '<div class="tool"' + rowTitle + '>' +
           '<div class="tool-head">' +
-            '<span class="tool-name"><span class="swatch ' + swatchClass + '"></span>' + label + " · " + entry.vendor + "</span>" +
+            '<span class="tool-name"><span class="swatch ' + swatchClass + '"></span>' + label + "</span>" +
             '<span class="tool-stats">' + statsHtml + '</span>' +
           "</div>" +
           trackHtml +
@@ -2235,8 +2235,8 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     if (!chipsEl || !noteEl || !Array.isArray(fleet) || fleet.length === 0) return;
 
     const TOOL_LABELS = {
-      claude_code: "Claude Code", codex_cli: "Codex CLI",
-      grok_cli: "Grok CLI", antigravity_cli: "Antigravity CLI"
+      claude_code: "Anthropic · Claude Code", codex_cli: "OpenAI · Codex",
+      grok_cli: "Grok · Grok CLI", antigravity_cli: "Google · Antigravity CLI (Gemini)"
     };
     const CHIP_CLASS = {
       "measured": "measured",
@@ -2296,7 +2296,7 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       const chip = document.createElement("span");
       chip.className = "fleet-chip " + cls;
       chip.title = title;
-      chip.appendChild(document.createTextNode(label + " · " + entry.vendor + " "));
+      chip.appendChild(document.createTextNode(label + " "));
       const em = document.createElement("em");
       em.textContent = text;
       chip.appendChild(em);
