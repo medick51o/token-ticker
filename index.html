@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Token Burn Ticker — 7.37B tokens</title>
-<meta name="description" content="7.37B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 7.37B tokens, measured">
+<title>Token Burn Ticker — 9.04B tokens</title>
+<meta name="description" content="9.04B tokens processed since April 2026 — measured from local CLI logs by a four-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 9.04B tokens, measured">
 <meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -589,6 +589,34 @@
     box-shadow: 0 0 6px rgba(122, 143, 163, 0.25);
   }
 
+  /* THE ANTIGRAVITY COMPOSITION BAR (boss design riff): a two-tone track
+     for any seat with BOTH an estimate and a measured/dispatch-measured
+     figure. Flex-based (not width-based like the base .tool-fill above) so
+     the measured segment's 3px min-width is a genuine, browser-enforced
+     floor -- flexbox shrinks the white segment to make room, no JS pixel
+     math required. White is intentionally flat/plain and unanimated (no
+     shimmer) -- the "ghost flag" for estimated, deliberately calm against
+     the vivid, shimmering, hard-edged color tick of real measured work. */
+  .tool-track.two-tone {
+    display: flex;
+  }
+
+  .composition-fill-estimate {
+    height: 100%;
+    background: #ffffff;
+    flex-shrink: 1;
+    flex-basis: 0%;
+    transition: flex-grow 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .tool-fill.composition-fill-measured {
+    width: auto;
+    flex-shrink: 0;
+    flex-basis: 0%;
+    min-width: 3px;
+    transition: flex-grow 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
   .split-visual {
     display: flex;
     height: 6px;
@@ -877,6 +905,8 @@
     .status-dot { animation: none; }
     .bar,
     .tool-fill,
+    .composition-fill-estimate,
+    .composition-fill-measured,
     .split-visual .claude-slice,
     .split-visual .codex-slice,
     .split-visual .carry-slice,
@@ -1407,17 +1437,17 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-18T22:35:47Z",
+  "as_of": "2026-07-22T20:30:38Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 7367502709,
+    "all": 9044350780,
     "by_tool": {
-      "claude_code": 6639442235,
-      "codex_cli": 287641161
+      "claude_code": 7909433494,
+      "codex_cli": 403407703
     },
     "month_carry": 0,
-    "tool_carry": 440419313
+    "tool_carry": 731509583
   },
   "monthly": [
     {
@@ -1434,28 +1464,28 @@
     },
     {
       "month": "2026-07",
-      "tokens": 5059060788
+      "tokens": 6735908859
     }
   ],
-  "sessions_total": 282,
+  "sessions_total": 363,
   "fleet": [
     {
       "vendor": "Anthropic",
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 6639442235,
+      "measured_tokens": 7909433494,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-18T22:35:50Z"
+      "scanned_at": "2026-07-22T20:30:41Z"
     },
     {
       "vendor": "OpenAI",
       "tool": "codex_cli",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 287641161,
+      "measured_tokens": 403407703,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-18T22:35:50Z"
+      "scanned_at": "2026-07-22T20:30:41Z"
     },
     {
       "vendor": "xAI",
@@ -1464,7 +1494,7 @@
       "status": "measured",
       "measured_tokens": 16332067,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-18T22:35:50Z"
+      "scanned_at": "2026-07-22T20:30:41Z"
     },
     {
       "vendor": "Google",
@@ -1472,8 +1502,8 @@
       "detected": true,
       "status": "dispatch-measured",
       "measured_tokens": 101,
-      "estimated_tokens": 793079,
-      "scanned_at": "2026-07-18T22:35:50Z"
+      "estimated_tokens": 1746129,
+      "scanned_at": "2026-07-22T20:30:41Z"
     }
   ]
 }
@@ -2026,17 +2056,31 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       let statsHtml = "";
       let pct = 0;
 
+      // THE ANTIGRAVITY COMPOSITION BAR (boss design riff, 2026-07-18):
+      // data-driven off the two fields themselves, never a hardcoded tool
+      // name -- ANY fleet entry with BOTH a real measured/dispatch-measured
+      // figure AND an estimate gets the two-tone treatment (today: only
+      // antigravity_cli's shape produces this, but nothing here assumes
+      // that). estimated_tokens is NEVER summed into total/allMeasuredTotal
+      // or any pct -- it only drives this ONE row's own internal white/color
+      // SPLIT, computed against itself (est+measured), not the headline.
+      const hasComposition = (entry.status === "measured" || entry.status === "dispatch-measured")
+        && typeof entry.estimated_tokens === "number" && entry.estimated_tokens > 0
+        && typeof entry.measured_tokens === "number";
+      const compPrefix = hasComposition
+        ? "~" + fmt(entry.estimated_tokens) + " transcript-estimated · " : "";
+
       // Real percentages, always -- the boss's rule: "if you show a %
       // figure for them, it's the REAL one." toFixed(4) rather than the
       // claude/codex convention's toFixed(1): these shares are expected to
       // be small, and 1 decimal would just print "0.0%" for most of them.
       if (entry.status === "measured") {
         pct = (entry.measured_tokens / total) * 100;
-        statsHtml = fmt(entry.measured_tokens) +
+        statsHtml = compPrefix + fmt(entry.measured_tokens) +
           '<span class="pct">' + formatPct(pct, 4) + ' · measured — outside headline total</span>';
       } else if (entry.status === "dispatch-measured") {
         pct = (entry.measured_tokens / total) * 100;
-        statsHtml = fmt(entry.measured_tokens) +
+        statsHtml = compPrefix + fmt(entry.measured_tokens) +
           '<span class="pct">' + formatPct(pct, 4) + ' · dispatch-measured — partial floor</span>';
       } else if (entry.status === "detected — no measurable token logs" || entry.status === "detected — measurement unavailable") {
         statsHtml = '<span class="pct">' + entry.status + '</span>';
@@ -2055,8 +2099,9 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       // PIXELS ONLY, disclosed right here -- the number above is always the
       // true one, never touched by this.
       const isFloored = pct > 0 && pct < 1;
-      const trackTitle = isFloored
-        ? ' title="bar floored for visibility — true share &lt;1%"' : "";
+      // (Composition-mode rows below use a DIFFERENT floor -- a hard 3px CSS
+      // min-width, not this headline-relative one. See hasComposition below.)
+
 
       // Grok's standing disclaimer: a static fact, not scanned data, riding
       // this row's tooltip (and echoed in the fleet note as a sibling
@@ -2066,16 +2111,43 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
           'usage leaves no local records and appears in no figure on this page."'
         : "";
 
+      let trackHtml;
+      if (hasComposition) {
+        // Self-scaled to the estimate+measured PAIR alone -- not the headline, not
+        // allMeasuredTotal. White is deliberately NOT the seat's own color: it's
+        // the ghost flag for "estimated," so the honest story reads as a huge
+        // white mass with a hard receipt-tick of real color, never the reverse.
+        // The measured sliver's ~3px floor is a plain CSS min-width (see
+        // .composition-fill-measured) -- flexbox enforces it natively, shrinking
+        // the white segment to make room, no JS pixel math needed.
+        var compositionTitle = ' title="composition of this seat\'s own work: white = transcript-estimated (may undercount), color = ' +
+          'dispatch-measured API receipts — this bar shows the estimate-to-receipts ratio, ' +
+          'NOT share of the headline"';
+        var compTotal = entry.estimated_tokens + entry.measured_tokens;
+        var estShare = (entry.estimated_tokens / compTotal) * 100;
+        var measuredShare = 100 - estShare;
+        var estId = "fill-" + swatchClass + "-estimate";
+        trackHtml = '<div class="tool-track two-tone"' + compositionTitle + '>' +
+          '<div class="composition-fill-estimate" id="' + estId + '"></div>' +
+          '<div class="tool-fill ' + swatchClass + ' composition-fill-measured" id="' + fillId + '"></div>' +
+        "</div>";
+        dynamicFills.push({ id: estId, flexGrow: estShare });
+        dynamicFills.push({ id: fillId, flexGrow: measuredShare });
+      } else {
+        var trackTitle = isFloored
+          ? ' title="bar floored for visibility — true share &lt;1%"' : "";
+        trackHtml = '<div class="tool-track"' + trackTitle + '><div class="tool-fill ' + swatchClass + '" id="' + fillId + '"></div></div>';
+        dynamicFills.push({ id: fillId, pct: isFloored ? 1 : pct });
+      }
+
       toolsHtml +=
         '<div class="tool"' + rowTitle + '>' +
           '<div class="tool-head">' +
             '<span class="tool-name"><span class="swatch ' + swatchClass + '"></span>' + label + " · " + entry.vendor + "</span>" +
             '<span class="tool-stats">' + statsHtml + '</span>' +
           "</div>" +
-          '<div class="tool-track"' + trackTitle + '><div class="tool-fill ' + swatchClass + '" id="' + fillId + '"></div></div>' +
+          trackHtml +
         "</div>";
-
-      dynamicFills.push({ id: fillId, pct: isFloored ? 1 : pct });
     });
   }
 
@@ -2126,7 +2198,14 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       }
       dynamicFills.forEach(function (fill) {
         const el = document.getElementById(fill.id);
-        if (el) {
+        if (!el) return;
+        if (fill.flexGrow !== undefined) {
+          // Composition-bar segments: set ONLY flex-grow (never the "flex"
+          // shorthand) -- the shorthand would reset flex-shrink/flex-basis
+          // too, clobbering the CSS-defined 3px min-width floor on the
+          // measured segment. See .composition-fill-measured.
+          el.style.flexGrow = String(fill.flexGrow);
+        } else {
           el.style.width = fill.pct + "%";
         }
       });
