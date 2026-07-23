@@ -777,3 +777,30 @@ on all 1,010 claude-corpus files), rolling budget re-anchored, pushed a54e1b2 �
 **7,367,502,709**. The 08:00 machine now has every tool it needs to run green
 unattended: growth proves itself, the known quirk is forgiven under oath, and
 everything else still fails closed.
+
+## EPISODE 10 ADDENDUM — THE GRAPH-OFF & THE TRON CORONATION (2026-07-22, night)
+
+The boss called a GRAPH-OFF for the per-tool split panel: two heats, five seats, blind
+builds, real data. Heat 1 (flush discipline) was ruled too safe; Heat 2 ran with assigned
+lenses and ANIMATION. The boss crowned 🔴⚫ **Butch's (Grok) "FULL TRON ENERGY GRID"**
+(contest/round3/split2-grok.html; galleries + all entries preserved in contest/round3/).
+
+The cat ported the crowned design onto the live data-driven builders (row anatomy:
+swatch|name / tokens+pct / energy conduit / note; LED power strip; corner brackets; energy
+rail; boot cascade with count-ups that LOCK on exact baked values; energy flow arms after
+settle; everything behind prefers-reduced-motion: no-preference). Render-gated desktop +
+390px before review.
+
+🔵 James's coronation review: **SHIP-WITH-FIXES, no BLOCKERs.** His MATERIAL — a boot
+exception could leave rows invisible (opacity:0 waiting on a reveal that never comes) —
+fixed exactly per his shape: settleTools() as the idempotent essential path (try/catch
+armor + 4s watchdog), rows hide only under a JS-added .booting class, per-row count-up
+exception isolation. His MINOR — status sentences forced through the 7ch pct box — fixed
+with .pct.status (full-row, wrapping). His float-precision check cleared the 7.9B count-up
+(exact under Number.MAX_SAFE_INTEGER). NOT PROVEN: low-end-phone animation cost — needs a
+real device trace; queued.
+
+Also this episode, before the coronation: the 4-day stage-4 freeze broken (15/15
+PROVEN-IDENTICAL full-HMAC, boss-worded approval, 9.04B shipped), methods went PUBLIC and
+the page now links all four (README + hyperlinked credits + shop-row swap), naming
+convention went vendor-first, Grok wears black / Google wears green.
