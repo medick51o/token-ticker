@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Token Burn Ticker — 9.04B tokens</title>
-<meta name="description" content="9.04B tokens processed since April 2026 — headline measured from local CLI logs by a four-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 9.04B tokens, measured">
+<title>Token Burn Ticker — 9.09B tokens</title>
+<meta name="description" content="9.09B tokens processed since April 2026 — headline measured from local CLI logs by a four-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 9.09B tokens, measured">
 <meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -491,36 +491,103 @@
     gap: 0.5rem;
   }
 
+  /* ═══ TRON POWER CONSOLE ROWS — Butch's crowned design (contest R3·H2),
+     adapted onto the live data-driven builders. Row anatomy, identical for
+     every seat: [swatch|name] / [tokens…pct] / [energy conduit] / [note]. ═══ */
   .tool {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-
-  .tool-head {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 0.15rem 0.5rem;
-    font-size: 0.75rem;
+    display: grid;
+    grid-template-columns: 10px minmax(0, 1fr);
+    grid-template-rows: auto auto 10px auto;
+    column-gap: 0.5rem;
+    row-gap: 0.2rem;
+    align-items: center;
   }
 
   .tool-name {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 0.7rem;
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
+    color: var(--text);
+    line-height: 1.25;
     white-space: nowrap;
-    flex: 0 0 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
   }
 
+  .nums {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 0.55rem;
+    min-width: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nums .tokens {
+    font-size: 0.66rem;
+    color: var(--text-dim);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .nums .pct {
+    flex: 0 0 7ch;
+    width: 7ch;
+    font-size: 0.62rem;
+    color: var(--text-faint);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* Status sentences (e.g. "detected — no measurable token logs") are prose,
+     not a percentage — they get the whole numeric row, wrapping allowed
+     (James's coronation MINOR: never force a sentence through a 7ch box). */
+  .nums .pct.status {
+    flex: 1 1 auto;
+    width: auto;
+    white-space: normal;
+  }
+
+  .tool-note {
+    grid-column: 2;
+    grid-row: 4;
+    font-size: 0.56rem;
+    letter-spacing: 0.02em;
+    color: var(--text-faint);
+    line-height: 1.4;
+  }
+  .tool-note:empty { display: none; }
+
   .swatch {
+    grid-column: 1;
+    grid-row: 1;
     width: 8px;
     height: 8px;
     border-radius: 1px;
+    align-self: center;
+    position: relative;
   }
+
+  /* power-core pulse ring around each swatch (motion layer arms it) */
+  .swatch::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 2px;
+    border: 1px solid currentColor;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .swatch.claude::after { color: var(--claude); }
+  .swatch.codex::after  { color: var(--codex); }
+  .swatch.grok::after   { color: #fff; }
+  .swatch.antigravity::after { color: #34a853; }
+  .swatch.carry::after  { color: var(--text-dim); }
 
   .swatch.claude {
     background: var(--claude);
@@ -550,60 +617,94 @@
     box-shadow: 0 0 6px rgba(122, 143, 163, 0.3);
   }
 
-  .tool-stats {
-    text-align: right;
-    font-size: 0.68rem;
-    color: var(--text-dim);
-    font-variant-numeric: tabular-nums;
-    flex: 1 1 auto;
-    min-width: 55%;
-    margin-left: auto;
-  }
-
-  .tool-stats .pct {
-    color: var(--text-faint);
-    margin-left: 0.35rem;
-  }
-
-  /* Fleet-row stat stacking: number+pct on one clean line, status phrases on
-     their own muted line below — kills the ragged mid-phrase wrapping. */
-  .tool-stats .stat-note {
-    display: block;
-    color: var(--text-faint);
-    font-size: 0.62rem;
-    letter-spacing: 0.02em;
-    margin-top: 1px;
-  }
-
+  /* Energy conduit track (Butch: faint tick grating + inner void shadow) */
   .tool-track {
+    grid-column: 2;
+    grid-row: 3;
     height: 10px;
-    background: var(--bg);
+    background:
+      repeating-linear-gradient(90deg, rgba(46, 230, 168, 0.04) 0 1px, transparent 1px 6px),
+      var(--bg);
     border: 1px solid var(--border);
     border-radius: 2px;
     overflow: hidden;
     position: relative;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.55);
   }
 
   .tool-fill {
     height: 100%;
     width: 0;
+    min-width: 4px;
     border-radius: 1px;
-    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    overflow: hidden;
+    background-size: 200% 100%;
+    transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .tool-fill.claude {
-    background: linear-gradient(90deg, var(--claude), #f0a080);
-    box-shadow: 0 0 12px var(--claude-glow);
+    background-image: linear-gradient(90deg, var(--claude), #f0a080, var(--claude));
+    box-shadow: 0 0 14px var(--claude-glow);
   }
 
   .tool-fill.codex {
-    background: linear-gradient(90deg, var(--codex), #a0b4ff);
-    box-shadow: 0 0 12px var(--codex-glow);
+    background-image: linear-gradient(90deg, var(--codex), #a0b4ff, var(--codex));
+    box-shadow: 0 0 14px var(--codex-glow);
+  }
+
+  .tool-fill.grok {
+    background-image: linear-gradient(90deg, #050507, #1a1a22, #050507);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.55),
+      0 0 12px rgba(255, 255, 255, 0.22);
+  }
+
+  .tool-fill.antigravity {
+    background-image: linear-gradient(90deg, #34a853, #6fdc8f, #34a853);
+    box-shadow: 0 0 12px rgba(52, 168, 83, 0.5);
   }
 
   .tool-fill.carry {
-    background: linear-gradient(90deg, var(--text-dim), #55677a);
-    box-shadow: 0 0 6px rgba(122, 143, 163, 0.25);
+    background-image: linear-gradient(90deg, var(--text-dim), #55677a, var(--text-dim));
+    box-shadow: 0 0 8px rgba(122, 143, 163, 0.25);
+  }
+
+  /* Energy head — bright tip riding the leading edge (armed by .flowing) */
+  .tool-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 3px;
+    background: #fff;
+    box-shadow: 0 0 8px #fff, 0 0 16px currentColor;
+    opacity: 0;
+    border-radius: 0 1px 1px 0;
+  }
+  .tool-fill.claude::after { color: #f0a080; }
+  .tool-fill.codex::after  { color: #a0b4ff; }
+  .tool-fill.grok::after   { color: #fff; }
+  .tool-fill.antigravity::after { color: #6fdc8f; }
+  .tool-fill.carry::after  { color: var(--text-dim); }
+
+  /* Flowing energy band inside the fill (armed by .flowing) */
+  .tool-fill::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.18) 45%,
+      rgba(255, 255, 255, 0.35) 50%,
+      rgba(255, 255, 255, 0.18) 55%,
+      transparent 100%);
+    background-size: 60% 100%;
+    background-repeat: no-repeat;
+    background-position: -60% 0;
+    opacity: 0;
+    pointer-events: none;
   }
 
   /* THE ANTIGRAVITY COMPOSITION BAR (boss design riff): a two-tone track
@@ -623,7 +724,21 @@
     background: #ffffff;
     flex-shrink: 1;
     flex-basis: 0%;
+    position: relative;
+    overflow: hidden;
     transition: flex-grow 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* cyan energy band drifting through the white estimate mass (armed by .flowing) */
+  .composition-fill-estimate::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(46, 230, 168, 0.15) 50%, transparent 100%);
+    background-size: 50% 100%;
+    background-repeat: no-repeat;
+    background-position: -50% 0;
+    opacity: 0;
   }
 
   .tool-fill.composition-fill-measured {
@@ -633,6 +748,86 @@
     min-width: 3px;
     transition: flex-grow 1.2s cubic-bezier(0.22, 1, 0.36, 1);
   }
+
+  /* ── Power console chrome: corner brackets, energy rail, LED strip ── */
+  .panel[aria-labelledby="tools-title"] {
+    position: relative;
+    overflow: hidden;
+  }
+  .panel[aria-labelledby="tools-title"]::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--accent) 20%, #6ff0c8 50%, var(--accent) 80%, transparent 100%);
+    opacity: 0.65;
+    background-size: 200% 100%;
+    pointer-events: none;
+  }
+  .pbracket {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .pbracket.tl { top: -1px; left: -1px; border-top: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+  .pbracket.tr { top: -1px; right: -1px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+  .pbracket.bl { bottom: -1px; left: -1px; border-bottom: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+  .pbracket.br { bottom: -1px; right: -1px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+
+  .energy-rail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .energy-rail span {
+    display: block;
+    width: 28%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #fff, transparent);
+    opacity: 0.85;
+    transform: translateX(-120%);
+  }
+
+  .power-strip {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0.85rem;
+    padding: 0.28rem 0.35rem;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+  .led {
+    width: 5px;
+    height: 5px;
+    border-radius: 1px;
+    flex: 0 0 auto;
+    opacity: 0.35;
+  }
+  .led.on { opacity: 1; }
+  .led.claude { background: var(--claude); box-shadow: 0 0 6px var(--claude-glow); }
+  .led.codex  { background: var(--codex);  box-shadow: 0 0 6px var(--codex-glow); }
+  .led.grok   { background: #fff; box-shadow: 0 0 6px rgba(255, 255, 255, 0.45); }
+  .led.antigravity { background: #34a853; box-shadow: 0 0 6px rgba(52, 168, 83, 0.55); }
+  .led.carry  { background: var(--text-dim); box-shadow: 0 0 5px rgba(122, 143, 163, 0.3); }
+  .power-label {
+    margin-left: auto;
+    font-size: 0.52rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .power-label .live { color: var(--accent); }
 
   .split-visual {
     display: flex;
@@ -991,65 +1186,105 @@
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
   }
 
-  /* Per-tool split animations */
-  .tool-fill {
-    position: relative;
-    background-size: 200% 100% !important;
-    animation: tool-fill-flow 4s linear infinite;
+  /* ── Per-tool split MOTION LAYER (Butch's boot cascade + energy flow).
+     Everything here lives behind no-preference: reduced-motion users get the
+     settled console instantly, per the stillness blankets below. ── */
+  @media (prefers-reduced-motion: no-preference) {
+    /* Rows hide ONLY under the JS-added .booting class (James's coronation
+       MATERIAL): no JS, or a boot that dies, means fully visible rows. */
+    .tools.booting .tool {
+      opacity: 0;
+      transform: translateX(-6px);
+    }
+    .tools.booting .tool.revealed,
+    .tool.revealed {
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .energy-rail span {
+      animation: rail-packet 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    .panel[aria-labelledby="tools-title"]::after {
+      animation: rail-shimmer 4s linear infinite;
+    }
+
+    .swatch::after {
+      animation: core-ring 2.8s ease-in-out infinite;
+    }
+    .tools .tool:nth-child(1) .swatch::after { animation-delay: 0s; }
+    .tools .tool:nth-child(2) .swatch::after { animation-delay: 0.35s; }
+    .tools .tool:nth-child(3) .swatch::after { animation-delay: 0.7s; }
+    .tools .tool:nth-child(4) .swatch::after { animation-delay: 1.05s; }
+    .tools .tool:nth-child(5) .swatch::after { animation-delay: 1.4s; }
+
+    .led.on { animation: led-pulse 2.2s ease-in-out infinite; }
+    .power-label .live { animation: live-blink 1.8s step-end infinite; }
+
+    /* Energy flow arms only after a fill settles (.flowing added by boot JS) */
+    .tool-fill.flowing {
+      animation: energy-flow 3.2s linear infinite;
+    }
+    .tool-fill.flowing::before {
+      opacity: 1;
+      animation: energy-band 2.4s ease-in-out infinite;
+    }
+    .tool-fill.flowing::after {
+      opacity: 0.9;
+      animation: tip-pulse 1.4s ease-in-out infinite alternate;
+    }
+
+    /* Carry: quieter flow — banked energy, not loud (Cassidy's mandate holds) */
+    .tool-fill.carry.flowing { animation-duration: 5.5s; }
+    .tool-fill.carry.flowing::before { animation-duration: 4s; opacity: 0.55; }
+    .tool-fill.carry.flowing::after { opacity: 0.55; animation: none; }
+
+    .composition-fill-estimate.flowing::before {
+      opacity: 1;
+      animation: energy-band 3s ease-in-out infinite;
+    }
   }
 
-  .tool-fill.claude {
-    background: linear-gradient(90deg, var(--claude), #f0a080, var(--claude));
-    box-shadow: 0 0 12px var(--claude-glow);
+  @keyframes rail-packet {
+    0%   { transform: translateX(-120%); }
+    100% { transform: translateX(420%); }
+  }
+  @keyframes rail-shimmer {
+    0%   { background-position: 0% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes core-ring {
+    0%, 100% { opacity: 0; transform: scale(0.85); }
+    40%      { opacity: 0.45; transform: scale(1); }
+    70%      { opacity: 0; transform: scale(1.25); }
+  }
+  @keyframes led-pulse {
+    0%, 100% { opacity: 0.75; filter: brightness(1); }
+    50%      { opacity: 1; filter: brightness(1.35); }
+  }
+  @keyframes live-blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.35; }
+  }
+  @keyframes energy-flow {
+    0%   { background-position: 0% 0; }
+    100% { background-position: -200% 0; }
+  }
+  @keyframes energy-band {
+    0%   { background-position: -60% 0; }
+    100% { background-position: 160% 0; }
+  }
+  @keyframes tip-pulse {
+    0%   { opacity: 0.55; box-shadow: 0 0 6px #fff, 0 0 10px currentColor; }
+    100% { opacity: 1;    box-shadow: 0 0 10px #fff, 0 0 20px currentColor; }
   }
 
-  .tool-fill.codex {
-    background: linear-gradient(90deg, var(--codex), #a0b4ff, var(--codex));
-    box-shadow: 0 0 12px var(--codex-glow);
-  }
-
-  /* Carry row: no flowing shimmer -- the ONE fill deliberately left calm,
-     round 2's "don't make it loud" mandate applied literally. */
-  .tool-fill.carry {
-    animation: none;
-    background: linear-gradient(90deg, var(--text-dim), #55677a);
-    box-shadow: 0 0 6px rgba(122, 143, 163, 0.25);
-  }
-
-  .tool-fill.grok {
-    background: linear-gradient(90deg, #050507, #2c2c34, #050507);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
-    outline: 1px solid rgba(255, 255, 255, 0.3);
-    outline-offset: -1px;
-  }
-
-  .tool-fill.antigravity {
-    background: linear-gradient(90deg, #34a853, #6fdc8f, #34a853);
-    box-shadow: 0 0 12px rgba(52, 168, 83, 0.5);
-  }
-
-  @keyframes tool-fill-flow {
-    0% { background-position: 0% 0%; }
-    100% { background-position: -200% 0%; }
-  }
-
-  /* Glowing head cap for tool-fill bar */
-  .tool-fill::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 2px;
-    background: #ffffff;
-    box-shadow: 0 0 8px #ffffff, 0 0 15px currentColor;
-    opacity: 0.9;
-    animation: tool-cap-pulse 1.5s ease-in-out infinite alternate;
-  }
-
-  @keyframes tool-cap-pulse {
-    0% { opacity: 0.6; }
-    100% { opacity: 1; }
+  /* Reduced motion: the console arrives settled — visible tip, lit LEDs */
+  @media (prefers-reduced-motion: reduce) {
+    .tool-fill::after { opacity: 0.7; }
+    .led { opacity: 1; }
+    .energy-rail { display: none; }
   }
 
   /* Split visual slice breathing */
@@ -1410,10 +1645,16 @@
     </section>
 
     <section class="panel" aria-labelledby="tools-title">
+      <span class="pbracket tl" aria-hidden="true"></span>
+      <span class="pbracket tr" aria-hidden="true"></span>
+      <span class="pbracket bl" aria-hidden="true"></span>
+      <span class="pbracket br" aria-hidden="true"></span>
+      <div class="energy-rail" aria-hidden="true"><span></span></div>
       <h2 class="panel-title" id="tools-title">
         Per-tool split
         <span class="tag">CLI ONLY</span>
       </h2>
+      <div class="power-strip" aria-hidden="true" id="power-strip"><span class="power-label">GRID <span class="live" id="grid-status">···</span></span></div>
       <div class="tools" id="tools"></div>
       <div class="fleet">
         <div class="fleet-title">THE FLEET — FOUR CLIs, ONE CREW</div>
@@ -1456,14 +1697,14 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-07-22T21:09:41Z",
+  "as_of": "2026-07-23T06:01:26Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 9044350780,
+    "all": 9089571819,
     "by_tool": {
-      "claude_code": 7909433494,
-      "codex_cli": 403407703
+      "claude_code": 7942977836,
+      "codex_cli": 415084400
     },
     "month_carry": 0,
     "tool_carry": 731509583
@@ -1483,28 +1724,28 @@
     },
     {
       "month": "2026-07",
-      "tokens": 6735908859
+      "tokens": 6781129898
     }
   ],
-  "sessions_total": 363,
+  "sessions_total": 372,
   "fleet": [
     {
       "vendor": "Anthropic",
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 7909433494,
+      "measured_tokens": 7942977836,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-22T21:09:44Z"
+      "scanned_at": "2026-07-23T06:01:30Z"
     },
     {
       "vendor": "OpenAI",
       "tool": "codex_cli",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 403407703,
+      "measured_tokens": 415084400,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-22T21:09:44Z"
+      "scanned_at": "2026-07-23T06:01:30Z"
     },
     {
       "vendor": "xAI",
@@ -1513,7 +1754,7 @@
       "status": "measured",
       "measured_tokens": 16332067,
       "estimated_tokens": null,
-      "scanned_at": "2026-07-22T21:09:44Z"
+      "scanned_at": "2026-07-23T06:01:30Z"
     },
     {
       "vendor": "Google",
@@ -1521,8 +1762,8 @@
       "detected": true,
       "status": "dispatch-measured",
       "measured_tokens": 101,
-      "estimated_tokens": 1746129,
-      "scanned_at": "2026-07-22T21:09:44Z"
+      "estimated_tokens": 1769754,
+      "scanned_at": "2026-07-23T06:01:30Z"
     }
   ]
 }
@@ -2034,32 +2275,30 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
   // Codex) -- built here as its own variable, appended after the fleet rows
   // below rather than inline, same vanish-at-zero conditional as always.
   const carryRowHtml = toolCarry > 0 ?
-    '<div class="tool" title="measured work whose attribution was lost to pruning">' +
-      '<div class="tool-head">' +
-        '<span class="tool-name"><span class="swatch carry"></span>Unattributed (banked)</span>' +
-        '<span class="tool-stats">' + fmt(toolCarry) +
-          '<span class="pct">' + formatPct(toolCarryPct, 1) + "</span></span>" +
-      "</div>" +
-      '<div class="tool-track"><div class="tool-fill carry" id="fill-carry"></div></div>' +
+    '<div class="tool" data-seat="carry" title="measured work whose attribution was lost to pruning">' +
+      '<span class="swatch carry" aria-hidden="true"></span>' +
+      '<span class="tool-name">Unattributed (banked)</span>' +
+      '<div class="nums"><span class="tokens" data-count="' + toolCarry + '">' + fmt(toolCarry) + '</span>' +
+        '<span class="pct">' + formatPct(toolCarryPct, 1) + "</span></div>" +
+      '<div class="tool-track" aria-hidden="true"><div class="tool-fill carry" id="fill-carry"></div></div>' +
+      '<div class="tool-note">measured work whose attribution was lost to pruning</div>' +
     "</div>"
   : "";
 
   var toolsHtml =
-    '<div class="tool">' +
-      '<div class="tool-head">' +
-        '<span class="tool-name"><span class="swatch claude"></span>Anthropic · Claude Code</span>' +
-        '<span class="tool-stats">' + fmt(claudeTokens) +
-          '<span class="pct">' + formatPct(claudePct, 1) + "</span></span>" +
-      "</div>" +
-      '<div class="tool-track"><div class="tool-fill claude" id="fill-claude"></div></div>' +
+    '<div class="tool" data-seat="claude">' +
+      '<span class="swatch claude" aria-hidden="true"></span>' +
+      '<span class="tool-name">Anthropic · Claude Code</span>' +
+      '<div class="nums"><span class="tokens" data-count="' + claudeTokens + '">' + fmt(claudeTokens) + '</span>' +
+        '<span class="pct">' + formatPct(claudePct, 1) + "</span></div>" +
+      '<div class="tool-track" aria-hidden="true"><div class="tool-fill claude" id="fill-claude"></div></div>' +
     "</div>" +
-    '<div class="tool">' +
-      '<div class="tool-head">' +
-        '<span class="tool-name"><span class="swatch codex"></span>OpenAI · Codex</span>' +
-        '<span class="tool-stats">' + fmt(codexTokens) +
-          '<span class="pct">' + formatPct(codexPct, 1) + "</span></span>" +
-      "</div>" +
-      '<div class="tool-track"><div class="tool-fill codex" id="fill-codex"></div></div>' +
+    '<div class="tool" data-seat="codex">' +
+      '<span class="swatch codex" aria-hidden="true"></span>' +
+      '<span class="tool-name">OpenAI · Codex</span>' +
+      '<div class="nums"><span class="tokens" data-count="' + codexTokens + '">' + fmt(codexTokens) + '</span>' +
+        '<span class="pct">' + formatPct(codexPct, 1) + "</span></div>" +
+      '<div class="tool-track" aria-hidden="true"><div class="tool-fill codex" id="fill-codex"></div></div>' +
     "</div>";
 
   const dynamicFills = [];
@@ -2077,7 +2316,6 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       const entry = DATA.fleet.find(function (f) { return f.tool === toolKey; });
       if (!entry) return;
 
-      let statsHtml = "";
       let pct = 0;
 
       // THE ANTIGRAVITY COMPOSITION BAR (boss design riff, 2026-07-18):
@@ -2092,24 +2330,28 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
         && typeof entry.estimated_tokens === "number" && entry.estimated_tokens > 0
         && typeof entry.measured_tokens === "number";
       const compNote = hasComposition
-        ? '<span class="stat-note">~' + fmt(entry.estimated_tokens) + " transcript-estimated</span>" : "";
+        ? "~" + fmt(entry.estimated_tokens) + " transcript-estimated · " : "";
 
       // Real percentages, always -- the boss's rule: "if you show a %
       // figure for them, it's the REAL one." toFixed(4) rather than the
       // claude/codex convention's toFixed(1): these shares are expected to
       // be small, and 1 decimal would just print "0.0%" for most of them.
+      let tokensHtml, pctText, noteText, pctClass = "pct";
       if (entry.status === "measured") {
         pct = (entry.measured_tokens / total) * 100;
-        statsHtml = compNote + fmt(entry.measured_tokens) +
-          '<span class="pct">' + formatPct(pct, 4) + "</span>" +
-          '<span class="stat-note">measured — outside headline total</span>';
+        tokensHtml = '<span class="tokens" data-count="' + entry.measured_tokens + '">' + fmt(entry.measured_tokens) + "</span>";
+        pctText = formatPct(pct, 4);
+        noteText = compNote + "measured — outside headline total";
       } else if (entry.status === "dispatch-measured") {
         pct = (entry.measured_tokens / total) * 100;
-        statsHtml = compNote + fmt(entry.measured_tokens) +
-          '<span class="pct">' + formatPct(pct, 4) + "</span>" +
-          '<span class="stat-note">dispatch-measured — partial floor</span>';
+        tokensHtml = '<span class="tokens" data-count="' + entry.measured_tokens + '">' + fmt(entry.measured_tokens) + "</span>";
+        pctText = formatPct(pct, 4);
+        noteText = compNote + "dispatch-measured — partial floor";
       } else if (entry.status === "detected — no measurable token logs" || entry.status === "detected — measurement unavailable") {
-        statsHtml = '<span class="pct">' + entry.status + '</span>';
+        tokensHtml = "";
+        pctText = entry.status;
+        pctClass = "pct status";
+        noteText = "";
         pct = 0;
       } else {
         return;
@@ -2167,12 +2409,12 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
       }
 
       toolsHtml +=
-        '<div class="tool"' + rowTitle + '>' +
-          '<div class="tool-head">' +
-            '<span class="tool-name"><span class="swatch ' + swatchClass + '"></span>' + label + "</span>" +
-            '<span class="tool-stats">' + statsHtml + '</span>' +
-          "</div>" +
+        '<div class="tool" data-seat="' + swatchClass + '"' + rowTitle + '>' +
+          '<span class="swatch ' + swatchClass + '" aria-hidden="true"></span>' +
+          '<span class="tool-name">' + label + "</span>" +
+          '<div class="nums">' + tokensHtml + '<span class="' + pctClass + '">' + pctText + "</span></div>" +
           trackHtml +
+          (noteText ? '<div class="tool-note">' + noteText + "</div>" : "") +
         "</div>";
     });
   }
@@ -2214,35 +2456,132 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
 
   toolsEl.innerHTML = toolsHtml;
 
-  requestAnimationFrame(function () {
-    setTimeout(function () {
-      document.getElementById("fill-claude").style.width = claudePct + "%";
-      document.getElementById("fill-codex").style.width = codexPct + "%";
-      const fillCarry = document.getElementById("fill-carry");
-      if (fillCarry) {
-        fillCarry.style.width = toolCarryPct + "%";
+  // ── TRON BOOT CASCADE (Butch's crowned design, contest R3·H2): one LED
+  // per rendered row, rows reveal staggered, tokens count up and LOCK on the
+  // exact baked values (never re-derived), conduits energize via the same
+  // width/flex-grow application as always, then the flow arms. Reduced
+  // motion: everything settles instantly, no loops.
+  const toolRows = Array.prototype.slice.call(toolsEl.querySelectorAll(".tool"));
+  const powerStrip = document.getElementById("power-strip");
+  const gridStatus = document.getElementById("grid-status");
+
+  function applyFills() {
+    document.getElementById("fill-claude").style.width = claudePct + "%";
+    document.getElementById("fill-codex").style.width = codexPct + "%";
+    const fillCarry = document.getElementById("fill-carry");
+    if (fillCarry) {
+      fillCarry.style.width = toolCarryPct + "%";
+    }
+    dynamicFills.forEach(function (fill) {
+      const el = document.getElementById(fill.id);
+      if (!el) return;
+      if (fill.flexGrow !== undefined) {
+        // Composition-bar segments: set ONLY flex-grow (never the "flex"
+        // shorthand) -- the shorthand would reset flex-shrink/flex-basis
+        // too, clobbering the CSS-defined 3px min-width floor on the
+        // measured segment. See .composition-fill-measured.
+        el.style.flexGrow = String(fill.flexGrow);
+      } else {
+        el.style.width = fill.pct + "%";
       }
-      dynamicFills.forEach(function (fill) {
-        const el = document.getElementById(fill.id);
-        if (!el) return;
-        if (fill.flexGrow !== undefined) {
-          // Composition-bar segments: set ONLY flex-grow (never the "flex"
-          // shorthand) -- the shorthand would reset flex-shrink/flex-basis
-          // too, clobbering the CSS-defined 3px min-width floor on the
-          // measured segment. See .composition-fill-measured.
-          el.style.flexGrow = String(fill.flexGrow);
-        } else {
-          el.style.width = fill.pct + "%";
-        }
+    });
+    stripFills.forEach(function (fill) {
+      const el = document.getElementById(fill.id);
+      if (el) {
+        el.style.flex = String(fill.pct);
+      }
+    });
+  }
+
+  // THE SETTLED STATE IS THE ESSENTIAL PATH (James's coronation MATERIAL):
+  // idempotent, exception-armored, watchdog-scheduled. Whatever the boot
+  // theater does or fails to do, this lands the console on the exact baked
+  // values with every row visible.
+  let toolsSettled = false;
+  function settleTools() {
+    if (toolsSettled) return;
+    toolsSettled = true;
+    toolsEl.classList.remove("booting");
+    toolRows.forEach(function (row) {
+      row.classList.add("revealed");
+      const tok = row.querySelector(".tokens[data-count]");
+      if (tok) tok.textContent = fmt(parseFloat(tok.getAttribute("data-count")));
+    });
+    if (powerStrip) {
+      Array.prototype.slice.call(powerStrip.querySelectorAll(".led"))
+        .forEach(function (led) { led.classList.add("on"); });
+    }
+    applyFills();
+    if (gridStatus) gridStatus.textContent = "LIVE";
+    if (!reduceMotion) {
+      Array.prototype.slice.call(toolsEl.querySelectorAll(".tool-fill, .composition-fill-estimate"))
+        .forEach(function (el) { el.classList.add("flowing"); });
+    }
+  }
+
+  function countUp(el, target, duration, delay) {
+    const startAt = performance.now() + delay;
+    function frame(now) {
+      try {
+        if (now < startAt) { requestAnimationFrame(frame); return; }
+        const t = Math.min(1, (now - startAt) / duration);
+        const e = 1 - Math.pow(1 - t, 3);
+        el.textContent = fmt(target * e);
+        if (t < 1) requestAnimationFrame(frame);
+        else el.textContent = fmt(target); // lock the exact baked value
+      } catch (err) {
+        el.textContent = fmt(target); // a dying animation still lands the truth
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  try {
+    if (powerStrip) {
+      const powerLabel = powerStrip.querySelector(".power-label");
+      toolRows.forEach(function (row) {
+        const led = document.createElement("span");
+        led.className = "led " + (row.getAttribute("data-seat") || "carry");
+        powerStrip.insertBefore(led, powerLabel);
       });
-      stripFills.forEach(function (fill) {
-        const el = document.getElementById(fill.id);
-        if (el) {
-          el.style.flex = String(fill.pct);
-        }
+    }
+
+    if (reduceMotion) {
+      settleTools();
+    } else {
+      toolsEl.classList.add("booting");
+      requestAnimationFrame(function () {
+        setTimeout(function () {
+          try {
+            const leds = powerStrip
+              ? Array.prototype.slice.call(powerStrip.querySelectorAll(".led")) : [];
+            if (gridStatus) gridStatus.textContent = "BOOT";
+
+            toolRows.forEach(function (row, i) {
+              const delay = 180 + i * 140;
+              setTimeout(function () {
+                row.classList.add("revealed");
+                if (leds[i]) leds[i].classList.add("on");
+              }, delay);
+              try {
+                const tok = row.querySelector(".tokens[data-count]");
+                if (tok) countUp(tok, parseFloat(tok.getAttribute("data-count")), 900, delay + 80);
+              } catch (err) { /* one bad count-up never aborts the cascade */ }
+            });
+
+            applyFills();
+            setTimeout(settleTools, 180 + toolRows.length * 140 + 1100);
+          } catch (err) {
+            settleTools();
+          }
+        }, 220);
       });
-    }, reduceMotion ? 0 : 220);
-  });
+      // watchdog: whatever happens above, the console settles
+      setTimeout(settleTools, 4000);
+    }
+  } catch (err) {
+    settleTools();
+  }
 
   /* Fleet block — rendered FROM the ledger's own "fleet" key (a machine-verified
      scan the refresh pipeline performs every run), not hand-written claims. If
