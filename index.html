@@ -1091,25 +1091,6 @@
     color: var(--text-dim);
   }
 
-  .canon-plaque {
-    margin-top: 1.4rem;
-    padding: 0.7rem 0.9rem;
-    max-width: 44rem;
-    font-size: 0.64rem;
-    line-height: 1.6;
-    letter-spacing: 0.06em;
-    color: var(--text-faint);
-    border: 1px solid var(--border);
-    border-left: 2px solid var(--accent);
-    background: var(--bg-elevated);
-  }
-
-  .canon-plaque strong {
-    color: var(--accent-text);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-  }
-
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .scan-beam,
@@ -1686,24 +1667,19 @@
       this shop doesn't show in public. Willing to share demonstrations of the work —
       serious inquiries and recruiters only. The Issues tab is the front door.
     </p>
-    <div class="canon-plaque">
-      ⚜ CANON — the coronation portrait, 2026-07-18 —
-      <strong>6,922,988,366</strong> tokens. This plaque never updates.
-      Whatever the number above says now is how far it's come since.
-    </div>
   </footer>
 </div>
 
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-08-09T21:38:36Z",
+  "as_of": "2026-08-09T21:40:27Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 16269192477,
+    "all": 16270915870,
     "by_tool": {
-      "claude_code": 13239771437,
+      "claude_code": 13241494830,
       "codex_cli": 1128960325
     },
     "month_carry": 0,
@@ -1728,7 +1704,7 @@
     },
     {
       "month": "2026-08",
-      "tokens": 5687470671
+      "tokens": 5689194064
     }
   ],
   "sessions_total": 624,
@@ -1738,9 +1714,9 @@
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 13239771437,
+      "measured_tokens": 13241494830,
       "estimated_tokens": null,
-      "scanned_at": "2026-08-09T21:38:40Z"
+      "scanned_at": "2026-08-09T21:40:29Z"
     },
     {
       "vendor": "OpenAI",
@@ -1749,7 +1725,7 @@
       "status": "measured",
       "measured_tokens": 1128960325,
       "estimated_tokens": null,
-      "scanned_at": "2026-08-09T21:38:40Z"
+      "scanned_at": "2026-08-09T21:40:29Z"
     },
     {
       "vendor": "xAI",
@@ -1758,7 +1734,7 @@
       "status": "measured",
       "measured_tokens": 16332067,
       "estimated_tokens": null,
-      "scanned_at": "2026-08-09T21:38:40Z"
+      "scanned_at": "2026-08-09T21:40:29Z"
     },
     {
       "vendor": "Google",
@@ -1767,7 +1743,7 @@
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 4452165,
-      "scanned_at": "2026-08-09T21:38:40Z"
+      "scanned_at": "2026-08-09T21:40:29Z"
     }
   ]
 }
@@ -1817,7 +1793,7 @@
   }
 
   const CREDITS = `Built by Medick (medick51o) with a self-orchestrating multi-model crew:
-  🟠 Fable 5 + Claude agents (Anthropic) — orchestration, coaching + measurement
+  🟠 Claude Code (Anthropic)             — orchestration, coaching + measurement
   🟣 Grok 4.5 (xAI)                      — build
   🔵 Codex (OpenAI)                      — adversarial review
   🟢 Antigravity (Google)                — tribunal review
