@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Token Burn Ticker — 16.27B tokens</title>
-<meta name="description" content="16.27B tokens processed since April 2026 — headline measured from local CLI logs by a four-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 16.27B tokens, measured">
+<title>Token Burn Ticker — 22.95B tokens</title>
+<meta name="description" content="22.95B tokens processed since April 2026 — headline measured from local CLI logs by a four-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 22.95B tokens, measured">
 <meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -1673,17 +1673,17 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-08-09T21:40:27Z",
+  "as_of": "2026-08-26T21:32:40Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 16270915870,
+    "all": 22948816744,
     "by_tool": {
-      "claude_code": 13241494830,
-      "codex_cli": 1128960325
+      "claude_code": 15136397180,
+      "codex_cli": 1447913901
     },
     "month_carry": 0,
-    "tool_carry": 1900460715
+    "tool_carry": 6364505663
   },
   "monthly": [
     {
@@ -1704,28 +1704,28 @@
     },
     {
       "month": "2026-08",
-      "tokens": 5689194064
+      "tokens": 12367094938
     }
   ],
-  "sessions_total": 624,
+  "sessions_total": 710,
   "fleet": [
     {
       "vendor": "Anthropic",
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 13241494830,
+      "measured_tokens": 15136397180,
       "estimated_tokens": null,
-      "scanned_at": "2026-08-09T21:40:29Z"
+      "scanned_at": "2026-08-26T21:32:45Z"
     },
     {
       "vendor": "OpenAI",
       "tool": "codex_cli",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 1128960325,
+      "measured_tokens": 1447913901,
       "estimated_tokens": null,
-      "scanned_at": "2026-08-09T21:40:29Z"
+      "scanned_at": "2026-08-26T21:32:45Z"
     },
     {
       "vendor": "xAI",
@@ -1734,7 +1734,7 @@
       "status": "measured",
       "measured_tokens": 16332067,
       "estimated_tokens": null,
-      "scanned_at": "2026-08-09T21:40:29Z"
+      "scanned_at": "2026-08-26T21:32:45Z"
     },
     {
       "vendor": "Google",
@@ -1742,8 +1742,8 @@
       "detected": true,
       "status": "dispatch-measured",
       "measured_tokens": 101,
-      "estimated_tokens": 4452165,
-      "scanned_at": "2026-08-09T21:40:29Z"
+      "estimated_tokens": 9082193,
+      "scanned_at": "2026-08-26T21:32:45Z"
     }
   ]
 }
