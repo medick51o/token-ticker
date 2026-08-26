@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Token Burn Ticker — 22.95B tokens</title>
-<meta name="description" content="22.95B tokens processed since April 2026 — headline measured from local CLI logs by a four-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 22.95B tokens, measured">
+<title>Token Burn Ticker — 22.96B tokens</title>
+<meta name="description" content="22.96B tokens processed since April 2026 — headline measured from local CLI logs by a four-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 22.96B tokens, measured">
 <meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
@@ -587,6 +587,7 @@
   .swatch.codex::after  { color: var(--codex); }
   .swatch.grok::after   { color: #fff; }
   .swatch.antigravity::after { color: #34a853; }
+  .swatch.cursor::after { color: #a78bfa; }
   .swatch.carry::after  { color: var(--text-dim); }
 
   .swatch.claude {
@@ -608,6 +609,11 @@
   .swatch.antigravity {
     background: #34a853;
     box-shadow: 0 0 8px rgba(52, 168, 83, 0.5);
+  }
+
+  .swatch.cursor {
+    background: #a78bfa;
+    box-shadow: 0 0 8px rgba(167, 139, 250, 0.5);
   }
 
   /* Unattributed (banked) carry row — deliberately the dimmest swatch on the
@@ -665,6 +671,11 @@
     box-shadow: 0 0 12px rgba(52, 168, 83, 0.5);
   }
 
+  .tool-fill.cursor {
+    background-image: linear-gradient(90deg, #a78bfa, #d4c5fd, #a78bfa);
+    box-shadow: 0 0 12px rgba(167, 139, 250, 0.5);
+  }
+
   .tool-fill.carry {
     background-image: linear-gradient(90deg, var(--text-dim), #55677a, var(--text-dim));
     box-shadow: 0 0 8px rgba(122, 143, 163, 0.25);
@@ -687,6 +698,7 @@
   .tool-fill.codex::after  { color: #a0b4ff; }
   .tool-fill.grok::after   { color: #fff; }
   .tool-fill.antigravity::after { color: #6fdc8f; }
+  .tool-fill.cursor::after { color: #d4c5fd; }
   .tool-fill.carry::after  { color: var(--text-dim); }
 
   /* Flowing energy band inside the fill (armed by .flowing) */
@@ -1673,13 +1685,13 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-08-26T21:32:40Z",
+  "as_of": "2026-08-26T21:41:24Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 22948816744,
+    "all": 22956632084,
     "by_tool": {
-      "claude_code": 15136397180,
+      "claude_code": 15144212520,
       "codex_cli": 1447913901
     },
     "month_carry": 0,
@@ -1704,7 +1716,7 @@
     },
     {
       "month": "2026-08",
-      "tokens": 12367094938
+      "tokens": 12374910278
     }
   ],
   "sessions_total": 710,
@@ -1714,9 +1726,9 @@
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 15136397180,
+      "measured_tokens": 15144212520,
       "estimated_tokens": null,
-      "scanned_at": "2026-08-26T21:32:45Z"
+      "scanned_at": "2026-08-26T21:41:29Z"
     },
     {
       "vendor": "OpenAI",
@@ -1725,7 +1737,7 @@
       "status": "measured",
       "measured_tokens": 1447913901,
       "estimated_tokens": null,
-      "scanned_at": "2026-08-26T21:32:45Z"
+      "scanned_at": "2026-08-26T21:41:29Z"
     },
     {
       "vendor": "xAI",
@@ -1734,7 +1746,7 @@
       "status": "measured",
       "measured_tokens": 16332067,
       "estimated_tokens": null,
-      "scanned_at": "2026-08-26T21:32:45Z"
+      "scanned_at": "2026-08-26T21:41:29Z"
     },
     {
       "vendor": "Google",
@@ -1743,7 +1755,16 @@
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 9082193,
-      "scanned_at": "2026-08-26T21:32:45Z"
+      "scanned_at": "2026-08-26T21:41:29Z"
+    },
+    {
+      "vendor": "Cursor",
+      "tool": "cursor_cli",
+      "detected": true,
+      "status": "detected — no measurable token logs",
+      "measured_tokens": null,
+      "estimated_tokens": 452396,
+      "scanned_at": "2026-08-26T21:41:29Z"
     }
   ]
 }
@@ -2249,7 +2270,7 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     });
   }
   const allMeasuredTotal = total + externalFleetTotal;
-  const STRIP_SWATCH = { grok_cli: "grok", antigravity_cli: "antigravity" };
+  const STRIP_SWATCH = { grok_cli: "grok", antigravity_cli: "antigravity", cursor_cli: "cursor" };
 
   // Boss cleanup: carry moves to the BOTTOM of the row list (was right after
   // Codex) -- built here as its own variable, appended after the fleet rows
@@ -2285,14 +2306,16 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
   if (DATA && Array.isArray(DATA.fleet)) {
     const TOOL_LABELS = {
       grok_cli: "Grok · Grok CLI",
-      antigravity_cli: "Google · Antigravity CLI (Gemini)"
+      antigravity_cli: "Google · Antigravity CLI (Gemini)",
+      cursor_cli: "Cursor · Cursor CLI"
     };
     const TOOL_SWATCHES = {
       grok_cli: "grok",
-      antigravity_cli: "antigravity"
+      antigravity_cli: "antigravity",
+      cursor_cli: "cursor"
     };
 
-    ["grok_cli", "antigravity_cli"].forEach(function (toolKey) {
+    ["grok_cli", "antigravity_cli", "cursor_cli"].forEach(function (toolKey) {
       const entry = DATA.fleet.find(function (f) { return f.tool === toolKey; });
       if (!entry) return;
 
@@ -2327,6 +2350,17 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
         tokensHtml = '<span class="tokens" data-count="' + entry.measured_tokens + '">' + fmt(entry.measured_tokens) + "</span>";
         pctText = formatPct(pct, 4);
         noteText = compNote + "dispatch-measured — partial floor";
+      } else if ((entry.status === "detected — no measurable token logs" || entry.status === "detected — measurement unavailable")
+                 && typeof entry.estimated_tokens === "number" && entry.estimated_tokens > 0) {
+        // Estimate-only row (no measured/dispatch-measured baseline to pair
+        // it with, unlike Antigravity's composition case above): the figure
+        // itself is still real data, just never summed into total/pct here
+        // -- pct is computed for display only, against the headline total,
+        // same denominator convention as the measured/dispatch branches.
+        pct = (entry.estimated_tokens / total) * 100;
+        tokensHtml = '<span class="tokens" data-count="' + entry.estimated_tokens + '">~' + fmt(entry.estimated_tokens) + "</span>";
+        pctText = formatPct(pct, 4);
+        noteText = "estimated from local transcripts (chars÷4) — outside headline, never summed";
       } else if (entry.status === "detected — no measurable token logs" || entry.status === "detected — measurement unavailable") {
         tokensHtml = "";
         pctText = entry.status;
@@ -2576,7 +2610,8 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
 
     const TOOL_LABELS = {
       claude_code: "Anthropic · Claude Code", codex_cli: "OpenAI · Codex",
-      grok_cli: "Grok · Grok CLI", antigravity_cli: "Google · Antigravity CLI (Gemini)"
+      grok_cli: "Grok · Grok CLI", antigravity_cli: "Google · Antigravity CLI (Gemini)",
+      cursor_cli: "Cursor · Cursor CLI"
     };
     const CHIP_CLASS = {
       "measured": "measured",
