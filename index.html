@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Token Burn Ticker — 22.96B tokens</title>
-<meta name="description" content="22.96B tokens processed since April 2026 — headline measured from local CLI logs by a four-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 22.96B tokens, measured">
-<meta property="og:description" content="A four-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
+<title>Token Burn Ticker — 22.97B tokens</title>
+<meta name="description" content="22.97B tokens processed since April 2026 — headline measured from local CLI logs by a five-CLI, multi-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 22.97B tokens, measured">
+<meta property="og:description" content="A five-CLI, multi-vendor AI crew built, reviewed, and tribunaled this ticker. Every total measured from local logs. Overkill on purpose.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <meta property="og:url" content="https://medick51o.github.io/token-ticker/">
@@ -883,7 +883,7 @@
     flex: 0;
   }
 
-  /* Fleet block — four CLIs, one crew */
+  /* Fleet block — five CLIs, one crew */
   .fleet {
     display: flex;
     flex-direction: column;
@@ -1650,9 +1650,9 @@
       <div class="power-strip" aria-hidden="true" id="power-strip"><span class="power-label">GRID <span class="live" id="grid-status">···</span></span></div>
       <div class="tools" id="tools"></div>
       <div class="fleet">
-        <div class="fleet-title">THE FLEET — FOUR CLIs, ONE CREW</div>
+        <div class="fleet-title">THE FLEET — FIVE CLIs, ONE CREW</div>
         <div class="fleet-chips" id="fleet-chips"></div>
-        <p class="fleet-note" id="fleet-note">All four work this shop in one orchestrated
+        <p class="fleet-note" id="fleet-note">All five work this shop in one orchestrated
         multi-agent environment. Fleet scan data unavailable in this snapshot.</p>
       </div>
     </section>
@@ -1685,14 +1685,14 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-08-26T21:41:24Z",
+  "as_of": "2026-08-26T21:53:07Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 22956632084,
+    "all": 22973285119,
     "by_tool": {
-      "claude_code": 15144212520,
-      "codex_cli": 1447913901
+      "claude_code": 15154193153,
+      "codex_cli": 1454586303
     },
     "month_carry": 0,
     "tool_carry": 6364505663
@@ -1716,28 +1716,28 @@
     },
     {
       "month": "2026-08",
-      "tokens": 12374910278
+      "tokens": 12391563313
     }
   ],
-  "sessions_total": 710,
+  "sessions_total": 711,
   "fleet": [
     {
       "vendor": "Anthropic",
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 15144212520,
+      "measured_tokens": 15154193153,
       "estimated_tokens": null,
-      "scanned_at": "2026-08-26T21:41:29Z"
+      "scanned_at": "2026-08-26T21:53:12Z"
     },
     {
       "vendor": "OpenAI",
       "tool": "codex_cli",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 1447913901,
+      "measured_tokens": 1454586303,
       "estimated_tokens": null,
-      "scanned_at": "2026-08-26T21:41:29Z"
+      "scanned_at": "2026-08-26T21:53:12Z"
     },
     {
       "vendor": "xAI",
@@ -1746,7 +1746,7 @@
       "status": "measured",
       "measured_tokens": 16332067,
       "estimated_tokens": null,
-      "scanned_at": "2026-08-26T21:41:29Z"
+      "scanned_at": "2026-08-26T21:53:12Z"
     },
     {
       "vendor": "Google",
@@ -1755,7 +1755,7 @@
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 9082193,
-      "scanned_at": "2026-08-26T21:41:29Z"
+      "scanned_at": "2026-08-26T21:53:12Z"
     },
     {
       "vendor": "Cursor",
@@ -1764,7 +1764,7 @@
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
       "estimated_tokens": 452396,
-      "scanned_at": "2026-08-26T21:41:29Z"
+      "scanned_at": "2026-08-26T21:53:12Z"
     }
   ]
 }
@@ -1814,17 +1814,23 @@
   }
 
   const CREDITS = `Built by Medick (medick51o) with a self-orchestrating multi-model crew:
-  🟠 Claude Code (Anthropic)             — orchestration, coaching + measurement
-  🟣 Grok 4.5 (xAI)                      — build
+  🟠 Claude Code (Anthropic)             — conductor: orchestration, coaching + measurement
   🔵 Codex (OpenAI)                      — adversarial review
-  🟢 Antigravity (Google)                — tribunal review
+  ⚫ Grok CLI (xAI)                      — build + refute
+  🟢 Antigravity (Google · Gemini)       — tribunal review
+  🟣 Cursor CLI                          — the wardrobe seat: one CLI, many rented brains
+       (Kimi · GLM · Composer · Grok · Gemini · GPT · Claude — swapped per job)
+The shop evolved: the rival seats now run as persistent MCP servers inside
+the conductor's own session — long-running conversations, not one-shot
+amnesia calls. Same laws as ever: reviewers come in blind, and every
+ruling becomes a named test.
 Governed by the Anderson Method (human↔model intent) and the
 Team Rocket Method (now public).
 Every total is measured, not estimated; rates and percentages are
 calculated from those measured totals.
 
 Could one model in one CLI have built this? Easily.
-Was a four-vendor crew overkill for a token counter? Completely — on purpose.
+Was a five-CLI crew overkill for a token counter? Completely — on purpose.
 If this is what I do to count my tokens, imagine what I do when it counts.
 Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
 
@@ -2456,8 +2462,8 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
 
   const stripFills = [];
   var stripHtml = '<div class="split-visual" aria-hidden="true" title="all measured work across ' +
-    'the four seats — sub-1% seats shown at a 1% visual floor; Grok + Antigravity are measured ' +
-    'outside the headline total.">';
+    'the seats — sub-1% seats shown at a 1% visual floor; seats beyond Claude Code + Codex are ' +
+    'measured outside the headline total.">';
   stripSlices.forEach(function (slice) {
     const pct = (slice.tokens / allMeasuredTotal) * 100;
     const flooredPct = (pct > 0 && pct < 1) ? 1 : pct;
@@ -2629,7 +2635,11 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     };
 
     let measuredCount = 0, dispatchCount = 0, estimateCount = 0, scannedAt = null;
-    let estimatedTokensValue = null; // captured for the visible disclaimer sentence below
+    // Per-tool estimate capture (BUG FIX 2026-08-26: a single captured value
+    // meant the LAST estimating tool's figure rode a sentence hardcoded to
+    // name Antigravity — with two estimating seats that misattributed
+    // Cursor's number. Each estimating seat now gets its own confession.)
+    const estimateByTool = {};
     chipsEl.innerHTML = ""; // defense-in-depth: build chips via DOM/textContent, never innerHTML+string-concat
     fleet.forEach(function (entry) {
       const label = TOOL_LABELS[entry.tool] || entry.tool;
@@ -2642,7 +2652,7 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
         // side-by-side. Two figures, clearly severed, estimate first for
         // magnitude -- NEITHER folds into measured_tokens or the headline.
         estimateCount++;
-        estimatedTokensValue = entry.estimated_tokens;
+        estimateByTool[entry.tool] = entry.estimated_tokens;
         const estAbbrev = "~" + abbreviate(entry.estimated_tokens);
         const dispatchPart = entry.status === "dispatch-measured"
           ? fmt(entry.measured_tokens) + " dispatch-measured"
@@ -2681,24 +2691,32 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     const otherCount = fleet.length - measuredCount - dispatchCount - estimateCount;
     const scanDate = scannedAt ? scannedAt.slice(0, 10) : null;
     const clauses = [measuredCount + " fully measured from local logs"];
-    if (estimateCount > 0) clauses.push(estimateCount + " transcript-estimated (dispatch-measured floor included)");
+    if (estimateCount > 0) clauses.push(estimateCount + " transcript-estimated");
     if (dispatchCount > 0) clauses.push(dispatchCount + " dispatch-measured (partial floor)");
     if (otherCount > 0) clauses.push(otherCount + " detected but unlogged");
+    const COUNT_WORDS = { 4: "four", 5: "five", 6: "six", 7: "seven" };
     let noteText =
-      "All four work this shop in one orchestrated multi-agent environment — " +
+      "All " + (COUNT_WORDS[fleet.length] || fleet.length) +
+      " work this shop in one orchestrated multi-agent environment — " +
       clauses.join(", ") + ". The headline stays Claude Code + Codex CLI only — " +
       "a floor, not a ceiling." +
       (scanDate ? " Scanned " + scanDate + "." : "");
 
     // Boss's addendum (trimmed per his order 2026-07-22): a VISIBLE disclaimer,
     // not just a chip tooltip -- rendered only when an estimate actually exists
-    // this scan, {EST} live from the data.
-    if (estimatedTokensValue !== null) {
-      noteText += " Antigravity carries ~" + abbreviate(estimatedTokensValue) +
+    // this scan, figures live from the data, each seat named for ITS OWN number.
+    if (typeof estimateByTool.antigravity_cli === "number") {
+      noteText += " Antigravity carries ~" + abbreviate(estimateByTool.antigravity_cli) +
         " more tokens of estimated usage, in no total above: its local artifacts " +
         "expose no per-token accounting, so the figure is reconstructed from " +
         "transcripts (history excluded — may undercount), and estimates never " +
         "enter the measured totals. It's real work. It just can't be sworn to.";
+    }
+    if (typeof estimateByTool.cursor_cli === "number") {
+      noteText += " Cursor CLI carries ~" + abbreviate(estimateByTool.cursor_cli) +
+        " estimated the same way: its agent reports exact usage live at call " +
+        "time but persists none of it to disk, so only its saved transcripts " +
+        "can be counted — visible text only, chars÷4, never in the headline.";
     }
 
     // Grok's sibling disclaimer: a standing fact, not scanned data -- always
