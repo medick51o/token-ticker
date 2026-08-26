@@ -804,3 +804,106 @@ Also this episode, before the coronation: the 4-day stage-4 freeze broken (15/15
 PROVEN-IDENTICAL full-HMAC, boss-worded approval, 9.04B shipped), methods went PUBLIC and
 the page now links all four (README + hyperlinked credits + shop-row swap), naming
 convention went vendor-first, Grok wears black / Google wears green.
+
+---
+
+## EPISODE 11 — "THE DOOR" (2026-07-23, boss at the wheel)
+
+**Mission:** the LinkedIn clickable image — the og:image door refreshed + packaging for the
+eventual post. Boss-summoned a 3-vendor council mid-episode.
+
+**Council (one round, distinct lenses, all GO-WITH-CHANGES):** Codex = platform verification
+(web-cited); Grok = attention craft; Gemini = adversarial refute. Full reads + synthesis in
+`council-linkedin/`. Settled: static og:image door confirmed (no animated cards on LinkedIn);
+raw-screenshot card killed 2-0 → purpose-built hero; **Ep2 "link in first comment" law
+OVERTURNED** (2026 data: body links modest cost, comment links ~3.4× worse clicks — the post,
+when it fires, puts the URL in the BODY); feed video = 4:5 1080×1350 ~6-8s, auto-loops; door
+order = push → Post Inspector → pin Featured (pins freeze thumbnails). Named fork (digits-hero
+vs evergreen-no-number) went to the boss: **ruled R1 = THE BRIDGE** — exact digits + tagline
+"This total is already higher." (a card that admits it's behind can never be stale).
+
+**Shipped:** `social-card.png` → Bridge hero (1200×630, capture-hero-card.py re-using the live
+render, panels/chrome hidden, tagline injected) — commit 6ad6b44, live-verified byte-match.
+Worktree clean. index.html untouched → no repin needed.
+
+**Staged for the post (boss's hands):** `council-linkedin/ticker-odometer-tron-45.mp4` (4:5,
+6s, boot cascade w/ graphs growing, "MEASURED. STILL CLIMBING." overlay) + landscape draft.
+New rigs kept: capture-hero-card.py · record-odometer.py · record-odometer-45.py (localhost
+serve → counter never pings).
+
+**Still queued from council:** custom-link-button check (Premium-gated?), Contact-info website
+add (free), PDF-carousel story post as its own episode, post-copy remix (R4: D-open + Bridge
+line + one architecture sentence), commit-metadata audit (Cassidy), and the standing items:
+collector-bound carve fix (greenlit), notify-on-abort, phantom toucher (struck AGAIN 07-23
+15:01 — strike ~5).
+
+**EPISODE 11 CLOSE — VICTORY (boss's word, same night).** Post Inspector confirmed DEAD
+platform-wide (blank shell, empty DOM, Chrome + Edge) — and unnecessary: the ticker URL had
+never been shared on LinkedIn, so the Featured-pin scrape came back FRESH with the Bridge
+card on the first try (James's frozen-thumbnail caution + the ?src=li cache-buster stayed
+holstered, unused). The boss pinned it and rebuilt the whole Featured shelf in the same
+sitting: medicks-might OUT, the method family IN — final arc Ticker → team-rocket-method →
+andersons-dispatch-deck → team-rocket-takes-over → anderson-method → LastEpoch-Mods, with
+stale-proof pin copy (no perishable numbers in frozen text; the og-image carries the number
+and refreshes on re-scrape). The clickable door the boss asked for at cold open is LIVE on
+his profile, wearing tonight's card, pointing at the live page, counter armed behind it.
+
+---
+
+## EPISODES 12–13 (2026-07-28 / 2026-07-31) — logged in their own docs
+
+Episode 12 "THE FOREVER FIX" (three stacked root causes behind the recurring daily abort,
+the big bank correction, the B1–B8 build order): `EP12-SYNTHESIS.md`. Episode 13 "ROOKIE
+NUMBERS" (fleet_receipt.py, the four-bug cross-vendor council, the "July vs July is a label,
+not a benchmark" governing finding): `EP13-SYNTHESIS.md` + `EP13-DRAFTS.md`. Both episodes'
+boss rulings were still open when Episode 14 began.
+
+---
+
+## EPISODE 14 — "THE PATCH & THE FIFTH SEAT" (2026-08-26)
+
+**Mission (boss, two orders same day):** "it doesn't seem to update on the github
+automatically" → find and kill the freeze for real; then "add cursor to our setup … a lot
+has changed how we code the past two months … want that somewhat shared for the people who
+come visit my page" → fold the shop's new shape into the page's public presentation.
+
+**The freeze:** the 08:00 task had aborted EVERY morning since 08-09 (17 days) on Episode
+12's RC-2 — the CLI's own transcript retention (`cleanupPeriodDays`, default 30) pruning the
+very files the collector measures. **Root cause fixed at the source this episode:** retention
+on the scan box set effectively-never (`36500`; note `0` is now rejected as invalid by the
+CLI rather than silently disabling persistence). Does not resurrect already-pruned files —
+THE BANK already holds those months — but ends the daily recurrence. First unattended green
+08:00 run = the real verification. A fresh one-shot `approve-inventory.json` (boss's worded
+approval on record, investigation written into the file per Episode 10 precedent) cleared
+the standing anomaly; **shipped a19b454 → 22,948,816,744 live.** RC-1 (identical-touch
+structural carve, B1–B8) remains open and separate.
+
+**The fifth seat:** Cursor CLI (`cursor-agent`) joined the fleet. Investigated honestly
+first: it reports exact usage (input/output/cache tokens) in its stream-json result event —
+but only to that process's stdout at call time; NOTHING is persisted to disk (checked its
+chat stores, code-tracking DB, and account surfaces). Its saved agent transcripts carry
+message text only. So Cursor entered under the Antigravity precedent: `estimate_cursor_
+transcripts()` (visible text, chars÷4, deliberate underestimate), a labeled estimate-only
+row + fleet chip, never summed into any total. This required a genuinely new render branch —
+the old row code only showed estimates PAIRED with a dispatch-measured floor (Antigravity's
+shape) and would have silently blanked Cursor's number. New violet seat colors. `--repin`
+per standing law. **Shipped 88ba9b0 → 22,956,632,084 live, browser-verified.**
+
+**Same-day bug, found and fixed by the crew's own review pass:** with TWO estimating seats,
+the fleet-note's single captured estimate value made the page say "Antigravity carries
+~452.4K" using CURSOR's figure — a misattribution shipped for roughly an hour. The note now
+carries per-seat confessions, each seat named for its own number only.
+
+**The presentation overhaul (this entry's second half):** the page's story had frozen in
+July while the shop moved on. Updated: FOUR CLIs → FIVE across the fleet block, meta/og
+descriptions, and the credits crew roster — which now tells the two-month delta honestly:
+the rival seats run as persistent MCP servers inside the conductor's session (long-running
+conversations, not one-shot amnesia calls), and Cursor serves as the wardrobe seat — one
+CLI renting many brains (Kimi, GLM, Composer, Grok, Gemini, GPT, Claude — swapped per job).
+Fleet-note counts made data-driven so a sixth seat never re-runs this errand. Known
+non-item: the combined strip shows measured/dispatch seats only, so estimate-only Cursor
+correctly has no slice (and no slice CSS was speculatively added).
+
+**Open after this episode:** first unattended 08:00 green run (the retention fix's proof);
+B1–B8 / RC-1 forever-fix; Episode 12's R2 honesty ruling; Episode 13's four rulings;
+Cursor in `fleet_receipt.py` (the receipt tool never got the fifth seat this episode).
