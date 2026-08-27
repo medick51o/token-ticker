@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DRAIN THE BAY — Token Burn Ticker</title>
+<style>
+  :root{
+    --bg:#05070f; --card:rgba(9,15,31,.82); --edge:rgba(53,230,255,.28);
+    --cyan:#35e6ff; --mag:#ff3fa4; --amber:#ffc857; --ink:#dff3fb; --dim:#7d94a8;
+    --mono:"Cascadia Code",Consolas,"SF Mono",ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{background:var(--bg)}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    min-height:100vh; overflow-x:hidden;
+  }
+  /* ---------- SCENE ---------- */
+  .scene{position:relative; width:100%; max-width:1600px; margin:0 auto;}
+  .scene svg{display:block; width:100%; height:auto;}
+  /* ---------- HUD ---------- */
+  .hud{position:absolute; inset:0 0 auto 0; display:flex; justify-content:space-between;
+       align-items:flex-start; padding:18px 20px; gap:16px; pointer-events:none;}
+  .card{background:var(--card); border:1px solid var(--edge); border-radius:12px;
+        padding:14px 18px; box-shadow:0 0 22px rgba(53,230,255,.10), inset 0 0 40px rgba(53,230,255,.03);
+        backdrop-filter:blur(4px);}
+  .kicker{font-family:var(--mono); font-size:10px; letter-spacing:.22em; color:var(--mag); text-transform:uppercase}
+  h1{font-size:clamp(18px,2.4vw,26px); letter-spacing:.14em; font-weight:800; margin:2px 0 6px;
+     color:#fff; text-shadow:0 0 14px rgba(53,230,255,.55)}
+  h1 small{font-weight:400; letter-spacing:.04em; color:var(--dim); font-size:.55em}
+  .counter{font-family:var(--mono); font-variant-numeric:tabular-nums;
+           font-size:clamp(26px,4.6vw,52px); font-weight:700; color:var(--cyan);
+           text-shadow:0 0 18px rgba(53,230,255,.75), 0 0 46px rgba(53,230,255,.3); line-height:1.05}
+  .under{font-family:var(--mono); font-size:11px; color:var(--dim); margin-top:5px}
+  .linkline{font-family:var(--mono); font-size:11px; color:var(--amber); margin-top:7px;
+            border-top:1px dashed rgba(255,200,87,.35); padding-top:6px}
+  .meter{min-width:190px; text-align:right; pointer-events:auto}
+  .meter .lb{font-family:var(--mono); font-size:10px; letter-spacing:.18em; color:var(--dim)}
+  .meter .big{display:flex; align-items:center; justify-content:flex-end; gap:12px; margin:4px 0 6px}
+  #pct{font-family:var(--mono); font-size:clamp(24px,3.4vw,40px); font-weight:700; color:var(--cyan);
+       text-shadow:0 0 14px rgba(53,230,255,.6)}
+  .meterbar{width:12px; height:64px; border:1px solid var(--edge); border-radius:6px;
+            position:relative; overflow:hidden; background:rgba(6,12,24,.8)}
+  #pctfill{position:absolute; left:0; right:0; bottom:0; height:100%;
+           background:linear-gradient(#7deeff,#0e7f9e)}
+  .fishline{font-family:var(--mono); font-size:11px; color:var(--ink)}
+  .fishline b{color:var(--mag)}
+  #replay{margin-top:9px; font-family:var(--mono); font-size:11px; letter-spacing:.06em;
+          color:var(--cyan); background:rgba(53,230,255,.08); border:1px solid var(--edge);
+          border-radius:7px; padding:6px 11px; cursor:pointer}
+  #replay:hover{background:rgba(53,230,255,.18)}
+  /* ---------- STATS ---------- */
+  .stats{max-width:1160px; margin:26px auto 10px; padding:0 20px;
+         display:grid; grid-template-columns:1fr 1.3fr; gap:18px}
+  .stat h2{font-size:14px; letter-spacing:.16em; color:#fff; margin-bottom:2px}
+  .stat h2 span{color:var(--dim); font-weight:400; letter-spacing:.04em; font-size:11px; margin-left:8px}
+  .note{font-family:var(--mono); font-size:10.5px; color:var(--dim); margin-top:10px}
+  .bars{display:flex; gap:14px; margin-top:14px}
+  .bar{flex:1; text-align:center; font-family:var(--mono)}
+  .bar .col{height:110px; display:flex; align-items:flex-end}
+  .bar .col i{display:block; width:100%; min-height:2px; border-radius:3px 3px 0 0;
+              background:linear-gradient(#7deeff,#0e7f9e); box-shadow:0 0 12px rgba(53,230,255,.35);
+              transform-origin:bottom; animation:grow .9s .4s ease-out backwards}
+  .bar b{display:block; font-size:11px; color:var(--cyan); margin-bottom:4px}
+  .bar label{display:block; font-size:10px; color:var(--dim); margin-top:5px; letter-spacing:.14em}
+  @keyframes grow{from{transform:scaleY(0)}}
+  .row{display:grid; grid-template-columns:110px 1fr 64px auto; gap:10px; align-items:center;
+       font-family:var(--mono); font-size:12px; margin-top:9px}
+  .row .who{color:#fff}
+  .row .track{height:10px; border-radius:5px; background:rgba(125,148,168,.12); overflow:hidden; position:relative}
+  .row .track i{position:absolute; inset:0 auto 0 0; border-radius:5px; min-width:3px;
+                background:linear-gradient(90deg,#0e7f9e,#7deeff); box-shadow:0 0 10px rgba(53,230,255,.4);
+                transform-origin:left; animation:growx .9s .5s ease-out backwards}
+  .row.est .track i{background:repeating-linear-gradient(90deg,#8a6a1f 0 4px,#c79a3a 4px 8px)}
+  @keyframes growx{from{transform:scaleX(0)}}
+  .row .val{text-align:right; color:var(--cyan)}
+  .row.est .val{color:var(--amber)}
+  .row .tag{font-size:10px; color:var(--dim); white-space:nowrap}
+  footer{max-width:1160px; margin:6px auto 34px; padding:0 20px;
+         font-family:var(--mono); font-size:11px; color:var(--dim)}
+  footer .tag1{color:var(--ink)}
+  /* ---------- SVG ANIMATIONS ---------- */
+  svg .anim,svg .pos,svg .sign,svg .fanb,svg #beam,svg #boatTilt{transform-box:fill-box; transform-origin:50% 50%}
+  .wave{animation:lap 5s linear infinite}
+  @keyframes lap{to{transform:translateX(-40px)}}
+  body.ready .fish .pos{transition:transform .55s cubic-bezier(.3,1.5,.55,1)}
+  .fish.swim .anim{animation:swim 3.2s ease-in-out infinite}
+  @keyframes swim{0%,100%{transform:translateY(0) rotate(3deg)}50%{transform:translateY(-7px) rotate(-4deg)}}
+  .fish.flop .anim{animation:flop .85s ease-in-out infinite; transform-origin:50% 65%}
+  @keyframes flop{
+    0%{transform:rotate(-64deg) translateY(0)}
+    22%{transform:rotate(-24deg) translateY(-10px)}
+    46%{transform:rotate(50deg) translateY(0)}
+    66%{transform:rotate(18deg) translateY(-7px)}
+    100%{transform:rotate(-64deg) translateY(0)}}
+  .fish.cool.flop .anim{animation:none; transform:rotate(86deg)}
+  .fish .cap,#gull .cap{opacity:0; transition:opacity .5s .3s}
+  .fish.flop .cap,#gull.in .cap{opacity:1}
+  .sign{transform:scale(0); transform-origin:50% 100%; transition:transform .5s cubic-bezier(.34,1.7,.5,1)}
+  .sign.up{transform:scale(1)}
+  #gull{opacity:0; transition:opacity .8s}
+  #gull.in{opacity:1}
+  #boatTilt{transition:transform 1.2s ease}
+  #boatTilt.tilt{transform:rotate(13deg)}
+  #boatTilt .cap{opacity:0; transition:opacity .4s .8s}
+  #boatTilt.tilt .cap{opacity:1}
+  #strawCap{opacity:0; transition:opacity .5s}
+  #strawCap.in{opacity:1}
+  #bubbles{transition:opacity .8s}
+  #bubbles.off{opacity:0}
+  .bub{animation:bubrise 2.1s linear infinite}
+  @keyframes bubrise{0%{transform:translateY(0);opacity:0}15%{opacity:.8}100%{transform:translateY(-30px);opacity:0}}
+  .flowline{stroke-dasharray:10 12; animation:flow 1.2s linear infinite}
+  @keyframes flow{to{stroke-dashoffset:-88}}
+  .strawflow{stroke-dasharray:12 16; animation:flow2 1.5s linear infinite}
+  @keyframes flow2{to{stroke-dashoffset:-84}}
+  #beam{animation:nod 1.6s ease-in-out infinite alternate}
+  @keyframes nod{from{transform:rotate(6deg)}to{transform:rotate(-6deg)}}
+  #rod{animation:rodbob 1.6s ease-in-out infinite alternate}
+  @keyframes rodbob{from{transform:translateY(0)}to{transform:translateY(9px)}}
+  .fanb{animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .blink{animation:blink 1.4s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.12}}
+  .tw{animation:tw 2.8s ease-in-out infinite}
+  @keyframes tw{0%,100%{opacity:.25}50%{opacity:1}}
+  .fogA{animation:drift 46s ease-in-out infinite alternate}
+  .fogB{animation:drift 62s ease-in-out -14s infinite alternate-reverse}
+  @keyframes drift{to{transform:translateX(95px)}}
+  .tok{animation:rise 3.4s linear infinite; opacity:0}
+  @keyframes rise{0%{transform:translateY(0);opacity:0}15%{opacity:.9}100%{transform:translateY(-115px);opacity:0}}
+  .flick{animation:flick 3.6s infinite}
+  @keyframes flick{0%,7%,9%,100%{opacity:1}8%{opacity:.2}52%,56%{opacity:1}54%{opacity:.3}}
+  .beacon{animation:blink 2.6s infinite}
+  .tickLb{font:700 10px var(--mono); fill:#bfefff}
+  /* ---------- SMALL SCREENS ---------- */
+  @media (max-width:880px){
+    .hud{position:static; flex-direction:column}
+    .meter{text-align:left}
+    .meter .big{justify-content:flex-start}
+    .stats{grid-template-columns:1fr}
+    .row{grid-template-columns:96px 1fr 60px; }
+    .row .tag{display:none}
+  }
+  /* ---------- REDUCED MOTION ---------- */
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none!important; transition:none!important}
+    .fish.flop .anim{transform:rotate(-70deg)}
+    .fish.cool.flop .anim{transform:rotate(86deg)}
+    #boatTilt.tilt{transform:rotate(13deg)}
+    .tok,#replay{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+<svg viewBox="0 0 1440 640" role="img" aria-label="San Francisco Bay being drained by AI datacenters as the token counter climbs">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#060a1c"/>
+      <stop offset=".55" stop-color="#0e2140"/>
+      <stop offset="1" stop-color="#1b3a52"/>
+    </linearGradient>
+    <linearGradient id="mud" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b2036"/>
+      <stop offset="1" stop-color="#120d1a"/>
+    </linearGradient>
+    <linearGradient id="wg" gradientUnits="userSpaceOnUse" x1="0" y1="360" x2="0" y2="700">
+      <stop offset="0" stop-color="#64e7f5" stop-opacity=".92"/>
+      <stop offset=".45" stop-color="#12809f" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#073b52" stop-opacity=".95"/>
+    </linearGradient>
+    <pattern id="winP" width="8" height="12" patternUnits="userSpaceOnUse">
+      <rect x="1.5" y="2" width="3" height="5" fill="#ffd97a" opacity=".85"/>
+    </pattern>
+    <pattern id="winC" width="8" height="12" patternUnits="userSpaceOnUse">
+      <rect x="1.5" y="2" width="3" height="5" fill="#7de8ff" opacity=".8"/>
+    </pattern>
+    <pattern id="rackP" width="10" height="8" patternUnits="userSpaceOnUse">
+      <rect width="10" height="8" fill="#0a1322"/>
+      <rect x="1" y="2" width="5" height="1.6" fill="#35e6ff" opacity=".85"/>
+      <rect x="7" y="2" width="1.6" height="1.6" fill="#ff3fa4" opacity=".8"/>
+    </pattern>
+    <filter id="fz" x="-40%" y="-200%" width="180%" height="500%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <clipPath id="bayClip">
+      <path d="M302,372 C360,470 420,540 520,556 L1080,562 C1150,556 1176,470 1196,368 L1196,352 L302,352 Z"/>
+    </clipPath>
+    <g id="fishShape">
+      <path d="M-14,0 L-27,-9 L-27,9 Z" fill="currentColor" opacity=".85"/>
+      <ellipse rx="15" ry="9" fill="currentColor"/>
+      <path d="M-2,-8 L4,-15 L8,-8 Z" fill="currentColor" opacity=".85"/>
+      <ellipse cy="3.5" rx="9" ry="3.5" fill="#fff" opacity=".18"/>
+      <circle cx="8" cy="-3" r="3.6" fill="#fff"/>
+      <circle cx="9" cy="-3" r="1.7" fill="#0c1018"/>
+      <path d="M13,3 q-3,3 -6,2" stroke="#0c1018" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <!-- SKY -->
+  <rect width="1440" height="640" fill="url(#sky)"/>
+  <ellipse cx="230" cy="330" rx="300" ry="90" fill="#ff7a45" opacity=".07"/>
+  <ellipse cx="1300" cy="300" rx="260" ry="90" fill="#ff3fa4" opacity=".05"/>
+  <g fill="#e8f6ff">
+    <circle class="tw" cx="90" cy="70" r="1.4"/>
+    <circle class="tw" cx="240" cy="44" r="1.1" style="animation-delay:-1s"/>
+    <circle class="tw" cx="420" cy="90" r="1.5" style="animation-delay:-2s"/>
+    <circle class="tw" cx="620" cy="50" r="1.2" style="animation-delay:-.5s"/>
+    <circle class="tw" cx="780" cy="100" r="1.4" style="animation-delay:-1.6s"/>
+    <circle class="tw" cx="930" cy="60" r="1.1" style="animation-delay:-2.3s"/>
+    <circle class="tw" cx="1080" cy="96" r="1.5" style="animation-delay:-.9s"/>
+    <circle class="tw" cx="1250" cy="52" r="1.2" style="animation-delay:-1.9s"/>
+    <circle class="tw" cx="1390" cy="110" r="1.3" style="animation-delay:-.3s"/>
+    <circle class="tw" cx="520" cy="140" r="1" style="animation-delay:-2.7s"/>
+  </g>
+
+  <!-- HILLS + SUTRO -->
+  <path d="M0,362 Q95,238 220,348 L240,362 L0,362 Z" fill="#141b33"/>
+  <g stroke="#e05545" stroke-width="3" stroke-linecap="round">
+    <path d="M96,152 L84,262 M96,152 L96,262 M96,152 L108,262 M84,220 L108,220 M87,190 L105,190"/>
+  </g>
+  <circle class="blink" cx="96" cy="150" r="2.6" fill="#ff5d73"/>
+
+  <!-- TERRAIN (shores + exposed bay floor) -->
+  <path d="M0,352 C90,342 210,354 302,372 C360,470 420,540 520,556 L1080,562 C1150,556 1176,470 1196,368 C1256,360 1330,358 1440,362 L1440,640 L0,640 Z" fill="url(#mud)"/>
+  <ellipse cx="800" cy="559" rx="330" ry="8" fill="#7fe3ff" opacity=".06"/>
+
+  <!-- SUNKEN JUNK (revealed as bay drains) -->
+  <g>
+    <path d="M430,512 l4,-14 8,1 -1,8 8,2 -2,12 -17,-2 Z" fill="#5b4632"/>
+    <circle cx="510" cy="546" r="10" fill="none" stroke="#20242c" stroke-width="6"/>
+    <circle cx="510" cy="546" r="2.6" fill="#3a3f4a"/>
+    <g stroke="#7c8794" stroke-width="3" fill="none" stroke-linecap="round">
+      <path d="M630,536 V557 M618,550 Q630,565 642,550 M622,541 H638"/>
+      <circle cx="630" cy="533" r="4"/>
+    </g>
+    <g transform="translate(1000,548) rotate(-14)" stroke="#9aa7b8" stroke-width="1.6" fill="none">
+      <path d="M-13,-9 H13 L10,6 H-10 Z M-13,-9 L-20,-16 M-10,6 V10 M10,6 V10"/>
+      <path d="M-8,-9 V6 M-2,-9 V6 M4,-9 V6 M-12,-4 H12 M-11,1 H11"/>
+      <circle cx="-8" cy="12" r="3"/><circle cx="8" cy="12" r="3"/>
+    </g>
+  </g>
+
+  <!-- ALCATRAZ -->
+  <g>
+    <path d="M700,562 C705,470 714,420 726,392 L760,392 C773,430 782,500 786,562 Z" fill="#4a3f55"/>
+    <path d="M706,500 h74 M712,450 h58" stroke="#3a3145" stroke-width="3" opacity=".8"/>
+    <ellipse cx="742" cy="392" rx="35" ry="10" fill="#5d5470"/>
+    <rect x="722" y="362" width="38" height="26" fill="#cfc9b8" stroke="#8a8271"/>
+    <rect x="720" y="357" width="42" height="6" fill="#a89f8d"/>
+    <g fill="#5a5245"><rect x="727" y="368" width="4" height="7"/><rect x="735" y="368" width="4" height="7"/><rect x="743" y="368" width="4" height="7"/><rect x="751" y="368" width="4" height="7"/></g>
+    <rect x="753" y="330" width="6" height="28" fill="#ddd6c4"/>
+    <circle class="beacon" cx="756" cy="326" r="4" fill="#ffe27a"/>
+    <g id="alcSign" class="sign" transform="translate(702,468)">
+      <rect x="16" y="0" width="3" height="26" fill="#8a8271"/>
+      <rect x="-24" y="-30" width="84" height="30" rx="4" fill="#101b2e" stroke="#35e6ff" stroke-opacity=".7"/>
+      <text x="18" y="-18" text-anchor="middle" font-size="10" font-weight="700" fill="#66f2ff" font-family="Consolas,monospace">ALCATRAZ</text>
+      <text x="18" y="-7" text-anchor="middle" font-size="7.5" fill="#bfefff" font-family="Consolas,monospace">now escapable on foot</text>
+    </g>
+  </g>
+
+  <!-- FISH (before water so they read as submerged) -->
+  <g id="school">
+    <g class="fish" data-swim="430" data-floor="540" transform="translate(470,540)" style="color:#ff9f43">
+      <g class="pos"><g class="anim"><use href="#fishShape"/></g></g>
+    </g>
+    <g class="fish" data-swim="462" data-floor="556" transform="translate(560,556)" style="color:#6ee7ff">
+      <g class="pos"><g class="anim" style="animation-delay:-.35s"><use href="#fishShape"/></g></g>
+      <g class="cap">
+        <rect x="-26" y="-52" width="52" height="18" rx="9" fill="#0e1930" stroke="#35e6ff" stroke-opacity=".6"/>
+        <path d="M-2,-34 L4,-26 L8,-34 Z" fill="#0e1930"/>
+        <text y="-39" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9feaff" font-family="Consolas,monospace">BLUB?!</text>
+      </g>
+    </g>
+    <g class="fish" data-swim="500" data-floor="558" transform="translate(660,558) scale(-1,1)" style="color:#ffd166">
+      <g class="pos"><g class="anim" style="animation-delay:-.6s"><use href="#fishShape"/></g></g>
+    </g>
+    <g class="fish" data-swim="448" data-floor="559" transform="translate(820,559)" style="color:#ff6b9d">
+      <g class="pos"><g class="anim" style="animation-delay:-.2s"><use href="#fishShape"/></g></g>
+    </g>
+    <g class="fish" data-swim="508" data-floor="560" transform="translate(940,560) scale(-1,1)" style="color:#7ee081">
+      <g class="pos"><g class="anim" style="animation-delay:-.5s"><use href="#fishShape"/></g></g>
+    </g>
+    <g class="fish cool" data-swim="528" data-floor="560" transform="translate(1060,560)" style="color:#b39dff">
+      <g class="pos"><g class="anim">
+        <use href="#fishShape"/>
+        <rect x="4" y="-7.5" width="10" height="6.5" rx="2" fill="#0a0a12" stroke="#ffffff" stroke-opacity=".25"/>
+        <path d="M4,-5 L-4,-8" stroke="#0a0a12" stroke-width="1.6"/>
+      </g></g>
+      <g class="cap"><text x="4" y="-30" text-anchor="middle" font-size="9.5" fill="#cbb9ff" font-family="Consolas,monospace">...fine.</text></g>
+    </g>
+    <!-- CRAB -->
+    <g transform="translate(688,558)">
+      <g stroke="#d94f45" stroke-width="2.4" fill="none" stroke-linecap="round">
+        <path d="M-10,4 L-17,9 M-5,6 L-9,12 M5,6 L9,12 M10,4 L17,9"/>
+      </g>
+      <ellipse rx="13" ry="8" fill="#ff5e57"/>
+      <g stroke="#ff5e57" stroke-width="2"><path d="M-5,-7 L-6,-13 M4,-7 L5,-13"/></g>
+      <circle cx="-6" cy="-14" r="2.6" fill="#fff"/><circle cx="-6" cy="-14" r="1.2" fill="#111"/>
+      <circle cx="5" cy="-14" r="2.6" fill="#fff"/><circle cx="5" cy="-14" r="1.2" fill="#111"/>
+      <circle cx="-15" cy="-4" r="4.4" fill="#ff5e57"/><circle cx="16" cy="-4" r="4.4" fill="#ff5e57"/>
+      <g id="crabSign" class="sign" transform="translate(24,2)">
+        <rect x="17" y="-24" width="3" height="24" fill="#8a8271"/>
+        <rect x="-14" y="-42" width="64" height="19" rx="3" fill="#101b2e" stroke="#ffc857" stroke-opacity=".8"/>
+        <text x="18" y="-29.5" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ffd98c" font-family="Consolas,monospace">I LIVED HERE.</text>
+      </g>
+    </g>
+    <!-- SEAGULL (arrives once there's mud to stand on) -->
+    <g id="gull" transform="translate(382,474)">
+      <g stroke="#e8eef4" stroke-width="1.6"><path d="M-3,4 V10 M3,4 V10"/></g>
+      <ellipse rx="10" ry="6" fill="#f2f6fa"/>
+      <path d="M-9,-2 Q-1,-7 7,-2" stroke="#c9d4dd" stroke-width="1.4" fill="none"/>
+      <circle cx="8" cy="-8" r="5" fill="#f2f6fa"/>
+      <path d="M13,-9 L19,-7 L13,-5 Z" fill="#ff9f1c"/>
+      <circle cx="9.5" cy="-9" r="1.2" fill="#1a2028"/>
+      <g class="cap"><text x="8" y="-20" text-anchor="middle" font-size="10" fill="#dfe9f2" font-family="Consolas,monospace">...</text></g>
+    </g>
+  </g>
+
+  <!-- WATER (clipped to the basin; JS slides this group down as tokens burn) -->
+  <g clip-path="url(#bayClip)">
+    <g id="waterG">
+      <path id="waterBody" class="wave" fill="url(#wg)" opacity=".85"/>
+      <path id="foam" class="wave" fill="none" stroke="#eafcff" stroke-width="2.2" opacity=".65"/>
+    </g>
+    <g id="bubbles" fill="#d7f6ff">
+      <circle class="bub" cx="1148" cy="512" r="2.6"/>
+      <circle class="bub" cx="1155" cy="516" r="1.8" style="animation-delay:-.7s"/>
+      <circle class="bub" cx="1142" cy="518" r="2.1" style="animation-delay:-1.4s"/>
+      <circle class="bub" cx="1074" cy="546" r="2.4" style="animation-delay:-.3s"/>
+      <circle class="bub" cx="1082" cy="550" r="1.7" style="animation-delay:-1.1s"/>
+    </g>
+  </g>
+
+  <!-- FORMER SEA LEVEL -->
+  <line x1="302" y1="370" x2="1196" y2="370" stroke="#eafcff" stroke-width="1.4" stroke-dasharray="7 7" opacity=".4"/>
+  <g transform="translate(322,370)">
+    <rect x="10" y="-18" width="3" height="18" fill="#8a8271"/>
+    <rect x="-30" y="-34" width="86" height="17" rx="3" fill="#101b2e" stroke="#ffc857" stroke-opacity=".7"/>
+    <text x="13" y="-22.5" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ffd98c" font-family="Consolas,monospace">SEA LEVEL (RETIRED)</text>
+  </g>
+
+  <!-- BAY-O-METER: depth gauge calibrated in tokens burned -->
+  <g id="gauge">
+    <rect x="857" y="340" width="6" height="224" fill="#e8e4d0" stroke="#8d8878" stroke-width="1"/>
+    <g id="ticks"></g>
+    <rect x="796" y="310" width="164" height="22" rx="4" fill="#101b2e" stroke="#35e6ff" stroke-opacity=".7"/>
+    <text x="878" y="325" text-anchor="middle" font-size="10" font-weight="700" fill="#66f2ff" font-family="Consolas,monospace">BAY-O-METER (B TOKENS)</text>
+    <path d="M860,332 V340" stroke="#35e6ff" stroke-width="2" opacity=".7"/>
+  </g>
+
+  <!-- GOLDEN GATE BRIDGE -->
+  <g>
+    <rect x="364" y="330" width="12" height="142" fill="#b23922"/>
+    <rect x="574" y="330" width="12" height="228" fill="#b23922"/>
+    <rect x="356" y="460" width="28" height="14" fill="#66707c"/>
+    <rect x="566" y="544" width="28" height="14" fill="#66707c"/>
+    <g fill="#8fe0a8" opacity=".8">
+      <circle cx="366" cy="392" r="1.4"/><circle cx="374" cy="410" r="1.4"/><circle cx="368" cy="430" r="1.4"/>
+      <circle cx="577" cy="400" r="1.4"/><circle cx="584" cy="440" r="1.4"/><circle cx="578" cy="480" r="1.4"/><circle cx="583" cy="510" r="1.4"/>
+    </g>
+    <rect x="364" y="205" width="12" height="125" fill="#e84c30"/>
+    <rect x="574" y="205" width="12" height="125" fill="#e84c30"/>
+    <g fill="#e84c30"><rect x="358" y="232" width="24" height="7"/><rect x="358" y="266" width="24" height="7"/><rect x="358" y="298" width="24" height="7"/>
+      <rect x="568" y="232" width="24" height="7"/><rect x="568" y="266" width="24" height="7"/><rect x="568" y="298" width="24" height="7"/></g>
+    <rect x="298" y="328" width="354" height="7" fill="#e84c30"/>
+    <path d="M298,331 H652" stroke="#ffd97a" stroke-width="1" stroke-dasharray="8 10" opacity=".6"/>
+    <g stroke="#ff6f52" stroke-width="3" fill="none">
+      <path d="M370,208 Q475,320 580,208 M370,208 Q332,290 300,330 M580,208 Q620,290 652,330"/>
+    </g>
+    <g stroke="#ff6f52" stroke-width="1.4">
+      <path d="M420,253 V328 M445,263 V328 M475,268 V328 M505,263 V328 M530,253 V328"/>
+    </g>
+    <circle class="blink" cx="370" cy="203" r="2.4" fill="#ff5d73"/>
+    <circle class="blink" cx="580" cy="203" r="2.4" fill="#ff5d73" style="animation-delay:-.7s"/>
+  </g>
+
+  <!-- BAY BRIDGE -->
+  <g opacity=".9">
+    <rect x="956" y="254" width="9" height="308" fill="#8fa3b8"/>
+    <rect x="1106" y="254" width="9" height="302" fill="#8fa3b8"/>
+    <g fill="#8fa3b8"><rect x="950" y="290" width="21" height="5"/><rect x="950" y="320" width="21" height="5"/><rect x="1100" y="290" width="21" height="5"/><rect x="1100" y="320" width="21" height="5"/></g>
+    <rect x="905" y="340" width="291" height="5" fill="#9fb2c6"/>
+    <rect x="905" y="349" width="291" height="3" fill="#7b8fa4"/>
+    <g stroke="#aebfd2" stroke-width="2.4" fill="none">
+      <path d="M961,256 Q1035,336 1110,256 M961,256 Q930,320 905,340 M1110,256 Q1150,320 1196,340"/>
+    </g>
+    <circle class="blink" cx="961" cy="252" r="2" fill="#ffd97a" style="animation-delay:-.4s"/>
+    <circle class="blink" cx="1110" cy="252" r="2" fill="#ffd97a" style="animation-delay:-1s"/>
+  </g>
+
+  <!-- BOAT (rides the falling waterline) -->
+  <g id="boatY">
+    <g id="boatTilt" transform-origin="800 368">
+      <g transform="translate(800,0)">
+        <path d="M-30,362 L30,362 L19,376 L-19,376 Z" fill="#d64545"/>
+        <rect x="-12" y="350" width="18" height="12" rx="2" fill="#e8eef4"/>
+        <rect x="-8" y="353" width="5" height="4" fill="#35a4c9"/>
+        <path d="M8,350 V326" stroke="#3a3f4a" stroke-width="2"/>
+        <path d="M8,326 L24,331 L8,336 Z" fill="#35e6ff"/>
+        <g class="cap"><text x="-2" y="318" text-anchor="middle" font-size="13" font-weight="700" fill="#ffd98c" font-family="Consolas,monospace">?!</text></g>
+      </g>
+    </g>
+  </g>
+
+  <!-- INTAKE + PIPES + PUMP JACK -->
+  <g>
+    <path d="M1058,548 L1058,564 L1080,560 L1080,551 Z" fill="#46586f"/>
+    <path d="M1062,551 V561 M1068,550 V561 M1074,550 V560" stroke="#2c3a4e" stroke-width="1.6"/>
+    <path id="pipe1" d="M1074,554 C1116,546 1140,470 1152,404 L1156,356" stroke="#3b4a63" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <path class="flowline" d="M1074,554 C1116,546 1140,470 1152,404 L1156,356" stroke="#35e6ff" stroke-width="4.5" fill="none" stroke-linecap="round" opacity=".9"/>
+    <rect x="1148" y="344" width="17" height="13" rx="2" fill="#55657f"/>
+    <path d="M1164,350 L1230,350 L1230,336 L1256,336" stroke="#3b4a63" stroke-width="9" fill="none"/>
+    <path class="flowline" d="M1164,350 L1230,350 L1230,336 L1256,336" stroke="#35e6ff" stroke-width="3.5" fill="none" style="animation-delay:-.4s"/>
+    <path d="M1205,314 L1190,360 M1205,314 L1220,360" stroke="#7b89a6" stroke-width="5" stroke-linecap="round"/>
+    <rect x="1182" y="358" width="46" height="7" rx="2" fill="#55657f"/>
+    <line id="rod" x1="1160" y1="320" x2="1160" y2="345" stroke="#cbd5e6" stroke-width="4"/>
+    <g id="beam" transform-origin="1205 312">
+      <rect x="1166" y="308" width="76" height="8" rx="3" fill="#9fb0cc"/>
+      <path d="M1168,306 C1155,306 1151,318 1156,327 L1169,321 Z" fill="#aebbd8"/>
+      <circle cx="1238" cy="312" r="9" fill="#8494b2"/>
+    </g>
+    <circle cx="1205" cy="312" r="4" fill="#d8e2f2"/>
+    <rect x="1172" y="366" width="66" height="13" rx="2" fill="#101b2e" stroke="#35e6ff" stroke-opacity=".6"/>
+    <text x="1205" y="375.5" text-anchor="middle" font-size="8" font-weight="700" fill="#66f2ff" font-family="Consolas,monospace">BAYDRAIN-9000</text>
+  </g>
+
+  <!-- DATACENTERS -->
+  <g>
+    <text x="1296" y="212" text-anchor="middle" font-size="13" font-weight="800" letter-spacing="1" fill="#66f6ff" style="filter:drop-shadow(0 0 5px #19e3ff)" font-family="Consolas,monospace">TOKEN FOUND<tspan class="flick">R</tspan>Y №5</text>
+    <rect x="1256" y="232" width="80" height="130" fill="#0d1728" stroke="#2a3d5c"/>
+    <rect x="1262" y="240" width="68" height="114" fill="url(#rackP)"/>
+    <circle class="blink" cx="1266" cy="236" r="2" fill="#35e6ff"/>
+    <circle class="blink" cx="1274" cy="236" r="2" fill="#ff3fa4" style="animation-delay:-.4s"/>
+    <circle class="blink" cx="1282" cy="236" r="2" fill="#ffc857" style="animation-delay:-.8s"/>
+    <g transform="translate(1300,226)">
+      <circle r="8" fill="#16233a" stroke="#3a527a"/>
+      <g class="fanb"><rect x="-1" y="-7" width="2" height="6" fill="#7deeff"/><rect x="-1" y="-7" width="2" height="6" fill="#7deeff" transform="rotate(120)"/><rect x="-1" y="-7" width="2" height="6" fill="#7deeff" transform="rotate(240)"/></g>
+      <circle r="1.5" fill="#9fb0cc"/>
+    </g>
+    <g transform="translate(1322,226)">
+      <circle r="8" fill="#16233a" stroke="#3a527a"/>
+      <g class="fanb" style="animation-delay:-.5s"><rect x="-1" y="-7" width="2" height="6" fill="#7deeff"/><rect x="-1" y="-7" width="2" height="6" fill="#7deeff" transform="rotate(120)"/><rect x="-1" y="-7" width="2" height="6" fill="#7deeff" transform="rotate(240)"/></g>
+      <circle r="1.5" fill="#9fb0cc"/>
+    </g>
+    <rect x="1348" y="272" width="76" height="90" fill="#101a2c" stroke="#2a3d5c"/>
+    <rect x="1354" y="296" width="64" height="60" fill="url(#winC)" opacity=".55"/>
+    <text x="1386" y="288" text-anchor="middle" font-size="8.5" font-weight="700" fill="#66f2ff" font-family="Consolas,monospace">GPU JUICE BAR</text>
+    <line x1="1412" y1="272" x2="1412" y2="244" stroke="#3a527a" stroke-width="2"/>
+    <circle class="blink" cx="1412" cy="241" r="2.6" fill="#ff5d73" style="animation-delay:-.2s"/>
+    <g fill="#35e6ff" font-family="Consolas,monospace" font-size="11">
+      <text class="tok" x="1276" y="206">◆</text>
+      <text class="tok" x="1296" y="200" style="animation-delay:-.9s">◆</text>
+      <text class="tok" x="1316" y="204" style="animation-delay:-1.8s">◆</text>
+      <text class="tok" x="1336" y="199" style="animation-delay:-2.6s">◆</text>
+    </g>
+  </g>
+
+  <!-- THE STRAW (a literal one) -->
+  <g>
+    <path d="M1150,528 C1190,432 1298,318 1372,296 L1390,274" stroke="#f7f9ff" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <path class="strawflow" d="M1150,528 C1190,432 1298,318 1372,296 L1390,274" stroke="#ff5d73" stroke-width="9" fill="none" stroke-linecap="round" opacity=".85"/>
+    <circle cx="1390" cy="272" r="6.5" fill="#f7f9ff"/>
+    <text id="strawCap" x="1136" y="498" text-anchor="middle" font-size="10" font-weight="700" fill="#ffd98c" font-family="Consolas,monospace">hkkkk— (air)</text>
+  </g>
+
+  <!-- CITY -->
+  <g>
+    <rect x="48" y="300" width="26" height="72" fill="#182238"/>
+    <rect x="50" y="304" width="22" height="64" fill="url(#winP)" opacity=".5"/>
+    <rect x="112" y="272" width="14" height="84" fill="#1c2740"/>
+    <ellipse cx="119" cy="272" rx="9" ry="4" fill="#243352"/>
+    <rect x="132" y="292" width="30" height="80" fill="#161f36"/>
+    <rect x="134" y="296" width="26" height="72" fill="url(#winC)" opacity=".4"/>
+    <path d="M175,372 L190,190 L205,372 Z" fill="#1b2542"/>
+    <path d="M190,190 L205,372" stroke="#35e6ff" stroke-width="1.2" opacity=".7"/>
+    <path d="M190,190 V172" stroke="#9fb0cc" stroke-width="2"/>
+    <circle class="blink" cx="190" cy="170" r="2" fill="#ff5d73" style="animation-delay:-.6s"/>
+    <rect x="212" y="310" width="24" height="62" fill="#182238"/>
+    <rect x="214" y="314" width="20" height="54" fill="url(#winP)" opacity=".55"/>
+    <path d="M244,372 V202 Q244,172 261,172 Q278,172 278,202 V372 Z" fill="#1a2440"/>
+    <rect x="248" y="200" width="26" height="168" fill="url(#winC)" opacity=".5"/>
+    <path d="M278,200 V370" stroke="#ff3fa4" stroke-width="1.2" opacity=".7"/>
+    <ellipse class="blink" cx="261" cy="172" rx="13" ry="4.5" fill="#9deaff" opacity=".65" style="animation-duration:3.2s"/>
+    <rect x="286" y="326" width="20" height="46" fill="#141d33"/>
+  </g>
+
+  <!-- KARL -->
+  <g fill="#cfe4ee">
+    <ellipse class="fogA" cx="240" cy="196" rx="230" ry="26" opacity=".12" filter="url(#fz)"/>
+    <g class="fogB">
+      <ellipse cx="660" cy="152" rx="260" ry="24" opacity=".14" filter="url(#fz)"/>
+      <text x="655" y="156" text-anchor="middle" font-size="9" letter-spacing="3" fill="#eaf6ff" opacity=".5" font-family="Consolas,monospace">KARL</text>
+    </g>
+    <ellipse class="fogA" cx="1080" cy="190" rx="200" ry="20" opacity=".10" filter="url(#fz)" style="animation-delay:-20s"/>
+  </g>
+
+  <text x="24" y="626" font-size="10" letter-spacing="1.5" fill="#7d94a8" font-family="Consolas,monospace">CONCEPT REDESIGN · DATA REAL · HYDROLOGY NEGOTIABLE · WATERLINE CALIBRATED IN TOKENS BURNED</text>
+</svg>
+
+<div class="hud">
+  <div class="card titlecard">
+    <div class="kicker">TOKEN BURN TICKER · ROUND 4 CONCEPT</div>
+    <h1>DRAIN THE BAY <small>the datacenters are thirsty</small></h1>
+    <div class="counter" id="counter">0</div>
+    <div class="under">tokens burned · as of 2026-08-26</div>
+    <div class="linkline">&#8679; tokens burned &nbsp;=&nbsp; &#8681; bay level &nbsp;·&nbsp; rate: 1B tokens &#8776; 1 bay-foot</div>
+  </div>
+  <div class="card meter">
+    <div class="lb">BAY REMAINING</div>
+    <div class="big"><span id="pct">100%</span><span class="meterbar"><i id="pctfill"></i></span></div>
+    <div class="fishline">fish inconvenienced: <b id="fishct">0</b></div>
+    <button id="replay" type="button">&#8635; refill &amp; drain again</button>
+  </div>
+</div>
+</div>
+
+<section class="stats">
+  <div class="card stat">
+    <h2>PUMP LOG <span>monthly draw, B tokens</span></h2>
+    <div class="bars">
+      <div class="bar"><b>0.72</b><div class="col"><i style="height:6%"></i></div><label>APR</label></div>
+      <div class="bar"><b>0.01</b><div class="col"><i style="height:2px"></i></div><label>MAY</label></div>
+      <div class="bar"><b>1.59</b><div class="col"><i style="height:13%"></i></div><label>JUN</label></div>
+      <div class="bar"><b>8.11</b><div class="col"><i style="height:65%"></i></div><label>JUL</label></div>
+      <div class="bar"><b>12.39</b><div class="col"><i style="height:100%"></i></div><label>AUG</label></div>
+    </div>
+    <p class="note">May: someone unplugged it. August: someone plugged it back in, hard.</p>
+  </div>
+  <div class="card stat">
+    <h2>WHO'S HOLDING THE STRAW <span>burn by seat</span></h2>
+    <div class="row"><span class="who">Claude Code</span><span class="track"><i style="width:100%"></i></span><span class="val">15.15B</span><span class="tag">chief slurper</span></div>
+    <div class="row"><span class="who">Codex</span><span class="track"><i style="width:9.6%"></i></span><span class="val">1.45B</span><span class="tag">deputy straw</span></div>
+    <div class="row"><span class="who">Grok CLI</span><span class="track"><i style="width:0.4%"></i></span><span class="val">16.3M</span><span class="tag">cocktail umbrella</span></div>
+    <div class="row est"><span class="who">Antigravity</span><span class="track"><i style="width:0.3%"></i></span><span class="val">~9.1M</span><span class="tag">decorative sip*</span></div>
+    <div class="row est"><span class="who">Cursor CLI</span><span class="track"><i style="width:0.2%"></i></span><span class="val">~452K</span><span class="tag">one molecule*</span></div>
+    <p class="note">* estimated seats shown in amber.</p>
+  </div>
+</section>
+
+<footer>
+  <span class="tag1">Every total measured, never estimated.</span>* &nbsp;*two seats estimated; the irony is noted.
+  &nbsp;·&nbsp; No actual estuaries were harmed. &nbsp;·&nbsp; Karl the Fog was not consulted.
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var TOTAL = 22973285119, SURF = 370, DROP = 175, DUR = 7400;
+  var NS = "http://www.w3.org/2000/svg";
+  function $(id){ return document.getElementById(id); }
+  var counter=$("counter"), pctEl=$("pct"), pctFill=$("pctfill"), fishCt=$("fishct"),
+      waterG=$("waterG"), boatY=$("boatY");
+
+  // Build the wave surface + foam (bump period 40px so the 40px lap loop is seamless)
+  var bumps=""; for(var i=0;i<34;i++) bumps+=" q20,-9 40,0";
+  $("waterBody").setAttribute("d","M160,370"+bumps+" V780 H160 Z");
+  $("foam").setAttribute("d","M160,370"+bumps);
+
+  // Gauge ticks: 1 tick per 1B tokens, labels every 5B — the waterline falls past
+  // exactly the value the counter is showing.
+  var perB = DROP/(TOTAL/1e9), ticks=$("ticks");
+  for(var v=1; v<23; v++){
+    var y = SURF + perB*v, major = (v%5===0);
+    var l = document.createElementNS(NS,"line");
+    l.setAttribute("x1", major?846:851); l.setAttribute("x2",863);
+    l.setAttribute("y1",y); l.setAttribute("y2",y);
+    l.setAttribute("stroke","#eaf6ff"); l.setAttribute("stroke-opacity", major?"1":".45");
+    l.setAttribute("stroke-width", major?"2":"1");
+    ticks.appendChild(l);
+    if(major){
+      var t=document.createElementNS(NS,"text");
+      t.setAttribute("x",869); t.setAttribute("y",y+3.5); t.setAttribute("class","tickLb");
+      t.textContent=v+"B"; ticks.appendChild(t);
+    }
+  }
+
+  // Fish: float at their swim depth until the waterline passes them, then drop and flop.
+  var fish = Array.prototype.map.call(document.querySelectorAll(".fish"), function(el){
+    return { el:el, pos:el.querySelector(".pos"),
+             swim:+el.dataset.swim, floor:+el.dataset.floor, done:false };
+  });
+  function placeSwimming(f){
+    f.el.classList.add("swim"); f.el.classList.remove("flop");
+    f.pos.style.transform = "translateY(" + (f.swim - f.floor) + "px)";
+  }
+  fish.forEach(placeSwimming);
+
+  var inconvenienced=0, crabUp=false;
+  function fishLabel(){ fishCt.textContent = inconvenienced + (crabUp ? " (+1 crab)" : ""); }
+
+  function render(p){
+    counter.textContent = Math.round(TOTAL*p).toLocaleString("en-US");
+    var dy = DROP*p, surface = SURF+dy;
+    waterG.setAttribute("transform","translate(0 "+dy.toFixed(2)+")");
+    boatY.setAttribute("transform","translate(0 "+dy.toFixed(2)+")");
+    var pct = Math.max(9, Math.round(100 - 91*p));
+    pctEl.textContent = pct+"%";
+    pctFill.style.height = pct+"%";
+    fish.forEach(function(f){
+      if(!f.done && surface > f.swim){
+        f.done = true;
+        f.el.classList.remove("swim"); f.el.classList.add("flop");
+        f.pos.style.transform = "";
+        inconvenienced++; fishLabel();
+      }
+    });
+    if(p>0.55) $("alcSign").classList.add("up");
+    if(p>0.70) $("gull").classList.add("in");
+    if(p>0.90 && !crabUp){ crabUp=true; $("crabSign").classList.add("up"); fishLabel(); }
+    if(p>0.85) $("bubbles").classList.add("off");
+    if(p>0.93) $("boatTilt").classList.add("tilt");
+    if(p>=0.995) $("strawCap").classList.add("in");
+  }
+
+  var raf=0;
+  function easeInOutCubic(t){ return t<.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+  function start(){
+    cancelAnimationFrame(raf);
+    inconvenienced=0; crabUp=false; fishLabel();
+    fish.forEach(function(f){ f.done=false; placeSwimming(f); });
+    $("alcSign").classList.remove("up"); $("crabSign").classList.remove("up");
+    $("gull").classList.remove("in"); $("strawCap").classList.remove("in");
+    $("boatTilt").classList.remove("tilt"); $("bubbles").classList.remove("off");
+    if(RM){ render(1); return; }
+    render(0);
+    var t0 = performance.now()+500;
+    raf = requestAnimationFrame(function step(now){
+      var t = Math.min(1, Math.max(0,(now-t0)/DUR));
+      render(easeInOutCubic(t));
+      if(t<1) raf = requestAnimationFrame(step);
+      else document.body.classList.add("drained");
+    });
+  }
+  $("replay").addEventListener("click", start);
+
+  // Enable fish transitions only after initial placement so nothing lerps on first paint.
+  requestAnimationFrame(function(){ document.body.classList.add("ready"); start(); });
+})();
+</script>
+</body>
+</html>
