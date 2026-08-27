@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Token Burn Ticker — Drain the Bay Edition</title>
+<style>
+  :root {
+    --bg: #050810;
+    --panel: rgba(8, 14, 24, 0.92);
+    --border: rgba(0, 255, 200, 0.22);
+    --text: #e8f4ff;
+    --dim: #7a9ab8;
+    --accent: #00ffc8;
+    --accent2: #ff6b9d;
+    --warn: #ffb347;
+    --water-deep: #0a3d5c;
+    --water-mid: #1a6b8a;
+    --water-shallow: #2aa8c8;
+    --mud: #3d2e1e;
+    --mud-light: #5c4630;
+    --drain: 0;
+    --font: ui-monospace, "Cascadia Code", "Segoe UI Mono", Consolas, monospace;
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+  body {
+    min-height: 100dvh;
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.45;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 90% 60% at 50% 0%, rgba(0, 255, 200, 0.06), transparent 55%),
+      linear-gradient(rgba(0, 255, 200, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 200, 0.03) 1px, transparent 1px);
+    background-size: auto, 40px 40px, 40px 40px;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem 1rem 2.5rem;
+  }
+
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand h1 {
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .brand p {
+    font-size: 0.68rem;
+    color: var(--dim);
+    margin-top: 0.2rem;
+  }
+
+  .pump-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid rgba(255, 107, 157, 0.45);
+    border-radius: 4px;
+    background: rgba(255, 107, 157, 0.08);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: var(--accent2);
+    animation: badge-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes badge-pulse {
+    0%, 100% { box-shadow: 0 0 0 rgba(255, 107, 157, 0); }
+    50% { box-shadow: 0 0 14px rgba(255, 107, 157, 0.35); }
+  }
+
+  .pump-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent2);
+    animation: dot-blink 0.8s step-end infinite;
+  }
+
+  @keyframes dot-blink {
+    50% { opacity: 0.2; }
+  }
+
+  .hero {
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 0.35rem;
+  }
+
+  .counter {
+    font-size: clamp(1.6rem, 5.5vw, 2.85rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    text-shadow: 0 0 30px rgba(0, 255, 200, 0.35);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+
+  .counter-sub {
+    font-size: 0.72rem;
+    color: var(--dim);
+    margin-top: 0.35rem;
+  }
+
+  .drain-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 255, 200, 0.2);
+    background: rgba(0, 255, 200, 0.06);
+    font-size: 0.62rem;
+    color: var(--accent);
+  }
+
+  .drain-arrow {
+    display: inline-block;
+    animation: arrow-bounce 1s ease-in-out infinite;
+  }
+
+  @keyframes arrow-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(3px); }
+  }
+
+  .scene-wrap {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #1a2840 0%, #0d1520 45%, #080c12 100%);
+    box-shadow: 0 0 50px rgba(0, 255, 200, 0.06), inset 0 0 80px rgba(0, 0, 0, 0.4);
+    margin-bottom: 1rem;
+  }
+
+  .scene-wrap svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    vertical-align: top;
+  }
+
+  .water-surface {
+    transition: none;
+  }
+
+  .wave {
+    animation: wave-drift 4s ease-in-out infinite;
+  }
+
+  .wave-2 { animation-delay: -1.3s; }
+  .wave-3 { animation-delay: -2.6s; }
+
+  @keyframes wave-drift {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+  }
+
+  .fog {
+    animation: fog-drift 18s linear infinite;
+  }
+
+  .fog-2 { animation-delay: -9s; animation-duration: 22s; }
+
+  @keyframes fog-drift {
+    0% { transform: translateX(-2%); opacity: 0.5; }
+    50% { opacity: 0.75; }
+    100% { transform: translateX(2%); opacity: 0.5; }
+  }
+
+  .fish {
+    transform-origin: center bottom;
+    animation: fish-flop 0.55s ease-in-out infinite alternate;
+  }
+
+  .fish-2 { animation-delay: -0.2s; animation-duration: 0.7s; }
+  .fish-3 { animation-delay: -0.45s; animation-duration: 0.48s; }
+  .fish-4 { animation-delay: -0.15s; animation-duration: 0.62s; }
+  .fish-5 { animation-delay: -0.35s; animation-duration: 0.8s; }
+
+  @keyframes fish-flop {
+    0% { transform: rotate(-18deg) translateY(0); }
+    100% { transform: rotate(22deg) translateY(-3px); }
+  }
+
+  .pump-particle {
+    animation: slurp-up 1.2s linear infinite;
+  }
+
+  .pump-particle-2 { animation-delay: -0.4s; }
+  .pump-particle-3 { animation-delay: -0.8s; }
+
+  @keyframes slurp-up {
+    0% { opacity: 0; transform: translateY(0) scale(1); }
+    15% { opacity: 1; }
+    85% { opacity: 0.8; }
+    100% { opacity: 0; transform: translateY(-55px) scale(0.4); }
+  }
+
+  .fan-spin {
+    transform-origin: 0 0;
+    animation: fan-rotate 0.6s linear infinite;
+  }
+
+  @keyframes fan-rotate {
+    to { transform: rotate(360deg); }
+  }
+
+  .token-stream {
+    animation: token-rise 1.8s linear infinite;
+  }
+
+  .token-stream-2 { animation-delay: -0.6s; }
+  .token-stream-3 { animation-delay: -1.2s; }
+
+  @keyframes token-rise {
+    0% { opacity: 0; transform: translateY(0); }
+    20% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-40px); }
+  }
+
+  .level-meter {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 14px;
+    height: calc(100% - 20px);
+    max-height: 280px;
+    border: 1px solid rgba(0, 255, 200, 0.3);
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .level-meter-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(100% * (1 - var(--drain)));
+    background: linear-gradient(180deg, var(--water-shallow), var(--water-deep));
+    transition: none;
+  }
+
+  .level-meter-label {
+    position: absolute;
+    right: 28px;
+    top: 10px;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-align: right;
+    line-height: 1.4;
+    pointer-events: none;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: 1fr; }
+  }
+
+  .stat-panel {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--panel);
+    padding: 0.85rem 1rem;
+  }
+
+  .stat-panel h2 {
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.65rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(0, 255, 200, 0.12);
+  }
+
+  .month-row, .seat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    padding: 0.28rem 0;
+    border-bottom: 1px solid rgba(120, 160, 200, 0.08);
+  }
+
+  .month-row:last-child, .seat-row:last-child { border-bottom: none; }
+
+  .month-row span:first-child, .seat-row span:first-child {
+    color: var(--dim);
+    min-width: 4.5rem;
+  }
+
+  .month-row span:last-child, .seat-row span:last-child {
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+  }
+
+  .seat-row .seat-name { color: var(--text); min-width: auto; }
+  .seat-row .seat-val { color: var(--accent); }
+
+  .seat-claude .seat-val { color: #e8825a; }
+  .seat-codex .seat-val { color: #6c8cff; }
+  .seat-grok .seat-val { color: #c084fc; }
+  .seat-agy .seat-val { color: #34d399; }
+  .seat-cursor .seat-val { color: #fbbf24; }
+
+  .footer-note {
+    margin-top: 0.85rem;
+    text-align: center;
+    font-size: 0.62rem;
+    color: var(--dim);
+    letter-spacing: 0.06em;
+  }
+
+  .as-of {
+    font-size: 0.58rem;
+    color: rgba(122, 154, 184, 0.7);
+    margin-top: 0.15rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .pump-badge, .drain-arrow, .pump-dot { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>Token Burn Ticker</h1>
+      <p>Every total measured, never estimated.</p>
+    </div>
+    <div class="pump-badge" aria-hidden="true">
+      <span class="pump-dot"></span>
+      BAY DRAIN ACTIVE — DATACENTER THIRSTY
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="counter-label">
+    <div class="hero-label" id="counter-label">Total tokens processed</div>
+    <div class="counter" id="counter" aria-live="polite">0</div>
+    <div class="counter-sub">tokens burned since April 2026</div>
+    <div class="drain-hint" id="drain-hint">
+      <span>counter up</span>
+      <span class="drain-arrow">↓</span>
+      <span>bay down</span>
+    </div>
+    <div class="as-of">as of 2026-08-26</div>
+  </section>
+
+  <div class="scene-wrap" id="scene">
+    <div class="level-meter" aria-hidden="true">
+      <div class="level-meter-fill" id="meter-fill"></div>
+    </div>
+    <div class="level-meter-label">BAY<br>LEVEL</div>
+
+    <svg viewBox="0 0 1000 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="San Francisco Bay draining as token counter rises">
+      <defs>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1e3a5f"/>
+          <stop offset="55%" stop-color="#2d4a6e"/>
+          <stop offset="100%" stop-color="#4a6080"/>
+        </linearGradient>
+        <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2ec4d8"/>
+          <stop offset="40%" stop-color="#1a7a9a"/>
+          <stop offset="100%" stop-color="#0a3d5c"/>
+        </linearGradient>
+        <linearGradient id="mudGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5c4630"/>
+          <stop offset="100%" stop-color="#2a1f14"/>
+        </linearGradient>
+        <linearGradient id="dcGlow" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#ff6b9d" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#ff6b9d" stop-opacity="0.5"/>
+        </linearGradient>
+        <clipPath id="waterClip">
+          <rect id="water-clip-rect" x="0" y="205" width="1000" height="215"/>
+        </clipPath>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Sky -->
+      <rect width="1000" height="420" fill="url(#skyGrad)"/>
+
+      <!-- Fog layers -->
+      <g class="fog" opacity="0.55">
+        <ellipse cx="300" cy="95" rx="220" ry="28" fill="#c8d8e8"/>
+        <ellipse cx="650" cy="110" rx="280" ry="32" fill="#b8ccd8"/>
+      </g>
+      <g class="fog fog-2" opacity="0.4">
+        <ellipse cx="500" cy="75" rx="350" ry="22" fill="#d0dce8"/>
+      </g>
+
+      <!-- Hills / Marin -->
+      <path d="M0,175 L80,140 L160,155 L240,125 L320,145 L400,120 L480,150 L560,130 L640,155 L720,135 L800,150 L880,125 L960,145 L1000,160 L1000,200 L0,200 Z" fill="#1a2838" opacity="0.9"/>
+      <path d="M0,185 L60,165 L140,175 L220,158 L300,170 L380,160 L460,172 L540,162 L620,175 L700,165 L780,178 L860,168 L940,180 L1000,188 L1000,200 L0,200 Z" fill="#243040"/>
+
+      <!-- Sutro Tower (left hills) -->
+      <g transform="translate(195, 108)">
+        <line x1="0" y1="55" x2="0" y2="0" stroke="#8898a8" stroke-width="2"/>
+        <line x1="-12" y1="40" x2="12" y2="40" stroke="#8898a8" stroke-width="1.5"/>
+        <line x1="-8" y1="25" x2="8" y2="25" stroke="#8898a8" stroke-width="1.5"/>
+        <line x1="-5" y1="12" x2="5" y2="12" stroke="#8898a8" stroke-width="1.5"/>
+        <polygon points="0,-8 -4,0 4,0" fill="#a0b0c0"/>
+      </g>
+
+      <!-- Golden Gate Bridge -->
+      <g transform="translate(55, 155)">
+        <line x1="0" y1="45" x2="0" y2="0" stroke="#c45c3a" stroke-width="3"/>
+        <line x1="130" y1="45" x2="130" y2="0" stroke="#c45c3a" stroke-width="3"/>
+        <path d="M0,8 Q65,-15 130,8" fill="none" stroke="#c45c3a" stroke-width="2.5"/>
+        <line x1="0" y1="18" x2="130" y2="18" stroke="#c45c3a" stroke-width="1.2" opacity="0.7"/>
+        <line x1="0" y1="28" x2="130" y2="28" stroke="#c45c3a" stroke-width="1.2" opacity="0.7"/>
+        <line x1="0" y1="38" x2="130" y2="38" stroke="#c45c3a" stroke-width="1.2" opacity="0.7"/>
+        <rect x="-8" y="42" width="146" height="6" fill="#8b4028" rx="1"/>
+      </g>
+
+      <!-- Bay Bridge -->
+      <g transform="translate(380, 168)">
+        <rect x="0" y="30" width="280" height="4" fill="#6a7a88"/>
+        <rect x="40" y="10" width="6" height="24" fill="#7a8a98"/>
+        <rect x="120" y="5" width="6" height="29" fill="#7a8a98"/>
+        <rect x="200" y="10" width="6" height="24" fill="#7a8a98"/>
+        <line x1="0" y1="32" x2="280" y2="32" stroke="#9aa8b8" stroke-width="1" stroke-dasharray="8 12"/>
+      </g>
+
+      <!-- Alcatraz -->
+      <g transform="translate(310, 178)">
+        <ellipse cx="28" cy="18" rx="32" ry="14" fill="#4a5560"/>
+        <rect x="8" y="6" width="40" height="14" fill="#5a6570" rx="1"/>
+        <rect x="14" y="9" width="6" height="8" fill="#8898a0" opacity="0.6"/>
+        <rect x="26" y="9" width="6" height="8" fill="#8898a0" opacity="0.6"/>
+        <rect x="38" y="9" width="6" height="8" fill="#8898a0" opacity="0.6"/>
+        <text x="28" y="38" text-anchor="middle" fill="#8898a8" font-size="7" font-family="monospace">ALCATRAZ</text>
+      </g>
+
+      <!-- SF Skyline -->
+      <g transform="translate(620, 130)">
+        <!-- Salesforce Tower -->
+        <rect x="80" y="0" width="22" height="70" fill="#2a3545" rx="2"/>
+        <rect x="83" y="3" width="16" height="64" fill="#3a4a5a" opacity="0.5"/>
+        <!-- Transamerica Pyramid -->
+        <polygon points="40,70 52,10 64,70" fill="#3a4a58"/>
+        <polygon points="44,70 52,22 60,70" fill="#4a5a68" opacity="0.6"/>
+        <!-- Other buildings -->
+        <rect x="0" y="35" width="18" height="35" fill="#2a3540"/>
+        <rect x="22" y="45" width="14" height="25" fill="#323e4a"/>
+        <rect x="108" y="40" width="16" height="30" fill="#2a3540"/>
+        <rect x="130" y="50" width="20" height="20" fill="#323e4a"/>
+        <rect x="58" y="55" width="12" height="15" fill="#2a3540"/>
+      </g>
+
+      <!-- Bay floor (mud) — revealed as water drains -->
+      <g id="bay-floor">
+        <rect x="0" y="248" width="1000" height="172" fill="url(#mudGrad)"/>
+        <!-- Mud cracks -->
+        <path d="M120,280 L180,290 M250,310 L310,300 M400,295 L460,305 M550,320 L600,310 M700,300 L760,315 M850,290 L920,305" stroke="#2a1f14" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <path d="M80,340 L140,350 M200,360 L270,355 M350,365 L420,358 M500,370 L570,362 M650,355 L720,368 M800,360 L880,355" stroke="#2a1f14" stroke-width="1" fill="none" opacity="0.4"/>
+        <!-- Flopping fish -->
+        <g class="fish fish-1" transform="translate(180, 295)">
+          <ellipse cx="0" cy="0" rx="14" ry="6" fill="#f4a460"/>
+          <polygon points="14,0 22,-4 22,4" fill="#e8944a"/>
+          <circle cx="-6" cy="-2" r="2" fill="#1a1a1a"/>
+          <text x="0" y="-12" text-anchor="middle" fill="#ffb347" font-size="8" font-family="monospace">help</text>
+        </g>
+        <g class="fish fish-2" transform="translate(340, 318)">
+          <ellipse cx="0" cy="0" rx="11" ry="5" fill="#87ceeb"/>
+          <polygon points="11,0 17,-3 17,3" fill="#5ba8c8"/>
+          <circle cx="-5" cy="-1.5" r="1.5" fill="#1a1a1a"/>
+        </g>
+        <g class="fish fish-3" transform="translate(520, 305)">
+          <ellipse cx="0" cy="0" rx="16" ry="7" fill="#ff7f50"/>
+          <polygon points="16,0 24,-5 24,5" fill="#e86a3a"/>
+          <circle cx="-7" cy="-2" r="2" fill="#1a1a1a"/>
+          <text x="0" y="-14" text-anchor="middle" fill="#ff6b9d" font-size="7" font-family="monospace">???</text>
+        </g>
+        <g class="fish fish-4" transform="translate(680, 328)">
+          <ellipse cx="0" cy="0" rx="10" ry="4.5" fill="#dda0dd"/>
+          <polygon points="10,0 15,-2.5 15,2.5" fill="#c080c0"/>
+        </g>
+        <g class="fish fish-5" transform="translate(820, 298)">
+          <ellipse cx="0" cy="0" rx="13" ry="6" fill="#98d8c8"/>
+          <polygon points="13,0 20,-4 20,4" fill="#78b8a8"/>
+          <text x="0" y="-11" text-anchor="middle" fill="#7a9ab8" font-size="7" font-family="monospace">glub</text>
+        </g>
+        <!-- Stranded boat -->
+        <g transform="translate(450, 308)">
+          <path d="M-18,0 Q0,-8 18,0 L14,6 Q0,2 -14,6 Z" fill="#8b6914"/>
+          <line x1="0" y1="-8" x2="0" y2="-22" stroke="#6a5030" stroke-width="1.5"/>
+          <polygon points="0,-22 12,-18 0,-14" fill="#d4c4a0" opacity="0.8"/>
+        </g>
+      </g>
+
+      <!-- Water body -->
+      <g clip-path="url(#waterClip)">
+        <rect x="0" y="200" width="1000" height="220" fill="url(#waterGrad)"/>
+        <!-- Wave surface -->
+        <path class="wave" id="water-surface" d="M0,200 Q50,195 100,200 T200,200 T300,200 T400,200 T500,200 T600,200 T700,200 T800,200 T900,200 T1000,200 L1000,420 L0,420 Z" fill="url(#waterGrad)" opacity="0.85"/>
+        <path class="wave wave-2" d="M0,205 Q60,210 120,205 T240,205 T360,205 T480,205 T600,205 T720,205 T840,205 T1000,205 L1000,420 L0,420 Z" fill="#1a8aaa" opacity="0.35"/>
+        <path class="wave wave-3" d="M0,215 Q40,212 80,215 T160,215 T240,215 T320,215 T400,215 T480,215 T560,215 T640,215 T720,215 T800,215 T880,215 T1000,215 L1000,420 L0,420 Z" fill="#0a5a72" opacity="0.25"/>
+      </g>
+
+      <!-- Datacenter complex (right side) -->
+      <g transform="translate(855, 95)">
+        <rect x="0" y="0" width="130" height="105" fill="#0d1520" stroke="#ff6b9d" stroke-width="1.5" rx="3" filter="url(#glow)"/>
+        <rect x="0" y="0" width="130" height="105" fill="url(#dcGlow)" rx="3"/>
+        <text x="65" y="16" text-anchor="middle" fill="#ff6b9d" font-size="8" font-family="monospace" letter-spacing="1">AI DATACENTER</text>
+        <text x="65" y="28" text-anchor="middle" fill="#7a9ab8" font-size="6.5" font-family="monospace">TOKEN FUEL PLANT</text>
+        <!-- Server racks -->
+        <rect x="10" y="35" width="25" height="55" fill="#1a2535" stroke="#00ffc8" stroke-width="0.5" rx="1"/>
+        <rect x="40" y="35" width="25" height="55" fill="#1a2535" stroke="#00ffc8" stroke-width="0.5" rx="1"/>
+        <rect x="70" y="35" width="25" height="55" fill="#1a2535" stroke="#00ffc8" stroke-width="0.5" rx="1"/>
+        <rect x="100" y="35" width="20" height="55" fill="#1a2535" stroke="#00ffc8" stroke-width="0.5" rx="1"/>
+        <!-- Blinking lights -->
+        <circle cx="18" cy="45" r="2" fill="#00ffc8"><animate attributeName="opacity" values="1;0.2;1" dur="0.8s" repeatCount="indefinite"/></circle>
+        <circle cx="48" cy="55" r="2" fill="#ff6b9d"><animate attributeName="opacity" values="0.2;1;0.2" dur="0.6s" repeatCount="indefinite"/></circle>
+        <circle cx="78" cy="48" r="2" fill="#00ffc8"><animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite"/></circle>
+        <!-- Counter display on building -->
+        <rect x="15" y="68" width="100" height="16" fill="#050810" stroke="#00ffc8" stroke-width="0.5" rx="2"/>
+        <text x="65" y="79" text-anchor="middle" fill="#00ffc8" font-size="7" font-family="monospace" id="dc-counter">▲ TOKENS</text>
+        <!-- Fans -->
+        <g transform="translate(22, 42)" class="fan-spin"><circle r="5" fill="none" stroke="#3a5060" stroke-width="1"/><line x1="-4" y1="0" x2="4" y2="0" stroke="#5a7080" stroke-width="1"/><line x1="0" y1="-4" x2="0" y2="4" stroke="#5a7080" stroke-width="1"/></g>
+        <g transform="translate(52, 42)" class="fan-spin"><circle r="5" fill="none" stroke="#3a5060" stroke-width="1"/><line x1="-4" y1="0" x2="4" y2="0" stroke="#5a7080" stroke-width="1"/><line x1="0" y1="-4" x2="0" y2="4" stroke="#5a7080" stroke-width="1"/></g>
+      </g>
+
+      <!-- Pump pipes from bay to datacenter -->
+      <g id="pump-system">
+        <path d="M780,200 Q820,180 860,160 L920,130" fill="none" stroke="#6a8090" stroke-width="8" stroke-linecap="round"/>
+        <path d="M780,200 Q820,180 860,160 L920,130" fill="none" stroke="#3a5060" stroke-width="5" stroke-linecap="round"/>
+        <path d="M720,200 Q760,175 800,155 L855,120" fill="none" stroke="#6a8090" stroke-width="6" stroke-linecap="round"/>
+        <path d="M720,200 Q760,175 800,155 L855,120" fill="none" stroke="#2a8aaa" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+        <!-- Pump station -->
+        <rect x="755" y="188" width="30" height="22" fill="#2a3540" stroke="#ff6b9d" stroke-width="1" rx="2"/>
+        <text x="770" y="202" text-anchor="middle" fill="#ff6b9d" font-size="6" font-family="monospace">PUMP</text>
+        <g class="fan-spin" transform="translate(770, 196)"><circle r="4" fill="none" stroke="#ff6b9d" stroke-width="0.8"/></g>
+        <!-- Water particles being slurped -->
+        <circle class="pump-particle" cx="790" cy="195" r="3" fill="#2ec4d8"/>
+        <circle class="pump-particle pump-particle-2" cx="830" cy="175" r="2.5" fill="#2ec4d8"/>
+        <circle class="pump-particle pump-particle-3" cx="870" cy="150" r="2" fill="#2ec4d8"/>
+        <!-- Token particles rising from datacenter -->
+        <text class="token-stream" x="900" y="115" fill="#00ffc8" font-size="9" font-family="monospace">+1</text>
+        <text class="token-stream token-stream-2" x="915" y="100" fill="#00ffc8" font-size="8" font-family="monospace">+1</text>
+        <text class="token-stream token-stream-3" x="890" y="90" fill="#00ffc8" font-size="7" font-family="monospace">+1</text>
+      </g>
+
+      <!-- Water level line indicator on scene -->
+      <line id="level-line" x1="0" y1="200" x2="1000" y2="200" stroke="#00ffc8" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.6"/>
+      <text id="level-label" x="12" y="196" fill="#00ffc8" font-size="8" font-family="monospace" opacity="0.8">WATER LEVEL</text>
+    </svg>
+  </div>
+
+  <div class="stats">
+    <div class="stat-panel">
+      <h2>Monthly burn</h2>
+      <div class="month-row"><span>Apr 2026</span><span>0.72B</span></div>
+      <div class="month-row"><span>May 2026</span><span>0.01B</span></div>
+      <div class="month-row"><span>Jun 2026</span><span>1.59B</span></div>
+      <div class="month-row"><span>Jul 2026</span><span>8.11B</span></div>
+      <div class="month-row"><span>Aug 2026</span><span>12.39B</span></div>
+    </div>
+    <div class="stat-panel">
+      <h2>By seat</h2>
+      <div class="seat-row seat-claude"><span class="seat-name">Claude Code</span><span class="seat-val">15.15B</span></div>
+      <div class="seat-row seat-codex"><span class="seat-name">Codex</span><span class="seat-val">1.45B</span></div>
+      <div class="seat-row seat-grok"><span class="seat-name">Grok CLI</span><span class="seat-val">16.3M</span></div>
+      <div class="seat-row seat-agy"><span class="seat-name">Antigravity</span><span class="seat-val">~9.1M</span></div>
+      <div class="seat-row seat-cursor"><span class="seat-name">Cursor CLI</span><span class="seat-val">~452K</span></div>
+    </div>
+  </div>
+
+  <p class="footer-note">SF Bay water levels are for comedic purposes only. The tokens are very real.</p>
+</div>
+
+<script>
+(function () {
+  const TARGET = 22973285119;
+  const WATER_START_Y = 205;
+  const WATER_END_Y = 368;
+  const DURATION = 4500;
+
+  const counterEl = document.getElementById('counter');
+  const dcCounter = document.getElementById('dc-counter');
+  const waterClipRect = document.getElementById('water-clip-rect');
+  const waterSurface = document.getElementById('water-surface');
+  const levelLine = document.getElementById('level-line');
+  const levelLabel = document.getElementById('level-label');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function formatNum(n) {
+    return Math.floor(n).toLocaleString('en-US');
+  }
+
+  function formatShort(n) {
+    if (n >= 1e9) return (n / 1e9).toFixed(2) + 'B';
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+    return String(Math.floor(n));
+  }
+
+  function setDrain(progress) {
+    const p = Math.min(1, Math.max(0, progress));
+    document.documentElement.style.setProperty('--drain', p);
+
+    const waterY = WATER_START_Y + (WATER_END_Y - WATER_START_Y) * p;
+    const waterH = 420 - waterY;
+
+    waterClipRect.setAttribute('y', waterY);
+    waterClipRect.setAttribute('height', waterH);
+
+    const waveBase = waterY;
+    waterSurface.setAttribute('d',
+      'M0,' + waveBase + ' Q50,' + (waveBase - 5) + ' 100,' + waveBase +
+      ' T200,' + waveBase + ' T300,' + waveBase + ' T400,' + waveBase +
+      ' T500,' + waveBase + ' T600,' + waveBase + ' T700,' + waveBase +
+      ' T800,' + waveBase + ' T900,' + waveBase + ' T1000,' + waveBase +
+      ' L1000,420 L0,420 Z'
+    );
+
+    levelLine.setAttribute('y1', waterY);
+    levelLine.setAttribute('y2', waterY);
+    levelLabel.setAttribute('y', waterY - 4);
+
+  }
+
+  function animate() {
+    if (reduced) {
+      counterEl.textContent = formatNum(TARGET);
+      if (dcCounter) dcCounter.textContent = '▲ ' + formatShort(TARGET);
+      setDrain(1);
+      return;
+    }
+
+    const start = performance.now();
+
+    function tick(now) {
+      const elapsed = now - start;
+      const t = Math.min(1, elapsed / DURATION);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const current = TARGET * eased;
+
+      counterEl.textContent = formatNum(current);
+      if (dcCounter) dcCounter.textContent = '▲ ' + formatShort(current);
+      setDrain(eased);
+
+      if (t < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        counterEl.textContent = formatNum(TARGET);
+        if (dcCounter) dcCounter.textContent = '▲ ' + formatShort(TARGET);
+        setDrain(1);
+      }
+    }
+
+    setDrain(0);
+    counterEl.textContent = '0';
+    requestAnimationFrame(tick);
+  }
+
+  animate();
+})();
+</script>
+</body>
+</html>

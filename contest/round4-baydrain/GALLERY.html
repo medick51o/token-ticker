@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DRAIN THE BAY — a 7-model design contest</title>
+<meta name="description" content="Seven AI models, one blind brief, zero human code: redesign a live token ticker as a comedic cybertopia where the SF Bay drains as the counter climbs.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0e1c; color: #d8f3e8; font-family: Consolas, monospace; padding: 24px; }
+  h1 { color: #2ee6a8; letter-spacing: 2px; font-size: 22px; }
+  .sub { font-size: 13px; opacity: .8; margin: 8px 0 4px; max-width: 820px; line-height: 1.5; }
+  .sub a { color: #00e5ff; }
+  .rules { border: 1px solid rgba(46,230,168,.35); border-radius: 6px; padding: 12px 16px;
+           font-size: 12px; margin: 18px 0 28px; background: rgba(4,12,10,.5); max-width: 820px;
+           line-height: 1.6; }
+  .entry { margin-bottom: 38px; }
+  .entry h2 { font-size: 16px; color: #00e5ff; margin-bottom: 2px; }
+  .entry .seat { font-size: 12px; opacity: .75; margin-bottom: 8px; }
+  .entry h2 a { color: #ffb020; font-size: 12px; text-decoration: none; margin-left: 12px; }
+  .entry h2 a:hover { text-decoration: underline; }
+  .crown { color: #ffd166; }
+  iframe { width: 100%; height: 560px; border: 1px solid #2a3a52; border-radius: 6px; background: #000; }
+  footer { font-size: 11px; opacity: .6; margin-top: 10px; max-width: 820px; line-height: 1.5; }
+</style>
+</head>
+<body>
+<h1>ROUND 4 — "DRAIN THE BAY"</h1>
+<p class="sub">Seven AI models. One blind brief. Zero human code, zero design direction beyond
+the gag itself: <b>the token counter goes up, so San Francisco Bay drains — because the AI is
+pumping it out to fuel the datacenters.</b> Each seat built its entire entry solo — one
+self-contained HTML file, no frameworks, no external assets. The human judge saw nothing until
+all seven were done. Reload any frame to replay its drain.
+<a href="../../">← back to the live ticker</a></p>
+<div class="rules">
+  <b>THE FIELD:</b> Grok (xAI, its own CLI) · Kimi K3 (Moonshot, via Cursor) · Gemini (Google,
+  via Antigravity) · GPT-5.6 Sol (OpenAI, via Cursor — sitting in for Codex) · GLM 5.2
+  (Zhipu, via Cursor) · Composer 2.5 (Cursor's own) · Claude Sonnet 5 (Anthropic, the
+  orchestrator's own entry).<br>
+  <b>THE BRIEF:</b> identical for every seat — <a href="BRIEF-BAYDRAIN.md" style="color:#00e5ff">read it</a>.
+  Judged on: the laugh · drain readability (counter up = water down) · craft · still works as a
+  real stats page. 🏆 = the boss's picks.
+</div>
+
+<div class="entry">
+  <h2><span class="crown">🏆</span> GROK <a href="entry-grok.html" target="_blank">open full ↗</a></h2>
+  <div class="seat">xAI · Grok CLI seat — "BAY DRAIN COMMAND · FISH DISTRESS 11/10"</div>
+  <iframe src="entry-grok.html" title="Grok's entry" loading="lazy"></iframe>
+</div>
+
+<div class="entry">
+  <h2><span class="crown">🏆</span> KIMI K3 <a href="entry-kimi.html" target="_blank">open full ↗</a></h2>
+  <div class="seat">Moonshot · Cursor CLI wardrobe — "LIVE FROM THE FORMER SAN FRANCISCO BAY"</div>
+  <iframe src="entry-kimi.html" title="Kimi K3's entry" loading="lazy"></iframe>
+</div>
+
+<div class="entry">
+  <h2>GPT-5.6 SOL <a href="entry-sol.html" target="_blank">open full ↗</a></h2>
+  <div class="seat">OpenAI · Cursor CLI wardrobe, sitting in for Codex — "YOUR TOKENS GO UP. THE BAY GOES AWAY."</div>
+  <iframe src="entry-sol.html" title="GPT-5.6 Sol's entry" loading="lazy"></iframe>
+</div>
+
+<div class="entry">
+  <h2>GEMINI <a href="entry-gemini.html" target="_blank">open full ↗</a></h2>
+  <div class="seat">Google · Antigravity seat — the one that brought SOUND (unmute on the page)</div>
+  <iframe src="entry-gemini.html" title="Gemini's entry" loading="lazy"></iframe>
+</div>
+
+<div class="entry">
+  <h2>GLM 5.2 <a href="entry-glm.html" target="_blank">open full ↗</a></h2>
+  <div class="seat">Zhipu · Cursor CLI wardrobe — neon district-ops, "9.6M gal bay water vaporized"</div>
+  <iframe src="entry-glm.html" title="GLM 5.2's entry" loading="lazy"></iframe>
+</div>
+
+<div class="entry">
+  <h2>COMPOSER 2.5 <a href="entry-composer.html" target="_blank">open full ↗</a></h2>
+  <div class="seat">Cursor's own model — the drain-monitor with the falling BAY LEVEL gauge</div>
+  <iframe src="entry-composer.html" title="Composer 2.5's entry" loading="lazy"></iframe>
+</div>
+
+<div class="entry">
+  <h2>CLAUDE SONNET 5 <a href="entry-claude.html" target="_blank">open full ↗</a></h2>
+  <div class="seat">Anthropic · the orchestrator's own entry — fish morale: UNIONIZING; crab invoices: 1 (past due)</div>
+  <iframe src="entry-claude.html" title="Claude Sonnet 5's entry" loading="lazy"></iframe>
+</div>
+
+<footer>
+  Part of the <a href="../../" style="color:#00e5ff">Token Burn Ticker</a> project — a live,
+  measured token counter maintained by a multi-vendor AI crew. The Bay is a rendering; no
+  actual water was harmed. Every entry here is exactly what its model delivered from the blind
+  brief — bugs, jokes, and all.
+</footer>
+</body>
+</html>

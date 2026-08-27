@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Burn Ticker — DRAIN THE BAY</title>
+<style>
+  :root {
+    --sky1: #0a0e1c; --sky2: #16213e; --neon: #2ee6a8; --neon2: #00e5ff;
+    --water: #0e5f8a; --water2: #0a3d5c; --mud: #3d2f24; --mud2: #2a2019;
+    --pipe: #4a5568; --warn: #ffb020; --pink: #ff5c8a; --text: #d8f3e8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: linear-gradient(var(--sky1), var(--sky2) 55%, var(--water2));
+    color: var(--text); font-family: "Cascadia Code", Consolas, monospace;
+    overflow-x: hidden; min-height: 100vh;
+  }
+  header { text-align: center; padding: 22px 12px 6px; position: relative; z-index: 5; }
+  .toptag { color: var(--neon2); font-size: 11px; letter-spacing: 3px; opacity: .8; }
+  h1 { font-size: clamp(15px, 2.6vw, 24px); letter-spacing: 2px; color: var(--neon);
+       text-shadow: 0 0 18px rgba(46,230,168,.5); margin: 4px 0; }
+  .counter { font-size: clamp(34px, 7vw, 74px); font-weight: 700; color: #fff;
+       text-shadow: 0 0 22px var(--neon), 0 0 60px rgba(46,230,168,.35);
+       font-variant-numeric: tabular-nums; }
+  .sub { font-size: 12px; opacity: .75; }
+  .sub b { color: var(--warn); }
+  .gauges { display: flex; gap: 18px; justify-content: center; margin-top: 8px;
+       font-size: 12px; flex-wrap: wrap; }
+  .gauge { border: 1px solid rgba(46,230,168,.35); padding: 5px 12px; border-radius: 4px;
+       background: rgba(4, 12, 10, .55); }
+  .gauge .val { font-size: 16px; font-weight: bold; color: var(--neon2); font-variant-numeric: tabular-nums; }
+  .gauge.bay .val { color: var(--pink); }
+  #scene { display: block; width: 100%; height: min(62vh, 560px); }
+  /* ---- water: whole group translates down as the bay drains ---- */
+  #waterGroup { transition: none; }
+  .wave { animation: waveShift 6s linear infinite; }
+  @keyframes waveShift { from { transform: translateX(0); } to { transform: translateX(-140px); } }
+  /* ---- fish flop: appear on the exposed floor, indignant ---- */
+  .fish { transform-origin: center; opacity: 0; }
+  .fish.landed { opacity: 1; animation: flop .9s ease-in-out infinite alternate; }
+  .fish.landed.f2 { animation-duration: .7s; animation-delay: .25s; }
+  .fish.landed.f3 { animation-duration: 1.15s; animation-delay: .5s; }
+  @keyframes flop {
+    0% { transform: rotate(-14deg) translateY(0); }
+    55% { transform: rotate(10deg) translateY(-9px); }
+    100% { transform: rotate(-8deg) translateY(0); }
+  }
+  .fishsay { opacity: 0; font-size: 11px; fill: var(--text); }
+  .fishsay.on { opacity: .9; }
+  /* ---- pump machinery ---- */
+  .fan { transform-origin: center; animation: spin 1.1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .slurp { stroke-dasharray: 6 10; animation: slurpFlow .5s linear infinite; }
+  @keyframes slurpFlow { to { stroke-dashoffset: -16; } }
+  .steam { animation: rise 3s ease-in infinite; opacity: 0; }
+  .steam.s2 { animation-delay: 1s; } .steam.s3 { animation-delay: 2s; }
+  @keyframes rise { 0% { opacity: 0; transform: translateY(0); }
+    25% { opacity: .5; } 100% { opacity: 0; transform: translateY(-46px); } }
+  .blink { animation: blink 1.4s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .25; } }
+  .foglayer { animation: fogDrift 40s linear infinite alternate; }
+  @keyframes fogDrift { to { transform: translateX(60px); } }
+  /* ---- stats footer ---- */
+  .stats { max-width: 900px; margin: 10px auto 30px; padding: 0 16px;
+       display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .panel { border: 1px solid rgba(46,230,168,.3); border-radius: 6px; padding: 12px 14px;
+       background: rgba(4, 12, 10, .6); font-size: 12px; }
+  .panel h2 { font-size: 11px; color: var(--neon2); letter-spacing: 2px; margin-bottom: 8px; }
+  .row { display: flex; justify-content: space-between; padding: 2px 0; }
+  .row .n { font-variant-numeric: tabular-nums; }
+  .est { opacity: .65; }
+  footer { text-align: center; font-size: 11px; opacity: .6; padding-bottom: 24px; }
+  @media (prefers-reduced-motion: reduce) {
+    .wave, .fan, .slurp, .steam, .blink, .foglayer,
+    .fish.landed { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="toptag">SF BAY HYDRO-COMPUTE AUTHORITY · PERMIT №11-11 · TOTALLY NORMAL INFRASTRUCTURE</div>
+  <h1>TOKEN BURN TICKER — DRAIN THE BAY EDITION</h1>
+  <div class="counter" id="odo">0</div>
+  <div class="sub">tokens processed since April 2026 · every one lovingly pumped out of the Bay · <b>Every total measured, never estimated.</b></div>
+  <div class="gauges">
+    <div class="gauge">TOKENS ▲ <span class="val" id="tokPct">0%</span></div>
+    <div class="gauge bay">BAY LEVEL ▼ <span class="val" id="bayPct">100%</span></div>
+    <div class="gauge">FISH MORALE <span class="val" id="morale">FINE</span></div>
+  </div>
+</header>
+
+<svg id="scene" viewBox="0 0 1200 560" preserveAspectRatio="xMidYMax slice" aria-label="Animated scene: San Francisco Bay draining as the token counter rises; fish flop on the exposed floor while a datacenter pumps the water away.">
+  <!-- stars -->
+  <g fill="#9fd8ff" opacity=".5">
+    <circle cx="80" cy="40" r="1.4"/><circle cx="240" cy="80" r="1"/><circle cx="420" cy="30" r="1.2"/>
+    <circle cx="700" cy="60" r="1"/><circle cx="900" cy="35" r="1.4"/><circle cx="1080" cy="75" r="1"/>
+  </g>
+
+  <!-- skyline: GG bridge, Alcatraz, downtown, Sutro -->
+  <g id="skyline">
+    <!-- Golden Gate (left) -->
+    <g stroke="#ff5c47" stroke-width="6" fill="none" opacity=".95">
+      <path d="M20 300 L20 170 M150 300 L150 150"/>
+      <path d="M-40 240 Q85 120 150 165 Q260 220 320 260" stroke-width="3"/>
+      <path d="M20 190 L150 175" stroke-width="3"/>
+      <g stroke-width="2"><path d="M45 300 L45 212"/><path d="M75 300 L75 200"/><path d="M105 300 L105 190"/><path d="M130 300 L130 182"/></g>
+      <path d="M-40 300 L330 300" stroke-width="5"/>
+    </g>
+    <circle cx="20" cy="166" r="3" fill="#ff8b7a" class="blink"/>
+    <circle cx="150" cy="146" r="3" fill="#ff8b7a" class="blink"/>
+    <!-- Alcatraz -->
+    <g fill="#2c3a4d">
+      <path d="M400 296 L420 268 L470 262 L500 276 L512 296 Z"/>
+      <rect x="438" y="246" width="26" height="26" rx="2"/>
+      <rect x="447" y="228" width="8" height="18" fill="#3d4f66"/>
+    </g>
+    <circle cx="451" cy="224" r="3.5" fill="#ffe28a" class="blink"/>
+    <text x="456" y="256" font-size="10" fill="#8fa8c4">ALCATRAZ (now 40% more island)</text>
+    <!-- downtown: Transamerica + Salesforce -->
+    <g fill="#22304a">
+      <path d="M760 300 L785 130 L810 300 Z"/>
+      <rect x="781" y="102" width="8" height="34" fill="#2c3d5c"/>
+      <path d="M860 300 L862 150 Q885 118 908 150 L910 300 Z"/>
+      <rect x="930" y="205" width="34" height="95"/>
+      <rect x="975" y="180" width="26" height="120"/>
+      <rect x="722" y="228" width="26" height="72"/>
+    </g>
+    <g fill="#5ee0ff" opacity=".8">
+      <rect x="869" y="162" width="4" height="4"/><rect x="881" y="176" width="4" height="4"/>
+      <rect x="893" y="160" width="4" height="4"/><rect x="937" y="216" width="4" height="4"/>
+      <rect x="947" y="238" width="4" height="4"/><rect x="981" y="192" width="4" height="4"/>
+      <rect x="728" y="238" width="4" height="4"/><rect x="736" y="256" width="4" height="4"/>
+    </g>
+    <!-- Sutro Tower peeking over a hill -->
+    <g stroke="#8fa8c4" stroke-width="3" fill="none">
+      <path d="M600 300 Q640 262 700 300" fill="#1b2740" stroke="none"/>
+      <path d="M638 268 L634 210 M662 268 L666 210 M630 224 L670 224 M634 210 L636 196 M666 210 L664 196"/>
+    </g>
+    <circle cx="636" cy="194" r="2.5" fill="#ff8b7a" class="blink"/>
+  </g>
+
+  <!-- fog -->
+  <g class="foglayer" opacity=".22" fill="#cfe8ff">
+    <ellipse cx="200" cy="150" rx="200" ry="22"/>
+    <ellipse cx="560" cy="120" rx="240" ry="18"/>
+    <ellipse cx="950" cy="140" rx="180" ry="20"/>
+  </g>
+
+  <!-- BAY FLOOR (revealed as water drains) -->
+  <g id="floor">
+    <rect x="0" y="300" width="1200" height="260" fill="var(--mud)"/>
+    <path d="M0 300 Q140 322 300 306 Q460 292 620 314 Q800 330 1000 306 L1200 316 L1200 560 L0 560 Z" fill="var(--mud2)"/>
+    <!-- comedy debris -->
+    <g stroke="#5a6b7a" stroke-width="3" fill="none">
+      <g transform="translate(220,392) rotate(-12)">
+        <rect x="0" y="0" width="46" height="30" rx="3"/>
+        <circle cx="10" cy="36" r="6"/><circle cx="36" cy="36" r="6"/>
+        <path d="M0 0 L-10 -12 M46 0 L52 -8"/>
+      </g>
+      <text x="196" y="446" font-size="10" fill="#8fa8c4" stroke="none">1 shopping cart (pre-owned)</text>
+      <circle cx="520" cy="430" r="16"/><circle cx="520" cy="430" r="7"/>
+      <text x="488" y="462" font-size="10" fill="#8fa8c4" stroke="none">historic tire, est. 1987</text>
+    </g>
+    <!-- sign -->
+    <g transform="translate(80,352)">
+      <rect x="-4" y="0" width="4" height="52" fill="#7a8ba0"/>
+      <rect x="-52" y="-30" width="104" height="34" rx="3" fill="#0d1a26" stroke="var(--warn)" stroke-width="2"/>
+      <text x="0" y="-16" font-size="10" fill="var(--warn)" text-anchor="middle">NO SWIMMING</text>
+      <text x="0" y="-5" font-size="9" fill="var(--warn)" text-anchor="middle">(no water either)</text>
+    </g>
+    <!-- fish -->
+    <g id="fishes">
+      <g class="fish" id="fish1" transform="translate(380,398)">
+        <path d="M0 0 Q14 -10 30 0 Q14 10 0 0 Z M30 0 L40 -8 L40 8 Z" fill="#69d2e7" stroke="#bdf1ff" stroke-width="1"/>
+        <circle cx="9" cy="-2" r="1.8" fill="#06222e"/>
+        <text class="fishsay" x="-6" y="-18">not again.</text>
+      </g>
+      <g class="fish f2" id="fish2" transform="translate(660,414)">
+        <path d="M0 0 Q14 -10 30 0 Q14 10 0 0 Z M30 0 L40 -8 L40 8 Z" fill="#ffd166" stroke="#ffe9b0" stroke-width="1"/>
+        <circle cx="9" cy="-2" r="1.8" fill="#2e2206"/>
+        <text class="fishsay" x="-14" y="-18">i had a MEETING</text>
+      </g>
+      <g class="fish f3" id="fish3" transform="translate(840,404)">
+        <path d="M0 0 Q14 -10 30 0 Q14 10 0 0 Z M30 0 L40 -8 L40 8 Z" fill="#ff8fab" stroke="#ffd0dd" stroke-width="1"/>
+        <circle cx="9" cy="-2" r="1.8" fill="#33101c"/>
+        <text class="fishsay" x="-24" y="-18">this is fine. (it is not)</text>
+      </g>
+      <!-- crab supervisor -->
+      <g id="crab" class="fish" transform="translate(960,432)">
+        <ellipse cx="0" cy="0" rx="14" ry="9" fill="#ff6b4a"/>
+        <circle cx="-5" cy="-10" r="2.5" fill="#fff"/><circle cx="5" cy="-10" r="2.5" fill="#fff"/>
+        <circle cx="-5" cy="-10" r="1" fill="#000"/><circle cx="5" cy="-10" r="1" fill="#000"/>
+        <path d="M-14 2 L-22 -4 M14 2 L22 -4 M-10 8 L-16 12 M10 8 L16 12" stroke="#ff6b4a" stroke-width="2.5" fill="none"/>
+        <text class="fishsay" x="-30" y="-20">who do i invoice for this</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- WATER -->
+  <g id="waterGroup">
+    <g class="wave">
+      <path id="waveTop" fill="var(--water)" opacity=".92"
+        d="M-140 306 Q-105 298 -70 306 T0 306 T70 306 T140 306 T210 306 T280 306 T350 306 T420 306 T490 306 T560 306 T630 306 T700 306 T770 306 T840 306 T910 306 T980 306 T1050 306 T1120 306 T1190 306 T1260 306 T1330 306 L1340 700 L-140 700 Z"/>
+    </g>
+    <rect x="-140" y="330" width="1480" height="400" fill="var(--water2)" opacity=".95"/>
+    <g fill="#8fd8ff" opacity=".35">
+      <path d="M180 340 q20 6 40 0" stroke="#8fd8ff" stroke-width="2" fill="none"/>
+      <path d="M760 356 q20 6 40 0" stroke="#8fd8ff" stroke-width="2" fill="none"/>
+    </g>
+  </g>
+
+  <!-- DATACENTER + PUMP RIG (right side, above everything) -->
+  <g id="datacenter">
+    <rect x="1020" y="130" width="170" height="176" rx="4" fill="#101c2e" stroke="var(--neon)" stroke-width="2"/>
+    <text x="1105" y="152" font-size="12" fill="var(--neon)" text-anchor="middle" letter-spacing="1">TOKEN WORKS №5</text>
+    <text x="1105" y="166" font-size="8" fill="#8fa8c4" text-anchor="middle">a very normal datacenter · est. tuesday</text>
+    <!-- server LEDs -->
+    <g>
+      <rect x="1036" y="178" width="60" height="8" rx="2" fill="#0a2438"/>
+      <rect x="1036" y="192" width="60" height="8" rx="2" fill="#0a2438"/>
+      <rect x="1036" y="206" width="60" height="8" rx="2" fill="#0a2438"/>
+      <circle cx="1042" cy="182" r="2" fill="var(--neon)" class="blink"/>
+      <circle cx="1052" cy="196" r="2" fill="var(--neon2)" class="blink"/>
+      <circle cx="1042" cy="210" r="2" fill="var(--pink)" class="blink"/>
+    </g>
+    <!-- cooling fans -->
+    <g transform="translate(1140,196)">
+      <circle r="22" fill="#0a1626" stroke="#38506b" stroke-width="2"/>
+      <g class="fan"><path d="M0 -18 L5 -4 L-5 -4 Z M0 18 L5 4 L-5 4 Z M-18 0 L-4 5 L-4 -5 Z M18 0 L4 5 L4 -5 Z" fill="var(--neon2)"/></g>
+    </g>
+    <g transform="translate(1140,252)">
+      <circle r="22" fill="#0a1626" stroke="#38506b" stroke-width="2"/>
+      <g class="fan" style="animation-duration:.8s"><path d="M0 -18 L5 -4 L-5 -4 Z M0 18 L5 4 L-5 4 Z M-18 0 L-4 5 L-4 -5 Z M18 0 L4 5 L4 -5 Z" fill="var(--neon2)"/></g>
+    </g>
+    <!-- steam -->
+    <g stroke="#cfe8ff" stroke-width="4" fill="none" stroke-linecap="round">
+      <path class="steam" d="M1060 124 q6 -12 0 -22 q-6 -10 0 -20"/>
+      <path class="steam s2" d="M1105 124 q6 -12 0 -22 q-6 -10 0 -20"/>
+      <path class="steam s3" d="M1150 124 q6 -12 0 -22 q-6 -10 0 -20"/>
+    </g>
+    <!-- the PIPE into the bay -->
+    <path d="M1020 280 Q940 286 900 320 Q870 348 830 360" stroke="var(--pipe)" stroke-width="16" fill="none" stroke-linecap="round"/>
+    <path d="M1020 280 Q940 286 900 320 Q870 348 830 360" class="slurp" stroke="var(--neon2)" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="826" cy="362" rx="14" ry="9" fill="var(--pipe)"/>
+    <text x="864" y="342" font-size="10" fill="var(--neon2)" transform="rotate(24 864 342)">SLURP →</text>
+    <!-- pump meter -->
+    <g transform="translate(1105,286)">
+      <rect x="-52" y="-12" width="104" height="24" rx="4" fill="#0d1a26" stroke="var(--warn)" stroke-width="1.5"/>
+      <text y="4" font-size="9" fill="var(--warn)" text-anchor="middle" id="pumpLabel">PUMPING: 1 BAY / 22.97B TOKENS</text>
+    </g>
+  </g>
+</svg>
+
+<div class="stats">
+  <div class="panel">
+    <h2>MONTHLY BURN (BAY-GALLONS OF THOUGHT)</h2>
+    <div class="row"><span>Apr '26</span><span class="n">0.72B</span></div>
+    <div class="row"><span>May '26</span><span class="n">0.01B</span></div>
+    <div class="row"><span>Jun '26</span><span class="n">1.59B</span></div>
+    <div class="row"><span>Jul '26</span><span class="n">8.11B</span></div>
+    <div class="row"><span>Aug '26</span><span class="n">12.39B ← the fish noticed here</span></div>
+  </div>
+  <div class="panel">
+    <h2>PER-SEAT PUMP OUTPUT</h2>
+    <div class="row"><span>Claude Code</span><span class="n">15.15B</span></div>
+    <div class="row"><span>Codex</span><span class="n">1.45B</span></div>
+    <div class="row"><span>Grok CLI</span><span class="n">16.3M</span></div>
+    <div class="row est"><span>Antigravity</span><span class="n">~9.1M (estimate)</span></div>
+    <div class="row est"><span>Cursor CLI</span><span class="n">~452K (estimate)</span></div>
+  </div>
+  <div class="panel">
+    <h2>ENVIRONMENTAL IMPACT (SATIRICAL)</h2>
+    <div class="row"><span>Bays consumed</span><span class="n" id="baysUsed">0.00</span></div>
+    <div class="row"><span>Fish inconvenienced</span><span class="n" id="fishCount">0</span></div>
+    <div class="row"><span>Crab invoices issued</span><span class="n" id="crabInv">0</span></div>
+    <div class="row"><span>Actual water harmed</span><span class="n">none — it's a metaphor</span></div>
+  </div>
+</div>
+
+<footer>Every total measured, never estimated. The Bay is a rendering. The tokens, regrettably, are real.</footer>
+
+<script>
+(function () {
+  "use strict";
+  var TOTAL = 22973285119;
+  var DRAIN_PX = 210;            // how far the water group sinks at 100%
+  var DURATION = 9000;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var odo = document.getElementById("odo");
+  var tokPct = document.getElementById("tokPct");
+  var bayPct = document.getElementById("bayPct");
+  var morale = document.getElementById("morale");
+  var water = document.getElementById("waterGroup");
+  var baysUsed = document.getElementById("baysUsed");
+  var fishCount = document.getElementById("fishCount");
+  var crabInv = document.getElementById("crabInv");
+  var fishes = [document.getElementById("fish1"), document.getElementById("fish2"),
+                document.getElementById("fish3"), document.getElementById("crab")];
+  var landAt = [0.45, 0.62, 0.78, 0.9];   // progress point each fish beaches at
+  var MORALE_STAGES = [[0, "FINE"], [0.25, "CONCERNED"], [0.5, "DAMP"], [0.7, "FURIOUS"], [0.88, "UNIONIZING"]];
+
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function render(p) {
+    var tokens = Math.round(TOTAL * p);
+    odo.textContent = tokens.toLocaleString("en-US");
+    tokPct.textContent = Math.round(p * 100) + "%";
+    bayPct.textContent = Math.max(0, Math.round(100 - p * 100)) + "%";
+    water.setAttribute("transform", "translate(0," + (p * DRAIN_PX).toFixed(1) + ")");
+    baysUsed.textContent = p.toFixed(2);
+    var landed = 0;
+    for (var i = 0; i < fishes.length; i++) {
+      if (p >= landAt[i]) {
+        landed++;
+        if (!fishes[i].classList.contains("landed")) {
+          fishes[i].classList.add("landed");
+          var say = fishes[i].querySelector(".fishsay");
+          if (say) say.classList.add("on");
+        }
+      }
+    }
+    fishCount.textContent = String(Math.max(0, landed - 1));  // crab is staff, not fish
+    crabInv.textContent = p >= landAt[3] ? "1 (past due)" : "0";
+    for (var m = MORALE_STAGES.length - 1; m >= 0; m--) {
+      if (p >= MORALE_STAGES[m][0]) { morale.textContent = MORALE_STAGES[m][1]; break; }
+    }
+  }
+
+  if (reduce) { render(1); return; }
+  var t0 = null;
+  function frame(ts) {
+    if (t0 === null) t0 = ts;
+    var p = Math.min(1, (ts - t0) / DURATION);
+    render(ease(p));
+    if (p < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

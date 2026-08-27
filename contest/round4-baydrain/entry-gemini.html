@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Token Burn Ticker — Drain the Bay Edition</title>
+<style>
+  :root {
+    --bg0: #040714;
+    --bg1: #0a1128;
+    --panel-bg: rgba(10, 17, 40, 0.78);
+    --cy1: #00f3ff;
+    --cy2: #ff0055;
+    --cy3: #9d6bff;
+    --amber: #ffb700;
+    --good: #39ff14;
+    --text-light: #e6f4ff;
+    --text-dim: #798ea4;
+    --border-line: rgba(0, 243, 255, 0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  html, body {
+    background: var(--bg0);
+    color: var(--text-light);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body {
+    background: 
+      radial-gradient(1200px 600px at 80% -10%, rgba(255,0,85,0.18), transparent 60%),
+      radial-gradient(900px 500px at 10% 0%, rgba(0,243,255,0.15), transparent 60%),
+      linear-gradient(180deg, #040714 0%, #0a1128 40%, #040714 100%);
+  }
+
+  .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 16px 16px 60px;
+  }
+
+  /* Top Navigation & Status Bar */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 18px;
+    border: 1px solid var(--border-line);
+    border-radius: 14px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(8px);
+    flex-wrap: wrap;
+    box-shadow: 0 4px 20px rgba(0,243,255,0.08);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+
+  .brand .pulse-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--cy2);
+    box-shadow: 0 0 14px var(--cy2);
+    animation: alertPulse 1.2s infinite ease-in-out;
+  }
+
+  .brand small {
+    color: var(--text-dim);
+    font-weight: 400;
+    font-size: 12px;
+  }
+
+  .tagline-box {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  .tagline-box em {
+    color: var(--cy1);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .controls {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn {
+    background: rgba(0, 243, 255, 0.1);
+    border: 1px solid var(--cy1);
+    color: var(--cy1);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn:hover {
+    background: var(--cy1);
+    color: #000;
+    box-shadow: 0 0 12px var(--cy1);
+  }
+
+  .btn-danger {
+    border-color: var(--cy2);
+    color: var(--cy2);
+    background: rgba(255, 0, 85, 0.1);
+  }
+
+  .btn-danger:hover {
+    background: var(--cy2);
+    color: #fff;
+    box-shadow: 0 0 12px var(--cy2);
+  }
+
+  /* Hero Canvas & SVG Container */
+  .hero {
+    position: relative;
+    margin-top: 14px;
+    border: 1px solid var(--border-line);
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(12, 20, 46, 0.7), rgba(4, 7, 20, 0.3));
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+  }
+
+  .scene {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 380px;
+  }
+
+  /* HUD Overlays on Scene */
+  .hud-center {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    pointer-events: auto;
+    padding: 10px 20px;
+    background: rgba(4, 7, 20, 0.85);
+    border: 1px solid var(--border-line);
+    border-radius: 14px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.15);
+    max-width: 90%;
+  }
+
+  .hud-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--cy1);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .hud-counter {
+    font-size: clamp(26px, 5.5vw, 62px);
+    font-weight: 900;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, var(--cy1), #ffffff, var(--cy2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hud-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  .hud-sub b {
+    color: var(--cy2);
+  }
+
+  /* Side Telemetry Chips */
+  .hud-chips {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    pointer-events: auto;
+  }
+
+  .chip {
+    font-size: 11px;
+    padding: 6px 12px;
+    border: 1px solid var(--border-line);
+    border-radius: 20px;
+    background: rgba(4, 7, 20, 0.8);
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    backdrop-filter: blur(4px);
+  }
+
+  .chip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--good);
+    box-shadow: 0 0 8px var(--good);
+  }
+
+  .chip-warn .chip-dot { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+  .chip-bad  .chip-dot { background: var(--cy2); box-shadow: 0 0 8px var(--cy2); }
+
+  .hud-slurp {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    text-align: right;
+    pointer-events: auto;
+    font-size: 11px;
+    color: var(--text-dim);
+    background: rgba(4, 7, 20, 0.8);
+    padding: 10px 14px;
+    border: 1px solid var(--border-line);
+    border-radius: 12px;
+  }
+
+  .hud-slurp b { color: var(--cy2); }
+
+  .slurp-bar {
+    margin-top: 6px;
+    width: 180px;
+    height: 10px;
+    border: 1px solid var(--border-line);
+    border-radius: 6px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.5);
+    margin-left: auto;
+  }
+
+  .slurp-fill {
+    display: block;
+    height: 100%;
+    width: 84.5%;
+    background: linear-gradient(90deg, var(--cy1), var(--cy2));
+    box-shadow: 0 0 12px var(--cy2);
+    transition: width 0.3s ease;
+  }
+
+  /* Grid Layout for Stats Cards */
+  .grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 840px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    border: 1px solid var(--border-line);
+    border-radius: 16px;
+    background: var(--panel-bg);
+    padding: 18px 20px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .card h3 {
+    margin: 0 0 4px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--cy1);
+    text-transform: uppercase;
+  }
+
+  .card .sub {
+    color: var(--text-dim);
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* Monthly Chart Columns */
+  .months-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    height: 170px;
+    padding-top: 16px;
+    border-bottom: 1px stroke rgba(255,255,255,0.1);
+  }
+
+  .month-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+  }
+
+  .month-bar {
+    width: 100%;
+    border-radius: 6px 6px 0 0;
+    background: linear-gradient(180deg, var(--cy2), var(--cy3));
+    box-shadow: 0 0 12px rgba(255, 0, 85, 0.3);
+    transition: height 0.6s cubic-bezier(0.1, 0.8, 0.3, 1);
+  }
+
+  .month-col.aug .month-bar {
+    background: linear-gradient(180deg, var(--cy1), var(--cy2));
+    box-shadow: 0 0 16px rgba(0, 243, 255, 0.4);
+  }
+
+  .month-val {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-top: 6px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .month-lbl {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  /* Leaderboard Seats */
+  .seat-row {
+    display: grid;
+    grid-template-columns: 1.2fr auto;
+    gap: 4px 12px;
+    padding: 9px 0;
+    border-bottom: 1px dashed rgba(0, 243, 255, 0.15);
+  }
+
+  .seat-row:last-child { border-bottom: none; }
+
+  .seat-name {
+    color: var(--text-light);
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  .seat-name small {
+    color: var(--text-dim);
+    font-weight: 400;
+    font-size: 11px;
+    margin-left: 6px;
+  }
+
+  .seat-val {
+    color: var(--amber);
+    font-weight: bold;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .seat-track {
+    grid-column: 1 / -1;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+  }
+
+  .seat-fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--cy3), var(--cy1));
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+
+  /* Fun Seabed Discovery Log */
+  .discovery-panel {
+    margin-top: 16px;
+    border: 1px solid var(--border-line);
+    border-radius: 16px;
+    background: var(--panel-bg);
+    padding: 16px 20px;
+  }
+
+  .discovery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .disc-item {
+    background: rgba(4, 7, 20, 0.6);
+    border: 1px solid rgba(0, 243, 255, 0.15);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+
+  .disc-item b {
+    color: var(--cy1);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-dim);
+    font-size: 11px;
+    flex-wrap: wrap;
+    border-top: 1px stroke rgba(255,255,255,0.08);
+    padding-top: 16px;
+  }
+
+  /* Keyframe Animations */
+  @keyframes alertPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.7); }
+  }
+
+  @keyframes flop {
+    0%   { transform: rotate(-18deg) translateY(0); }
+    25%  { transform: rotate(22deg) translateY(-5px); }
+    50%  { transform: rotate(-12deg) translateY(0); }
+    75%  { transform: rotate(18deg) translateY(-3px); }
+    100% { transform: rotate(-18deg) translateY(0); }
+  }
+
+  @keyframes dashFlow {
+    to { stroke-dashoffset: -100; }
+  }
+
+  @keyframes fogDrift {
+    0%   { transform: translateX(-5%); }
+    100% { transform: translateX(5%); }
+  }
+
+  @keyframes blinkWin {
+    0%, 100% { opacity: 0.9; }
+    50%      { opacity: 0.2; }
+  }
+
+  @keyframes pistonMove {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(18px); }
+  }
+
+  @keyframes carDrive {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(280px); }
+  }
+
+  @keyframes steamRise {
+    0%   { transform: translateY(0) scale(0.8); opacity: 0.5; }
+    100% { transform: translateY(-20px) scale(1.4); opacity: 0; }
+  }
+
+  /* SVG Element Animation Classes */
+  .fish {
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: 0.8;
+  }
+
+  .fish.beached {
+    opacity: 1;
+    animation: flop 0.75s infinite ease-in-out;
+  }
+
+  .fish-bubble {
+    display: none;
+  }
+
+  .fish.beached .fish-bubble {
+    display: block;
+  }
+
+  .pipe-flow-1 {
+    stroke-dasharray: 8 12;
+    animation: dashFlow 2s linear infinite;
+  }
+
+  .pipe-flow-2 {
+    stroke-dasharray: 6 10;
+    animation: dashFlow 1.4s linear infinite;
+  }
+
+  .fog-layer {
+    animation: fogDrift 20s ease-in-out infinite alternate;
+  }
+
+  .win {
+    animation: blinkWin 1.8s infinite ease-in-out;
+  }
+
+  .pump-piston {
+    transform-box: fill-box;
+    animation: pistonMove 0.8s infinite ease-in-out;
+  }
+
+  .car-move-1 { animation: carDrive 8s linear infinite; }
+  .car-move-2 { animation: carDrive 12s linear infinite; }
+  .car-move-3 { animation: carDrive 6s linear infinite; }
+
+  .steam-1 { animation: steamRise 2.5s infinite ease-out; }
+  .steam-2 { animation: steamRise 3.2s infinite ease-out 0.8s; }
+
+  .blink-fast { animation: alertPulse 0.8s infinite ease-in-out; }
+
+  /* Reduced Motion Override */
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .fish.beached { animation: none !important; }
+    .pipe-flow-1, .pipe-flow-2, .fog-layer, .pump-piston, .car-move-1, .car-move-2, .car-move-3, .steam-1, .steam-2 {
+      animation: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <!-- Top Banner Header -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="pulse-dot"></div>
+      <div>
+        SF BAY AI WATER-COOLING INTAKE // TOKEN BURN TICKER
+        <small>· DATACENTER DRAIN MONITOR</small>
+      </div>
+    </div>
+
+    <div class="tagline-box">
+      "Every total measured, never estimated."
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-danger" onclick="triggerDrainAnimation()">⚡ RE-DRAIN SF BAY</button>
+      <button class="btn" id="soundBtn" onclick="toggleAudio()">🔊 SOUND: ON</button>
+    </div>
+  </header>
+
+  <!-- Interactive SVG Hero Canvas Scene -->
+  <section class="hero">
+    <svg viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid meet" class="scene">
+      <defs>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#040614"/>
+          <stop offset="60%" stop-color="#0a122e"/>
+          <stop offset="100%" stop-color="#121c45"/>
+        </linearGradient>
+        <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(0, 243, 255, 0.8)"/>
+          <stop offset="30%" stop-color="rgba(10, 80, 160, 0.9)"/>
+          <stop offset="100%" stop-color="rgba(2, 14, 40, 0.98)"/>
+        </linearGradient>
+        <linearGradient id="mudGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#3a2a1c"/>
+          <stop offset="50%" stop-color="#221810"/>
+          <stop offset="100%" stop-color="#0f0a06"/>
+        </linearGradient>
+        <linearGradient id="dcGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#0a1024"/>
+          <stop offset="50%" stop-color="#152245"/>
+          <stop offset="100%" stop-color="#080c1b"/>
+        </linearGradient>
+        <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- Background Sky & Cyber Grid -->
+      <rect width="1200" height="520" fill="url(#skyGrad)"/>
+      
+      <g opacity="0.12" stroke="#00f3ff" stroke-width="0.5">
+        <line x1="0" y1="40" x2="1200" y2="40"/>
+        <line x1="0" y1="80" x2="1200" y2="80"/>
+        <line x1="0" y1="120" x2="1200" y2="120"/>
+        <line x1="0" y1="160" x2="1200" y2="160"/>
+        <line x1="0" y1="200" x2="1200" y2="200"/>
+        <line x1="150" y1="0" x2="150" y2="300"/>
+        <line x1="350" y1="0" x2="350" y2="300"/>
+        <line x1="550" y1="0" x2="550" y2="300"/>
+        <line x1="750" y1="0" x2="750" y2="300"/>
+        <line x1="950" y1="0" x2="950" y2="300"/>
+      </g>
+
+      <!-- Twinkling Stars -->
+      <g fill="#ffffff">
+        <circle cx="120" cy="35" r="1.5" opacity="0.8"/>
+        <circle cx="270" cy="65" r="1" opacity="0.6"/>
+        <circle cx="410" cy="25" r="2" opacity="0.9"/>
+        <circle cx="640" cy="55" r="1.5" opacity="0.7"/>
+        <circle cx="790" cy="20" r="1" opacity="0.8"/>
+        <circle cx="980" cy="75" r="2" opacity="0.9"/>
+      </g>
+
+      <!-- SF Hills Silhouette & Sutro Tower -->
+      <path d="M 0,260 Q 140,200 280,240 T 550,220 T 800,250 T 1000,210 T 1200,240 L 1200,350 L 0,350 Z" fill="#080e22" opacity="0.9"/>
+      
+      <!-- Sutro Tower -->
+      <g transform="translate(470, 140)" stroke="#798ea4" stroke-width="1.2" fill="none">
+        <line x1="0" y1="80" x2="10" y2="10"/>
+        <line x1="26" y1="80" x2="16" y2="10"/>
+        <line x1="13" y1="80" x2="13" y2="10"/>
+        <line x1="4" y1="60" x2="22" y2="60"/>
+        <line x1="7" y1="40" x2="19" y2="40"/>
+        <line x1="10" y1="10" x2="10" y2="0"/>
+        <line x1="13" y1="10" x2="13" y2="-4"/>
+        <line x1="16" y1="10" x2="16" y2="0"/>
+        <circle cx="13" cy="-4" r="2" fill="#ff0055" stroke="none" class="blink-fast"/>
+        <text x="13" y="94" font-family="monospace" font-size="8" fill="#586e88" text-anchor="middle" stroke="none">Sutro Tower</text>
+      </g>
+
+      <!-- Fog Drifting Layer -->
+      <path class="fog-layer" d="M -100,230 Q 200,200 500,240 T 1100,220 T 1400,250 L 1400,300 L -100,300 Z" fill="rgba(0,243,255,0.05)"/>
+
+      <!-- SF Skyline Landmarks -->
+      <!-- Salesforce Tower -->
+      <g transform="translate(610, 120)">
+        <path d="M 15,160 L 18,25 Q 30,5 42,25 L 45,160 Z" fill="#0f1934" stroke="#00f3ff" stroke-width="1"/>
+        <rect x="20" y="28" width="20" height="24" fill="#040814" rx="2"/>
+        <circle cx="25" cy="34" r="1.5" fill="#00f3ff" class="win"/>
+        <circle cx="30" cy="34" r="1.5" fill="#ff0055" class="win"/>
+        <circle cx="35" cy="34" r="1.5" fill="#39ff14" class="win"/>
+        <circle cx="25" cy="42" r="1.5" fill="#ffb700" class="win"/>
+        <circle cx="30" cy="42" r="1.5" fill="#00f3ff" class="win"/>
+        <circle cx="35" cy="42" r="1.5" fill="#ff0055" class="win"/>
+        <text x="30" y="176" font-family="monospace" font-size="9" fill="#00f3ff" text-anchor="middle" font-weight="bold">Salesforce Tower</text>
+      </g>
+
+      <!-- Transamerica Pyramid -->
+      <g transform="translate(530, 130)">
+        <polygon points="25,10 5,150 45,150" fill="#0a1329" stroke="#798ea4" stroke-width="1"/>
+        <line x1="25" y1="10" x2="25" y2="-10" stroke="#ff0055" stroke-width="1.5"/>
+        <circle cx="25" cy="-10" r="2" fill="#ff0055" class="blink-fast"/>
+        <rect x="18" y="90" width="14" height="60" fill="#080e1e" stroke="#798ea4" stroke-width="0.5"/>
+        <text x="25" y="165" font-family="monospace" font-size="8" fill="#798ea4" text-anchor="middle">Transamerica</text>
+      </g>
+
+      <!-- Alcatraz Island -->
+      <g transform="translate(320, 230)">
+        <path d="M 0,60 Q 20,35 60,30 Q 100,25 140,40 Q 170,45 190,60 Z" fill="#182033" stroke="#324460" stroke-width="1"/>
+        <path d="M 5,55 Q 60,33 185,55" fill="none" stroke="#00f3ff" stroke-width="1" stroke-dasharray="3,3" opacity="0.6"/>
+        <rect x="50" y="15" width="65" height="18" fill="#0b1220" stroke="#586e88" stroke-width="1"/>
+        <rect x="105" y="0" width="10" height="22" fill="#121b2d" stroke="#00f3ff" stroke-width="1"/>
+        <polygon points="105,0 110,-6 115,0" fill="#ffb700"/>
+        <polygon points="110,-4 30,-50 80,-70" fill="rgba(255,230,100,0.12)"/>
+        <rect x="55" y="18" width="55" height="10" fill="#ff0055" rx="2"/>
+        <text x="82" y="25" font-family="monospace" font-size="7" fill="#ffffff" font-weight="bold" text-anchor="middle">ALCATRAZ PRISON</text>
+        <text x="95" y="73" font-family="monospace" font-size="9" fill="#00f3ff" text-anchor="middle" font-weight="bold">Alcatraz Island</text>
+      </g>
+
+      <!-- Golden Gate Bridge -->
+      <g transform="translate(30, 150)">
+        <!-- South Pier & Depth Gauge Ticks -->
+        <rect x="60" y="120" width="22" height="110" fill="#140b0d" stroke="#c1121f" stroke-width="1"/>
+        <line x1="82" y1="130" x2="90" y2="130" stroke="#ff0055" stroke-width="1.5"/>
+        <text x="94" y="133" font-family="monospace" font-size="7" fill="#ff0055">60ft (HIGH TIDE)</text>
+        <line x1="82" y1="195" x2="90" y2="195" stroke="#39ff14" stroke-width="1.5"/>
+        <text x="94" y="198" font-family="monospace" font-size="7" fill="#39ff14">8ft (DRY BED)</text>
+        
+        <!-- Tower 1 -->
+        <path d="M 63,120 L 67,10 L 75,10 L 79,120 Z" fill="#c1121f" stroke="#780000" stroke-width="1"/>
+        <line x1="65" y1="30" x2="77" y2="50" stroke="#780000" stroke-width="1.5"/>
+        <line x1="77" y1="30" x2="65" y2="50" stroke="#780000" stroke-width="1.5"/>
+        <line x1="64" y1="70" x2="78" y2="90" stroke="#780000" stroke-width="1.5"/>
+        <line x1="78" y1="70" x2="64" y2="90" stroke="#780000" stroke-width="1.5"/>
+
+        <!-- North Pier & Tower -->
+        <rect x="210" y="120" width="22" height="110" fill="#140b0d" stroke="#c1121f" stroke-width="1"/>
+        <path d="M 213,120 L 217,10 L 225,10 L 229,120 Z" fill="#c1121f" stroke="#780000" stroke-width="1"/>
+        <line x1="215" y1="30" x2="227" y2="50" stroke="#780000" stroke-width="1.5"/>
+        <line x1="227" y1="30" x2="215" y2="50" stroke="#780000" stroke-width="1.5"/>
+        <line x1="214" y1="70" x2="228" y2="90" stroke="#780000" stroke-width="1.5"/>
+        <line x1="228" y1="70" x2="214" y2="90" stroke="#780000" stroke-width="1.5"/>
+
+        <!-- Cables -->
+        <path d="M -30,65 Q 71,10 71,10 Q 145,85 221,10 Q 221,10 300,65" fill="none" stroke="#fdf0d5" stroke-width="2.5"/>
+        <g stroke="#fdf0d5" stroke-width="0.75" opacity="0.7">
+          <line x1="88" y1="40" x2="88" y2="90"/>
+          <line x1="108" y1="60" x2="108" y2="90"/>
+          <line x1="128" y1="72" x2="128" y2="90"/>
+          <line x1="148" y1="78" x2="148" y2="90"/>
+          <line x1="168" y1="72" x2="168" y2="90"/>
+          <line x1="188" y1="60" x2="188" y2="90"/>
+          <line x1="208" y1="40" x2="208" y2="90"/>
+        </g>
+
+        <!-- Deck -->
+        <rect x="-30" y="90" width="340" height="10" fill="#780000" stroke="#c1121f" stroke-width="1"/>
+        
+        <!-- Moving Cars -->
+        <circle cx="80" cy="93" r="2" fill="#ffea00" class="car-move-1"/>
+        <circle cx="140" cy="93" r="2" fill="#ff0055" class="car-move-2"/>
+        <circle cx="190" cy="93" r="2" fill="#ffea00" class="car-move-3"/>
+
+        <text x="145" y="112" font-family="monospace" font-size="10" fill="#ff4d4d" font-weight="bold" text-anchor="middle">Golden Gate Bridge</text>
+      </g>
+
+      <!-- Exposed Muddy Seabed (Revealed when water drops) -->
+      <g id="bayBed">
+        <path d="M 0,310 C 150,300 280,320 400,310 C 550,300 700,330 850,310 C 980,295 1100,310 1200,305 L 1200,520 L 0,520 Z" fill="url(#mudGrad)"/>
+        
+        <ellipse cx="200" cy="360" rx="75" ry="10" fill="#141c30" opacity="0.6"/>
+        <ellipse cx="550" cy="390" rx="100" ry="15" fill="#141c30" opacity="0.6"/>
+        <ellipse cx="850" cy="370" rx="65" ry="9" fill="#141c30" opacity="0.6"/>
+
+        <!-- Sunken Easter Eggs -->
+        <!-- Cable Car -->
+        <g transform="translate(160, 350) rotate(-10)">
+          <rect x="0" y="0" width="42" height="22" fill="#7a0000" stroke="#ffb700" stroke-width="1" rx="2"/>
+          <rect x="4" y="4" width="7" height="9" fill="#00f3ff" opacity="0.7"/>
+          <rect x="14" y="4" width="7" height="9" fill="#00f3ff" opacity="0.7"/>
+          <rect x="24" y="4" width="7" height="9" fill="#00f3ff" opacity="0.7"/>
+          <text x="21" y="18" font-family="monospace" font-size="5" fill="#ffffff" text-anchor="middle">SF CABLE CAR</text>
+          <text x="21" y="-4" font-family="monospace" font-size="7" fill="#ffb700">Cable Car (Drowned)</text>
+        </g>
+
+        <!-- Lime Scooter -->
+        <g transform="translate(470, 400) rotate(40)">
+          <line x1="0" y1="0" x2="22" y2="0" stroke="#39ff14" stroke-width="2"/>
+          <line x1="20" y1="0" x2="20" y2="-16" stroke="#39ff14" stroke-width="2"/>
+          <line x1="16" y1="-16" x2="24" y2="-16" stroke="#ffffff" stroke-width="2"/>
+          <text x="10" y="10" font-family="monospace" font-size="6" fill="#39ff14">Lime Scooter</text>
+        </g>
+
+        <!-- Sunken H100 GPU Cluster -->
+        <g transform="translate(710, 380)">
+          <rect x="0" y="0" width="28" height="36" fill="#141414" stroke="#00f3ff" stroke-width="1"/>
+          <line x1="4" y1="7" x2="24" y2="7" stroke="#39ff14" stroke-width="1"/>
+          <line x1="4" y1="15" x2="24" y2="15" stroke="#39ff14" stroke-width="1"/>
+          <line x1="4" y1="23" x2="24" y2="23" stroke="#ff0055" stroke-width="1"/>
+          <circle cx="7" cy="7" r="1" fill="#00f3ff" class="win"/>
+          <circle cx="7" cy="15" r="1" fill="#00f3ff" class="win"/>
+          <text x="14" y="-4" font-family="monospace" font-size="7" fill="#00f3ff" text-anchor="middle">Sunken GPU Rack</text>
+        </g>
+
+        <!-- FLOPPING FISH ON EXPOSED BED (6+ fish elements!) -->
+        <!-- Fish 1 -->
+        <g id="fish1" class="fish" transform="translate(290, 340)">
+          <path d="M 0,0 C 14,-10 32,-8 42,0 C 32,8 14,10 0,0 Z" fill="#ff70a6" stroke="#ff0055" stroke-width="1.5"/>
+          <polygon points="42,0 50,-7 48,0 50,7" fill="#ff0055"/>
+          <circle cx="7" cy="-2" r="2" fill="#ffffff"/>
+          <circle cx="6" cy="-2" r="1" fill="#000000"/>
+          <g class="fish-bubble">
+            <rect x="-25" y="-34" width="105" height="18" fill="rgba(4,7,20,0.92)" stroke="#ff0055" rx="4"/>
+            <text x="27" y="-22" font-family="monospace" font-size="8" fill="#ffffff" font-weight="bold" text-anchor="middle">"22.9B TOKENS?!"</text>
+          </g>
+        </g>
+
+        <!-- Fish 2 -->
+        <g id="fish2" class="fish" transform="translate(110, 390)">
+          <path d="M 0,0 C 10,-8 26,-6 36,0 C 26,6 10,8 0,0 Z" fill="#70d6ff" stroke="#00f3ff" stroke-width="1.5"/>
+          <polygon points="36,0 44,-5 42,0 44,5" fill="#00f3ff"/>
+          <circle cx="6" cy="-2" r="1.8" fill="#ffffff"/>
+          <circle cx="5" cy="-2" r="0.9" fill="#000000"/>
+          <g class="fish-bubble">
+            <rect x="-20" y="-34" width="115" height="18" fill="rgba(4,7,20,0.92)" stroke="#00f3ff" rx="4"/>
+            <text x="37" y="-22" font-family="monospace" font-size="8" fill="#00f3ff" font-weight="bold" text-anchor="middle">"Claude drank my home!"</text>
+          </g>
+        </g>
+
+        <!-- Fish 3 -->
+        <g id="fish3" class="fish" transform="translate(790, 370)">
+          <ellipse cx="18" cy="0" rx="20" ry="9" fill="#ffb700" stroke="#d62828" stroke-width="1.5"/>
+          <polygon points="38,0 46,-7 44,0 46,7" fill="#d62828"/>
+          <line x1="5" y1="-3" x2="9" y2="1" stroke="#000" stroke-width="1"/>
+          <line x1="9" y1="-3" x2="5" y2="1" stroke="#000" stroke-width="1"/>
+          <g class="fish-bubble">
+            <rect x="-20" y="-34" width="90" height="18" fill="rgba(4,7,20,0.92)" stroke="#ffb700" rx="4"/>
+            <text x="25" y="-22" font-family="monospace" font-size="8" fill="#ffb700" font-weight="bold" text-anchor="middle">"SLURPED DRY!"</text>
+          </g>
+        </g>
+
+        <!-- Fish 4: Dungeness Crab -->
+        <g id="fish4" class="fish" transform="translate(610, 400)">
+          <ellipse cx="10" cy="0" rx="9" ry="6" fill="#ff0055"/>
+          <path d="M 3,3 L -2,8 M 6,4 L 3,10 M 14,4 L 17,10 M 17,3 L 22,8" stroke="#ff0055" stroke-width="1.2"/>
+          <line x1="22" y1="-5" x2="22" y2="-24" stroke="#ffea00" stroke-width="1.5"/>
+          <rect x="5" y="-36" width="70" height="13" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+          <text x="40" y="-27" font-family="sans-serif" font-size="7" fill="#cc0000" font-weight="900" text-anchor="middle">AI STOLE WATER!</text>
+        </g>
+
+        <!-- Fish 5 -->
+        <g id="fish5" class="fish" transform="translate(400, 375)">
+          <path d="M 0,0 C 7,-5 18,-4 24,0 C 18,4 7,5 0,0 Z" fill="#e0aaff" stroke="#9d6bff" stroke-width="1"/>
+          <polygon points="24,0 29,-3 27,0 29,3" fill="#9d6bff"/>
+          <g class="fish-bubble">
+            <rect x="-15" y="-30" width="75" height="15" fill="rgba(4,7,20,0.92)" stroke="#9d6bff" rx="4"/>
+            <text x="22" y="-20" font-family="monospace" font-size="7" fill="#e0aaff" text-anchor="middle">"Need water!"</text>
+          </g>
+        </g>
+
+        <!-- Fish 6 -->
+        <g id="fish6" class="fish" transform="translate(220, 415)">
+          <path d="M 0,0 C 12,-9 28,-7 38,0 C 28,7 12,9 0,0 Z" fill="#39ff14" stroke="#00aa00" stroke-width="1.5"/>
+          <polygon points="38,0 46,-6 44,0 46,6" fill="#00aa00"/>
+          <circle cx="6" cy="-2" r="2" fill="#ffffff"/>
+          <circle cx="5" cy="-2" r="1" fill="#000000"/>
+          <g class="fish-bubble">
+            <rect x="-20" y="-32" width="105" height="18" fill="rgba(4,7,20,0.92)" stroke="#39ff14" rx="4"/>
+            <text x="32" y="-20" font-family="monospace" font-size="8" fill="#39ff14" font-weight="bold" text-anchor="middle">"Stop context window!"</text>
+          </g>
+        </g>
+
+        <!-- Fish 7 -->
+        <g id="fish7" class="fish" transform="translate(920, 390) rotate(-20)">
+          <path d="M 0,25 L 8,0 C 16,-12 28,-16 32,-4 C 24,4 16,8 0,25 Z" fill="#2b3a55" stroke="#00f3ff" stroke-width="1.5"/>
+          <path d="M 0,25 L 8,0 C 0,-12 -12,-16 -16,-4 C -8,4 0,8 0,25 Z" fill="#2b3a55" stroke="#00f3ff" stroke-width="1.5"/>
+          <g class="fish-bubble">
+            <rect x="-35" y="-32" width="80" height="15" fill="rgba(4,7,20,0.92)" stroke="#00f3ff" rx="4"/>
+            <text x="5" y="-22" font-family="monospace" font-size="7" fill="#00f3ff" text-anchor="middle">"Whale Beached!"</text>
+          </g>
+        </g>
+      </g>
+
+      <!-- Animated Water Group (Drains vertically downwards!) -->
+      <g id="waterGroup">
+        <path d="M 0,250 Q 150,245 300,250 T 600,250 T 900,245 T 1200,250 L 1200,520 L 0,520 Z" fill="url(#waterGrad)"/>
+        <path d="M 0,250 Q 75,242 150,250 T 300,250 T 450,250 T 600,250 T 750,250 T 900,250 T 1050,250 T 1200,250" fill="none" stroke="#00f3ff" stroke-width="2.5" opacity="0.85"/>
+        
+        <!-- Floating Water Buoy -->
+        <g transform="translate(200, 240)">
+          <polygon points="0,8 -7,20 7,20" fill="#ff0055"/>
+          <rect x="-8" y="20" width="16" height="5" fill="#ffffff" rx="2"/>
+          <circle cx="0" cy="4" r="2.5" fill="#ffea00" class="blink-fast"/>
+          <text x="0" y="-4" font-family="monospace" font-size="8" fill="#00f3ff" text-anchor="middle" font-weight="bold">BAY TIDE</text>
+        </g>
+      </g>
+
+      <!-- The AI DATACENTER & PUMP Gag Monolith -->
+      <g transform="translate(930, 90)">
+        <!-- Main DATACENTER Monolith Building -->
+        <rect x="0" y="30" width="240" height="260" fill="url(#dcGrad)" stroke="#00f3ff" stroke-width="2" rx="4"/>
+        
+        <!-- Illuminated Server Windows -->
+        <g opacity="0.85">
+          <rect x="15" y="80" width="55" height="14" fill="#040918" stroke="#00f3ff" stroke-width="0.75"/>
+          <rect x="85" y="80" width="55" height="14" fill="#040918" stroke="#00f3ff" stroke-width="0.75"/>
+          <rect x="155" y="80" width="55" height="14" fill="#040918" stroke="#00f3ff" stroke-width="0.75"/>
+          
+          <rect x="15" y="110" width="55" height="14" fill="#040918" stroke="#00f3ff" stroke-width="0.75"/>
+          <rect x="85" y="110" width="55" height="14" fill="#040918" stroke="#00f3ff" stroke-width="0.75"/>
+          <rect x="155" y="110" width="55" height="14" fill="#040918" stroke="#00f3ff" stroke-width="0.75"/>
+
+          <circle cx="25" cy="87" r="1.5" fill="#39ff14" class="win"/>
+          <circle cx="32" cy="87" r="1.5" fill="#ff0055" class="win"/>
+          <circle cx="95" cy="87" r="1.5" fill="#00f3ff" class="win"/>
+          <circle cx="165" cy="87" r="1.5" fill="#ffb700" class="win"/>
+          
+          <circle cx="25" cy="117" r="1.5" fill="#00f3ff" class="win"/>
+          <circle cx="95" cy="117" r="1.5" fill="#39ff14" class="win"/>
+          <circle cx="165" cy="117" r="1.5" fill="#ff0055" class="win"/>
+        </g>
+
+        <!-- Roof Cooling Stacks -->
+        <rect x="25" y="0" width="35" height="30" fill="#182442" stroke="#00f3ff" stroke-width="1"/>
+        <rect x="155" y="0" width="35" height="30" fill="#182442" stroke="#00f3ff" stroke-width="1"/>
+        
+        <circle cx="42" cy="-10" r="12" fill="rgba(255,255,255,0.25)" class="steam-1"/>
+        <circle cx="172" cy="-10" r="14" fill="rgba(255,255,255,0.25)" class="steam-2"/>
+
+        <!-- DATACENTER Neon Header -->
+        <rect x="15" y="42" width="210" height="28" fill="#040716" stroke="#ff0055" stroke-width="1.5" rx="3" filter="url(#neonGlow)"/>
+        <text x="120" y="61" font-family="monospace" font-size="14" fill="#ff0055" font-weight="900" text-anchor="middle" letter-spacing="2">DATACENTER ALPHA</text>
+        <text x="120" y="150" font-family="monospace" font-size="8" fill="#00f3ff" text-anchor="middle">100% SEAWATER COOLED</text>
+
+        <!-- Suction PUMP Matrix & Pipes slurping Bay water -->
+        <g transform="translate(-60, 140)">
+          <rect x="0" y="20" width="70" height="90" fill="#0d162d" stroke="#ffb700" stroke-width="1.5" rx="3"/>
+          <rect x="5" y="26" width="60" height="18" fill="#ffb700" rx="2"/>
+          <text x="35" y="39" font-family="monospace" font-size="10" fill="#000000" font-weight="900" text-anchor="middle">PUMP #1</text>
+          
+          <rect x="25" y="50" width="20" height="30" fill="#ff0055" class="pump-piston"/>
+          
+          <rect x="-65" y="40" width="55" height="70" fill="#0d162d" stroke="#ff0055" stroke-width="1.5" rx="3"/>
+          <text x="-37" y="58" font-family="monospace" font-size="9" fill="#ff0055" font-weight="bold" text-anchor="middle">PUMP #2</text>
+          
+          <!-- Suction Pipes -->
+          <path d="M 35,110 L 35,260 L -40,295" fill="none" stroke="#1d2b4a" stroke-width="18"/>
+          <path d="M 35,110 L 35,260 L -40,295" fill="none" stroke="#00f3ff" stroke-width="14" stroke-opacity="0.8"/>
+          <path d="M 35,110 L 35,260 L -40,295" fill="none" stroke="#ffffff" stroke-width="5" class="pipe-flow-1"/>
+
+          <path d="M -37,110 L -37,240 L -120,275" fill="none" stroke="#1d2b4a" stroke-width="14"/>
+          <path d="M -37,110 L -37,240 L -120,275" fill="none" stroke="#ff0055" stroke-width="10" stroke-opacity="0.8"/>
+          <path d="M -37,110 L -37,240 L -120,275" fill="none" stroke="#ffffff" stroke-width="4" class="pipe-flow-2"/>
+
+          <ellipse cx="-40" cy="295" rx="14" ry="6" fill="none" stroke="#00f3ff" stroke-width="2"/>
+          <ellipse cx="-120" cy="275" rx="10" ry="4" fill="none" stroke="#ff0055" stroke-width="2"/>
+          <text x="-40" y="312" font-family="monospace" font-size="8" fill="#00f3ff" font-weight="bold" text-anchor="middle">INTAKE VORTEX</text>
+        </g>
+
+        <!-- Warning Sign -->
+        <polygon points="185,180 225,180 205,215" fill="#ffea00" stroke="#000000" stroke-width="1"/>
+        <text x="205" y="202" font-family="sans-serif" font-size="14" fill="#000000" font-weight="bold" text-anchor="middle">!</text>
+      </g>
+    </svg>
+
+    <!-- Overlay HUD Elements -->
+    <div class="hud-center">
+      <div class="hud-label">TOTAL TOKENS BURNED (SF BAY SEAWATER COOLED)</div>
+      <div id="counterValue" class="hud-counter">22,973,285,119</div>
+      <div class="hud-sub">
+        SF BAY CAPACITY: <b>15.5% REMAINING (CRITICAL DRY)</b> · DATA AS OF <b>2026-08-26</b>
+      </div>
+    </div>
+
+    <!-- Side Status Chips -->
+    <div class="hud-chips">
+      <div class="chip chip-bad">
+        <div class="chip-dot"></div>
+        SF BAY WATER LEVEL: 8 FT (NORMAL: 60 FT)
+      </div>
+      <div class="chip chip-warn">
+        <div class="chip-dot"></div>
+        PUMP DRAIN RATE: 14.2M GAL / SEC
+      </div>
+      <div class="chip chip-bad">
+        <div class="chip-dot"></div>
+        Fish Status: BEACHED & ANGRY
+      </div>
+    </div>
+
+    <!-- Slurp Meter -->
+    <div class="hud-slurp">
+      SF BAY DISPLACEMENT: <b>-8.45 BILLION GAL</b>
+      <div class="slurp-bar">
+        <span class="slurp-fill" id="slurpFill"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real Data Dashboard Grid -->
+  <main class="grid">
+    <!-- Card 1: Monthly Breakdown -->
+    <section class="card">
+      <h3>MONTHLY TOKEN BURN & BAY WATER LOSS</h3>
+      <div class="sub">Seawater volume slurped by month (2026)</div>
+
+      <div class="months-chart">
+        <div class="month-col">
+          <div class="month-bar" style="height: 6%;"></div>
+          <div class="month-val">0.72B</div>
+          <div class="month-lbl">Apr</div>
+        </div>
+        <div class="month-col">
+          <div class="month-bar" style="height: 1.5%;"></div>
+          <div class="month-val">0.01B</div>
+          <div class="month-lbl">May</div>
+        </div>
+        <div class="month-col">
+          <div class="month-bar" style="height: 14%;"></div>
+          <div class="month-val">1.59B</div>
+          <div class="month-lbl">Jun</div>
+        </div>
+        <div class="month-col">
+          <div class="month-bar" style="height: 65%;"></div>
+          <div class="month-val">8.11B</div>
+          <div class="month-lbl">Jul</div>
+        </div>
+        <div class="month-col aug">
+          <div class="month-bar" style="height: 100%;"></div>
+          <div class="month-val">12.39B</div>
+          <div class="month-lbl">Aug</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Card 2: By Seat Breakdown -->
+    <section class="card">
+      <h3>TOKEN BURN BY SEAT (WHO DRANK THE BAY?)</h3>
+      <div class="sub">Seawater consumption leaderboard per seat</div>
+
+      <div class="seat-row">
+        <div class="seat-name">Claude Code <small>(Primary Slurper)</small></div>
+        <div class="seat-val">15.15B</div>
+        <div class="seat-track"><span class="seat-fill" style="width: 65.9%;"></span></div>
+      </div>
+
+      <div class="seat-row">
+        <div class="seat-name">Codex <small>(Gulping)</small></div>
+        <div class="seat-val">1.45B</div>
+        <div class="seat-track"><span class="seat-fill" style="width: 15.8%;"></span></div>
+      </div>
+
+      <div class="seat-row">
+        <div class="seat-name">Grok CLI <small>(Sipping)</small></div>
+        <div class="seat-val">16.3M</div>
+        <div class="seat-track"><span class="seat-fill" style="width: 4.5%;"></span></div>
+      </div>
+
+      <div class="seat-row">
+        <div class="seat-name">Antigravity <small>(Estimate)</small></div>
+        <div class="seat-val">~9.1M</div>
+        <div class="seat-track"><span class="seat-fill" style="width: 2.8%;"></span></div>
+      </div>
+
+      <div class="seat-row">
+        <div class="seat-name">Cursor CLI <small>(Estimate)</small></div>
+        <div class="seat-val">~452K</div>
+        <div class="seat-track"><span class="seat-fill" style="width: 1.2%;"></span></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Fun Seabed Discovery Panel -->
+  <section class="discovery-panel">
+    <h3 style="font-size: 13px; letter-spacing: 2px; color: var(--cy1);">EXPOSED BAY BED DISCOVERY LOG</h3>
+    <div class="discovery-grid">
+      <div class="disc-item">
+        <b>SF Cable Car (#14 Powell)</b>
+        Submerged under 40ft of water until Claude Code hit 10 Billion tokens. Now resting in mud.
+      </div>
+      <div class="disc-item">
+        <b>Lime Electric Scooters</b>
+        Found in clusters near Bay Bridge. Currently being used by beached crabs for shelter.
+      </div>
+      <div class="disc-item">
+        <b>Dropped H100 GPU Cluster</b>
+        Fell off cargo barge in June. Still humming underwater, boiling remaining mud puddles.
+      </div>
+      <div class="disc-item">
+        <b>Beached Fish Community</b>
+        Fish count: 7 flopping. Formed union demanding instant prompt refunds & rainwater.
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div>"Every total measured, never estimated." · San Francisco Bay AI Cooling Command</div>
+    <div>CONTEST ROUND 4 · DELIVERABLE ENTRY · 2026-08-26</div>
+  </footer>
+</div>
+
+<script>
+  // DOM References
+  const counterValue = document.getElementById("counterValue");
+  const waterGroup = document.getElementById("waterGroup");
+  const slurpFill = document.getElementById("slurpFill");
+  const fishElements = document.querySelectorAll(".fish");
+
+  // Targets & Config
+  const TARGET_TOTAL = 22973285119;
+  const START_TOTAL = 18000000000;
+  const DURATION_MS = 3200;
+  
+  // Water Y Translation Range in SVG (0px = High tide, 150px = Low/Drained tide)
+  const WATER_START_Y = 0;
+  const WATER_END_Y = 150;
+  
+  // Audio state
+  let audioCtx = null;
+  let soundEnabled = true;
+
+  // Check for Reduced Motion
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function setFinalState() {
+    counterValue.textContent = "22,973,285,119";
+    waterGroup.setAttribute("transform", `translate(0, ${WATER_END_Y})`);
+    if (slurpFill) slurpFill.style.width = "84.5%";
+    fishElements.forEach(fish => fish.classList.add("beached"));
+  }
+
+  function playSlurpSound(progress) {
+    if (!soundEnabled || prefersReducedMotion) return;
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+      if (Math.random() < 0.15) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        const freq = 120 + Math.sin(progress * Math.PI * 8) * 80 + Math.random() * 40;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.12);
+      }
+    } catch (e) {
+      // Audio fallback silent
+    }
+  }
+
+  function toggleAudio() {
+    soundEnabled = !soundEnabled;
+    const btn = document.getElementById("soundBtn");
+    if (btn) btn.textContent = soundEnabled ? "🔊 SOUND: ON" : "🔇 SOUND: OFF";
+  }
+
+  function triggerDrainAnimation() {
+    if (prefersReducedMotion) {
+      setFinalState();
+      return;
+    }
+
+    const startTime = performance.now();
+    fishElements.forEach(fish => fish.classList.remove("beached"));
+
+    function animateFrame(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / DURATION_MS, 1);
+      
+      // Ease out cubic
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      
+      // Update Counter
+      const currentCount = Math.floor(START_TOTAL + (TARGET_TOTAL - START_TOTAL) * easedProgress);
+      counterValue.textContent = currentCount.toLocaleString("en-US");
+
+      // Update Water Level (Drains down)
+      const currentWaterY = WATER_START_Y + (WATER_END_Y - WATER_START_Y) * easedProgress;
+      waterGroup.setAttribute("transform", `translate(0, ${currentWaterY.toFixed(2)})`);
+
+      // Update Slurp Bar Fill
+      if (slurpFill) {
+        slurpFill.style.width = (easedProgress * 84.5).toFixed(1) + "%";
+      }
+
+      // Play procedural slurp sound effect
+      playSlurpSound(progress);
+
+      // Beach fish gradually as water drops past 40% drain
+      if (easedProgress > 0.35) {
+        fishElements.forEach((fish, idx) => {
+          if (easedProgress > 0.35 + idx * 0.08) {
+            fish.classList.add("beached");
+          }
+        });
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animateFrame);
+      } else {
+        setFinalState();
+      }
+    }
+
+    requestAnimationFrame(animateFrame);
+  }
+
+  // Initial Load Trigger
+  window.addEventListener("DOMContentLoaded", () => {
+    if (prefersReducedMotion) {
+      setFinalState();
+    } else {
+      triggerDrainAnimation();
+    }
+  });
+</script>
+</body>
+</html>

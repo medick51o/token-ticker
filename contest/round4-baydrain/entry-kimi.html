@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Token Burn Ticker — Drain the Bay Edition</title>
+<style>
+  :root{
+    --ink:#0b0620; --panel:#140b2e; --edge:#3d2a6b;
+    --cyan:#29e6ff; --magenta:#ff3df0; --gold:#ffd76a;
+    --txt:#eaf6ff; --dim:#9d8fc7; --red:#ff4757; --green:#2ed573;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--ink);color:var(--txt);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}
+  .scene{position:relative;width:100%;overflow:hidden;border-bottom:3px solid var(--edge)}
+  .scene svg{display:block;width:100%;height:auto}
+
+  /* ---------- hero overlay ---------- */
+  .hero{position:absolute;inset:0 0 auto 0;padding:18px 12px 40px;text-align:center;pointer-events:none;
+    background:linear-gradient(rgba(11,6,32,.88),rgba(11,6,32,.45) 55%,transparent);}
+  .kicker{font-size:clamp(10px,1.4vw,14px);letter-spacing:.35em;color:var(--cyan);font-weight:700}
+  .kicker .warn{color:var(--red)}
+  h1.label{margin-top:8px;font-size:clamp(12px,1.6vw,17px);letter-spacing:.5em;color:var(--dim);font-weight:800}
+  h1.label .up{color:var(--green)}
+  #bigNum{font-family:ui-monospace,"Cascadia Code",Consolas,Menlo,monospace;
+    font-size:clamp(34px,6.4vw,88px);font-weight:800;line-height:1.05;color:#fff;
+    text-shadow:0 0 18px rgba(41,230,255,.75),0 0 46px rgba(255,61,240,.35);display:inline-block}
+  #bigNum.pop{animation:pop .25s}
+  .sub{margin-top:6px;font-size:clamp(10px,1.3vw,14px);color:var(--dim)}
+  .sub b{color:var(--txt)}
+  #statusLine{margin-top:8px;font-family:ui-monospace,Consolas,monospace;font-size:clamp(10px,1.3vw,13px);
+    color:var(--gold);letter-spacing:.12em}
+  .chips{margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .chip{background:rgba(20,11,46,.85);border:1px solid var(--edge);border-radius:10px;
+    padding:7px 12px;font-size:clamp(10px,1.2vw,13px);font-weight:700;letter-spacing:.04em;
+    display:flex;align-items:center;gap:8px;box-shadow:0 2px 12px rgba(0,0,0,.4)}
+  .chip .down{color:var(--red)}
+  .baybar{width:110px;height:10px;border-radius:5px;background:#241243;border:1px solid var(--edge);overflow:hidden}
+  #bayBarFill{display:block;height:100%;width:8.1%;background:var(--red);border-radius:5px}
+  #bayPct{font-family:ui-monospace,Consolas,monospace;color:var(--red);min-width:44px;text-align:right}
+
+  /* ---------- stats section ---------- */
+  .stats{max-width:1120px;margin:0 auto;padding:34px 18px 50px;display:grid;
+    grid-template-columns:1fr 1fr;gap:18px}
+  .panel{background:var(--panel);border:1px solid var(--edge);border-radius:14px;padding:20px 22px;
+    box-shadow:0 6px 30px rgba(0,0,0,.45)}
+  .panel.wide{grid-column:1/-1}
+  .panel h2{font-size:15px;letter-spacing:.28em;color:var(--cyan);font-weight:800}
+  .panel h2 span{color:var(--dim);letter-spacing:.08em;font-weight:600;font-size:11px}
+  .mrow,.srow{display:grid;grid-template-columns:52px 1fr 74px;align-items:center;gap:10px;margin-top:12px}
+  .srow{grid-template-columns:120px 1fr 92px}
+  .mrow>span,.srow>span:first-child{font-weight:800;font-size:13px;letter-spacing:.08em}
+  .bar{height:16px;background:#241243;border:1px solid var(--edge);border-radius:8px;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:8px;
+    background:linear-gradient(90deg,var(--cyan),var(--magenta));transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+  .srow .bar i{background:linear-gradient(90deg,#2ed573,var(--cyan))}
+  .mrow b,.srow b{font-family:ui-monospace,Consolas,monospace;font-size:13px;text-align:right}
+  .note{grid-column:2/4;font-size:11px;color:var(--dim);font-style:italic;margin-top:-6px}
+  .scap{font-size:11px;color:var(--dim);font-style:italic}
+  .tele{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:14px}
+  .tele div{background:#0e0722;border:1px solid var(--edge);border-radius:10px;padding:12px 14px}
+  .tele small{display:block;color:var(--dim);letter-spacing:.2em;font-size:10px;font-weight:800}
+  .tele b{display:block;margin-top:5px;font-family:ui-monospace,Consolas,monospace;font-size:14px;color:var(--gold)}
+  .tele b.bad{color:var(--red)} .tele b.good{color:var(--green)}
+  footer{grid-column:1/-1;color:var(--dim);font-size:11.5px;line-height:1.7;border-top:1px dashed var(--edge);padding-top:16px}
+  footer b{color:var(--txt);letter-spacing:.2em}
+
+  /* ---------- SVG animation ---------- */
+  .twk{animation:twk 3s ease-in-out infinite}
+  .fog1{animation:driftA 34s ease-in-out infinite alternate}
+  .fog2{animation:driftB 47s ease-in-out infinite alternate}
+  .fog3{animation:driftA 26s ease-in-out infinite alternate}
+  .fan{animation:spin 1.4s linear infinite;transform-box:fill-box;transform-origin:center}
+  body.slurping .fan{animation-duration:.45s}
+  .led{animation:blink 1.8s infinite}
+  .flow{stroke-dasharray:16 22;animation:slurpFlow 1.5s linear infinite}
+  body.slurping .flow{animation-duration:.45s}
+  .strawStripe{stroke-dasharray:16 20;animation:sheen 1.3s linear infinite}
+  body.slurping .strawStripe{animation-duration:.4s}
+  .puff{animation:puff 3.2s ease-out infinite}
+  .beam{animation:beam 7s linear infinite;transform-origin:497px 467px}
+  .needle{animation:tremble .9s ease-in-out infinite;transform-origin:1362px 606px}
+  .lamp{animation:blink 1.1s steps(1) infinite}
+  .sutro{animation:blink 1.6s steps(1) infinite}
+  .gullFly{animation:fly 34s linear infinite}
+  #chevrons{opacity:0;transition:opacity .5s}
+  body.slurping #chevrons{opacity:.9}
+  .chev{animation:bob 1s ease-in-out infinite}
+  .tail{animation:wag .5s ease-in-out infinite;transform-box:fill-box;transform-origin:right center}
+  .strandedFish .tail{animation-duration:.16s}
+  .leg{animation:legwig .32s ease-in-out infinite;transform-box:fill-box;transform-origin:top center}
+  #seal{transition:transform 1.3s cubic-bezier(.55,1.6,.6,1)}
+  #seal.slide{transform:translate(-42px,132px) rotate(-78deg)}
+  .say{pointer-events:none;transition:opacity .25s}
+  .say text{font-family:"Comic Sans MS","Chalkboard SE",cursive,sans-serif}
+
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes twk{0%,100%{opacity:.15}50%{opacity:.9}}
+  @keyframes blink{0%,100%{opacity:.12}50%{opacity:1}}
+  @keyframes driftA{from{transform:translateX(-140px)}to{transform:translateX(260px)}}
+  @keyframes driftB{from{transform:translateX(200px)}to{transform:translateX(-180px)}}
+  @keyframes slurpFlow{to{stroke-dashoffset:152}}
+  @keyframes sheen{to{stroke-dashoffset:-216}}
+  @keyframes puff{0%{transform:translateY(0) scale(.6);opacity:.55}100%{transform:translateY(-52px) scale(1.6);opacity:0}}
+  @keyframes beam{to{transform:rotate(360deg)}}
+  @keyframes tremble{0%,100%{transform:rotate(36deg)}50%{transform:rotate(43deg)}}
+  @keyframes fly{from{transform:translate(-90px,175px)}to{transform:translate(1720px,105px)}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(12px)}}
+  @keyframes wag{0%,100%{transform:rotate(-15deg)}50%{transform:rotate(15deg)}}
+  @keyframes legwig{0%,100%{transform:rotate(16deg)}50%{transform:rotate(-16deg)}}
+  @keyframes pop{50%{transform:scale(1.045)}}
+
+  .rm *,.rm *::before,.rm *::after{animation:none!important;transition:none!important}
+
+  @media (max-width:760px){
+    .stats{grid-template-columns:1fr}
+    .srow{grid-template-columns:92px 1fr 80px}
+  }
+</style>
+</head>
+<body class="slurping">
+
+<div class="scene">
+  <svg id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img"
+       aria-label="Animated San Francisco Bay being drained by a datacenter to cool token servers">
+    <defs>
+      <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#150832"/><stop offset=".55" stop-color="#3a1560"/>
+        <stop offset=".8" stop-color="#a33d7a"/><stop offset="1" stop-color="#ff9a5a"/>
+      </linearGradient>
+      <linearGradient id="sunG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffd319"/><stop offset="1" stop-color="#ff2975"/>
+      </linearGradient>
+      <linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#29e6ff" stop-opacity=".88"/>
+        <stop offset="1" stop-color="#0b3d91" stop-opacity=".95"/>
+      </linearGradient>
+      <linearGradient id="floorG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#7a5a40"/><stop offset="1" stop-color="#3d2a20"/>
+      </linearGradient>
+      <clipPath id="stainClip"><rect id="stainRect" x="-20" y="598" width="1640" height="0"/></clipPath>
+    </defs>
+
+    <!-- sky -->
+    <rect x="0" y="0" width="1600" height="620" fill="url(#skyG)"/>
+    <g id="stars"></g>
+    <g>
+      <circle cx="820" cy="430" r="150" fill="url(#sunG)"/>
+      <g fill="#2a1150" opacity=".85">
+        <rect x="660" y="452" width="320" height="7"/><rect x="660" y="470" width="320" height="10"/>
+        <rect x="660" y="492" width="320" height="13"/><rect x="660" y="518" width="320" height="16"/>
+        <rect x="660" y="548" width="320" height="20"/>
+      </g>
+    </g>
+
+    <!-- hills -->
+    <path d="M0 560 L0 420 Q120 360 240 430 Q340 480 400 560 Z" fill="#241238"/>
+    <path d="M520 560 Q700 428 900 470 Q1080 510 1260 560 Z" fill="#2a1440"/>
+
+    <!-- Golden Gate -->
+    <g stroke="#d9481f" fill="#d9481f">
+      <rect x="-20" y="520" width="430" height="10" stroke="none"/>
+      <g stroke-width="7">
+        <line x1="74" y1="520" x2="74" y2="302"/><line x1="88" y1="520" x2="88" y2="302"/>
+        <line x1="284" y1="520" x2="284" y2="302"/><line x1="298" y1="520" x2="298" y2="302"/>
+      </g>
+      <g stroke-width="5">
+        <line x1="70" y1="330" x2="92" y2="330"/><line x1="70" y1="392" x2="92" y2="392"/><line x1="70" y1="460" x2="92" y2="460"/>
+        <line x1="280" y1="330" x2="302" y2="330"/><line x1="280" y1="392" x2="302" y2="392"/><line x1="280" y1="460" x2="302" y2="460"/>
+      </g>
+      <path d="M-20 480 L74 302 Q185 498 296 302 L410 480" fill="none" stroke-width="4"/>
+      <g id="ggSusp" stroke-width="1.6"></g>
+    </g>
+
+    <!-- city skyline -->
+    <g fill="#1c0e33">
+      <path d="M658 560 L681 345 L685 345 L708 560 Z"/>
+      <rect x="681" y="300" width="4" height="48"/>
+      <path d="M1055 560 V300 Q1055 268 1095 268 Q1135 268 1135 300 V560 Z"/>
+      <rect x="748" y="430" width="18" height="130"/><rect x="744" y="422" width="26" height="10"/>
+      <rect x="800" y="500" width="50" height="60"/><rect x="818" y="442" width="14" height="60"/>
+      <path d="M815 442 L825 424 L835 442 Z"/>
+      <g id="cityBoxes"></g>
+    </g>
+    <g id="windows"></g>
+    <!-- Sutro Tower -->
+    <g stroke="#1a0d2e" stroke-width="5" fill="none">
+      <path d="M880 470 L880 302 M862 470 L880 360 L898 470 M868 410 L892 410"/>
+    </g>
+    <circle class="sutro" cx="880" cy="298" r="4" fill="#ff4757"/>
+
+    <!-- Bay Bridge -->
+    <g stroke="#39415f" fill="#39415f">
+      <rect x="1290" y="540" width="330" height="8" stroke="none"/>
+      <rect x="1355" y="384" width="10" height="156" stroke="none"/>
+      <rect x="1495" y="384" width="10" height="156" stroke="none"/>
+      <path d="M1290 522 L1360 384 Q1430 522 1500 384 L1620 522" fill="none" stroke-width="3.5"/>
+      <g id="bbSusp" stroke-width="1.4"></g>
+    </g>
+
+    <!-- fog over skyline -->
+    <rect class="fog1" x="-160" y="452" width="720" height="46" rx="23" fill="#ffffff" opacity=".14"/>
+    <rect class="fog2" x="520" y="498" width="820" height="40" rx="20" fill="#ffffff" opacity=".12"/>
+
+    <!-- bay floor -->
+    <path id="floorPath" fill="url(#floorG)"/>
+    <g id="floorItems">
+      <g stroke="#2f6b4f" stroke-width="4" fill="none">
+        <path d="M200 748 q6 -18 0 -34 q-6 -14 2 -28"/>
+        <path d="M340 776 q7 -16 1 -32 q-5 -13 3 -26"/>
+        <path d="M1092 788 q6 -16 0 -30 q-5 -12 2 -24"/>
+      </g>
+      <g transform="translate(380 796) rotate(-6)">
+        <rect x="-17" y="-20" width="34" height="20" rx="3" fill="#7a4a21" stroke="#3a2410" stroke-width="2"/>
+        <path d="M-17 -20 Q0 -34 17 -20" fill="#8a5a2a" stroke="#3a2410" stroke-width="2"/>
+        <circle cx="-6" cy="-22" r="3" fill="#ffd76a"/><circle cx="2" cy="-24" r="3" fill="#ffd76a"/><circle cx="8" cy="-21" r="2.5" fill="#ffd76a"/>
+      </g>
+      <g transform="rotate(8 640 845)">
+        <path d="M610 845 Q640 860 672 845 L666 830 L616 830 Z" fill="#5a3a2a"/>
+        <line x1="640" y1="830" x2="640" y2="570" stroke="#4a2f22" stroke-width="4"/>
+        <path d="M640 600 L640 572 L664 598 Z" fill="#cfc4b4" opacity=".85"/>
+      </g>
+      <g transform="rotate(-4 300 765)">
+        <line x1="300" y1="766" x2="300" y2="720" stroke="#6b4a2f" stroke-width="4"/>
+        <rect x="270" y="694" width="60" height="26" rx="3" fill="#f5f0e6" stroke="#222" stroke-width="2"/>
+        <text x="300" y="711" text-anchor="middle" font-size="9.5" font-weight="800" fill="#222" font-family="Arial,sans-serif">WATER NOW</text>
+      </g>
+      <g transform="translate(1080 798) scale(.95)">
+        <polygon points="0,-13 3.5,-4.5 13,-4.5 5.5,2 8,12 0,6 -8,12 -5.5,2 -13,-4.5 -3.5,-4.5" fill="#ff9f43"/>
+        <rect x="-7" y="-6" width="6" height="4.5" fill="#111"/><rect x="2" y="-6" width="6" height="4.5" fill="#111"/>
+        <line x1="-1" y1="-4" x2="2" y2="-4" stroke="#111" stroke-width="1.4"/>
+      </g>
+      <g fill="#54402e">
+        <circle cx="150" cy="752" r="4"/><circle cx="250" cy="762" r="3"/><circle cx="470" cy="832" r="4"/>
+        <circle cx="760" cy="850" r="3"/><circle cx="980" cy="824" r="4"/><circle cx="1140" cy="786" r="3"/>
+      </g>
+      <!-- crab (revealed when the flat drains) -->
+      <g id="crab" opacity="0">
+        <g stroke="#d63b2f" stroke-width="2.5">
+          <line class="leg" x1="-10" y1="4" x2="-18" y2="12"/><line class="leg" x1="-4" y1="6" x2="-8" y2="15"/>
+          <line class="leg" x1="4" y1="6" x2="8" y2="15"/><line class="leg" x1="10" y1="4" x2="18" y2="12"/>
+        </g>
+        <ellipse cx="0" cy="0" rx="12" ry="8" fill="#ff5b4a"/>
+        <circle cx="-15" cy="-5" r="5" fill="#ff5b4a"/><circle cx="15" cy="-5" r="5" fill="#ff5b4a"/>
+        <line x1="-4" y1="-7" x2="-5" y2="-14" stroke="#d63b2f" stroke-width="2"/>
+        <line x1="4" y1="-7" x2="5" y2="-14" stroke="#d63b2f" stroke-width="2"/>
+        <circle cx="-5" cy="-15" r="2.2" fill="#fff"/><circle cx="5" cy="-15" r="2.2" fill="#fff"/>
+        <circle cx="-5" cy="-15" r="1" fill="#111"/><circle cx="5" cy="-15" r="1" fill="#111"/>
+      </g>
+    </g>
+    <path id="stainPath" fill="#1a0f2e" opacity=".3" clip-path="url(#stainClip)"/>
+
+    <!-- Alcatraz rock (revealed as the bay drains) -->
+    <path d="M414 836 Q424 700 430 600 L444 558 L556 558 L570 600 Q578 720 590 836 Q500 856 414 836 Z" fill="#4a3a56"/>
+    <path d="M440 620 Q470 640 452 700 M540 610 Q560 660 548 730" stroke="#3a2c44" stroke-width="4" fill="none"/>
+
+    <!-- swimming fish live under the water layer -->
+    <g id="swimmers"></g>
+
+    <!-- the crazy straw & industrial pipe: drawn before water so their tips submerge -->
+    <g fill="none" stroke-linecap="round">
+      <path id="strawBase" d="M1300 442 L1300 356 Q1300 338 1314 336 L1094 306 Q1076 303 1073 320 L1054 614"
+            stroke="#ff4757" stroke-width="26"/>
+      <path id="strawStripe" class="strawStripe" d="M1300 442 L1300 356 Q1300 338 1314 336 L1094 306 Q1076 303 1073 320 L1054 614"
+            stroke="#fff" stroke-width="26" opacity=".85"/>
+    </g>
+    <g fill="none">
+      <path d="M1216 600 H1168 Q1146 600 1146 622 V688" stroke="#7f8ca3" stroke-width="34"/>
+      <path d="M1216 600 H1168 Q1146 600 1146 622 V688" stroke="#4a5568" stroke-width="34" stroke-dasharray="5 9" opacity=".5"/>
+      <path id="pipeFlow" class="flow" d="M1216 600 H1168 Q1146 600 1146 622 V688" stroke="#29e6ff" stroke-width="10"/>
+      <path d="M1132 688 L1160 688 L1154 706 L1138 706 Z" fill="#7f8ca3" stroke="none"/>
+    </g>
+
+    <!-- the bay itself -->
+    <path id="water" fill="url(#waterG)"/>
+    <path id="surface" fill="none" stroke="#bffcff" stroke-width="2.5" opacity=".8"/>
+    <g id="ripples"></g>
+    <g id="bubblesW"></g>
+    <g id="chevrons" stroke="#bffcff" stroke-width="4" fill="none" opacity="0">
+      <path class="chev" d="M486 0 L500 10 L514 0"/>
+      <path class="chev" d="M686 8 L700 18 L714 8" style="animation-delay:.2s"/>
+      <path class="chev" d="M886 0 L900 10 L914 0" style="animation-delay:.4s"/>
+    </g>
+
+    <!-- low fog on the water -->
+    <rect class="fog3" x="80" y="606" width="900" height="32" rx="16" fill="#ffffff" opacity=".16"/>
+
+    <!-- Bay-O-Meter -->
+    <g>
+      <rect x="112" y="556" width="14" height="290" fill="#5a4632"/>
+      <rect x="84" y="536" width="70" height="18" rx="4" fill="#111" stroke="#3d2a6b"/>
+      <text x="119" y="549" text-anchor="middle" font-size="8.5" font-weight="800" fill="#29e6ff" font-family="Arial,sans-serif">BAY-O-METER</text>
+      <g id="meterTicks" stroke="#cfe9ff" stroke-width="2" font-size="8" fill="#cfe9ff" font-family="Arial,sans-serif"></g>
+      <g id="marker"><polygon points="132,0 148,-8 148,8" fill="#ff4757"/></g>
+    </g>
+
+    <!-- sea lion & piling -->
+    <rect x="976" y="696" width="16" height="134" fill="#4a3626"/>
+    <g id="seal">
+      <ellipse cx="984" cy="688" rx="19" ry="8.5" fill="#9a7b6b"/>
+      <path d="M965 686 L957 681 L957 691 Z" fill="#9a7b6b"/>
+      <circle cx="998" cy="680" r="6.5" fill="#9a7b6b"/><circle cx="1003" cy="682" r="3" fill="#8a6b5b"/>
+      <circle cx="1000" cy="678" r="1.3" fill="#111"/>
+      <path d="M976 692 Q968 700 962 694" stroke="#8a6b5b" stroke-width="4" fill="none"/>
+    </g>
+
+    <!-- Alcatraz, above the waterline -->
+    <g>
+      <rect x="446" y="514" width="108" height="44" fill="#5d4a6e" stroke="#2c1f3a" stroke-width="2"/>
+      <g fill="#ffe9a0" opacity=".75">
+        <rect x="456" y="524" width="5" height="9"/><rect x="470" y="524" width="5" height="9"/>
+        <rect x="484" y="524" width="5" height="9"/><rect x="512" y="524" width="5" height="9"/>
+        <rect x="526" y="524" width="5" height="9"/><rect x="540" y="524" width="5" height="9"/>
+        <rect x="456" y="540" width="5" height="9"/><rect x="526" y="540" width="5" height="9"/>
+      </g>
+      <rect x="490" y="470" width="14" height="44" fill="#d8cfe0"/>
+      <rect x="486" y="460" width="22" height="11" fill="#8d84a0"/>
+      <path class="beam" d="M497 467 L590 448 L590 486 Z" fill="#fff8c0" opacity=".22"/>
+      <rect x="538" y="488" width="18" height="26" fill="#6e5f80"/>
+      <line x1="542" y1="514" x2="542" y2="556" stroke="#4a3a56" stroke-width="3"/>
+      <line x1="552" y1="514" x2="552" y2="556" stroke="#4a3a56" stroke-width="3"/>
+    </g>
+
+    <!-- escape raft -->
+    <g id="raft" opacity="0">
+      <rect x="-14" y="-4" width="28" height="7" rx="2" fill="#8a623f"/>
+      <line x1="0" y1="-4" x2="0" y2="-26" stroke="#6b4a2f" stroke-width="2.5"/>
+      <circle cx="6" cy="-30" r="3.2" fill="#f0c8a0"/>
+      <line x1="6" y1="-27" x2="6" y2="-16" stroke="#f0c8a0" stroke-width="2.5"/>
+      <line x1="6" y1="-24" x2="13" y2="-28" stroke="#f0c8a0" stroke-width="2"/>
+    </g>
+
+    <!-- pier + datacenter -->
+    <g>
+      <rect x="1204" y="664" width="16" height="236" fill="#523723"/>
+      <rect x="1296" y="664" width="16" height="236" fill="#523723"/>
+      <rect x="1388" y="664" width="16" height="236" fill="#523723"/>
+      <rect x="1480" y="664" width="16" height="236" fill="#523723"/>
+      <rect x="1572" y="664" width="16" height="236" fill="#523723"/>
+      <rect x="1180" y="640" width="440" height="26" fill="#6b4a2f"/>
+      <rect x="1180" y="640" width="440" height="6" fill="#8a623f"/>
+      <g transform="rotate(-3 1590 600)">
+        <line x1="1590" y1="640" x2="1590" y2="612" stroke="#4a3626" stroke-width="4"/>
+        <rect x="1550" y="582" width="80" height="32" rx="4" fill="#f5f0e6" stroke="#222" stroke-width="2"/>
+        <text x="1590" y="596" text-anchor="middle" font-size="9" font-weight="800" fill="#b3242f" font-family="Arial,sans-serif">NO SWIMMING</text>
+        <text x="1590" y="608" text-anchor="middle" font-size="8" font-weight="700" fill="#333" font-family="Arial,sans-serif">(no water)</text>
+      </g>
+    </g>
+    <g>
+      <rect x="1210" y="430" width="342" height="10" fill="#2f3a55"/>
+      <rect x="1216" y="436" width="330" height="204" fill="#232b3d" stroke="#3d4a6b" stroke-width="2"/>
+      <rect x="1230" y="450" width="204" height="50" rx="6" fill="#0d1220" stroke="#29e6ff" stroke-width="1.5"/>
+      <text x="1332" y="473" text-anchor="middle" font-size="17" font-weight="900" fill="#29e6ff"
+            font-family="Arial Black,Arial,sans-serif" style="text-shadow:0 0 8px #29e6ff">GULP INDUSTRIES</text>
+      <text x="1332" y="490" text-anchor="middle" font-size="8.5" letter-spacing="2" fill="#7f8ca3" font-family="Arial,sans-serif">TOKEN COOLING DIVISION · EST. LAST TUESDAY</text>
+      <circle class="lamp" cx="1242" cy="462" r="5" fill="#ff4757"/>
+      <g id="leds"></g>
+      <g class="fan" transform="translate(1290 424)">
+        <circle r="20" fill="#11182b" stroke="#3d4a6b" stroke-width="2"/>
+        <path d="M0 -16 L5 0 L0 16 L-5 0 Z" fill="#9fb4d8"/>
+        <path d="M0 -16 L5 0 L0 16 L-5 0 Z" fill="#9fb4d8" transform="rotate(120)"/>
+        <path d="M0 -16 L5 0 L0 16 L-5 0 Z" fill="#9fb4d8" transform="rotate(240)"/>
+        <circle r="4" fill="#3d4a6b"/>
+      </g>
+      <g class="fan" transform="translate(1452 424)" style="animation-delay:.3s">
+        <circle r="20" fill="#11182b" stroke="#3d4a6b" stroke-width="2"/>
+        <path d="M0 -16 L5 0 L0 16 L-5 0 Z" fill="#9fb4d8"/>
+        <path d="M0 -16 L5 0 L0 16 L-5 0 Z" fill="#9fb4d8" transform="rotate(120)"/>
+        <path d="M0 -16 L5 0 L0 16 L-5 0 Z" fill="#9fb4d8" transform="rotate(240)"/>
+        <circle r="4" fill="#3d4a6b"/>
+      </g>
+      <rect x="1510" y="392" width="24" height="44" fill="#2f3a55"/>
+      <circle class="puff" cx="1522" cy="386" r="8" fill="#cfd8ea" opacity=".5"/>
+      <circle class="puff" cx="1522" cy="386" r="8" fill="#cfd8ea" opacity=".5" style="animation-delay:1.1s"/>
+      <circle class="puff" cx="1522" cy="386" r="8" fill="#cfd8ea" opacity=".5" style="animation-delay:2.2s"/>
+      <g>
+        <path d="M1336 606 A26 26 0 0 1 1388 606" fill="none" stroke="#7f8ca3" stroke-width="4"/>
+        <path d="M1376 588 A26 26 0 0 1 1388 606" fill="none" stroke="#ff4757" stroke-width="5"/>
+        <line class="needle" x1="1362" y1="606" x2="1382" y2="592" stroke="#ffd76a" stroke-width="3.5"/>
+        <text x="1362" y="624" text-anchor="middle" font-size="9" font-weight="800" fill="#7f8ca3" font-family="Arial,sans-serif">THIRST</text>
+      </g>
+      <rect x="1440" y="578" width="100" height="30" rx="4" fill="#04160b" stroke="#1e4630"/>
+      <text id="lcdText" x="1490" y="597" text-anchor="middle" font-size="10" fill="#6dffa4"
+            font-family="ui-monospace,Consolas,monospace">BAY USED: 0.00B GAL</text>
+      <rect x="1344" y="596" width="36" height="44" fill="#11182b" stroke="#3d4a6b"/>
+    </g>
+
+    <!-- stranded fish flop on top of everything -->
+    <g id="stranded"></g>
+
+    <!-- gull -->
+    <g class="gullFly"><path d="M0 0 Q6 -7 12 0 Q18 -7 24 0" stroke="#dfe9f5" stroke-width="2.5" fill="none"/></g>
+
+    <!-- speech bubbles -->
+    <g id="sayLayer"></g>
+  </svg>
+
+  <div class="hero">
+    <div class="kicker">TOKEN BURN TICKER · LIVE FROM THE <span class="warn">FORMER</span> SAN FRANCISCO BAY</div>
+    <h1 class="label"><span class="up">▲</span> TOTAL TOKENS BURNED</h1>
+    <span id="bigNum">22,973,285,119</span>
+    <div class="sub">as of <b>2026-08-26</b> · “Every total measured, never estimated.”* · the Bay, however, is estimated to be <b>mostly gone</b></div>
+    <div id="statusLine">DATACENTER STATUS: SLURPING THE BAY ▼▼▼</div>
+    <div class="chips">
+      <div class="chip"><span class="down">▼</span> SF BAY REMAINING
+        <span class="baybar"><i id="bayBarFill"></i></span><span id="bayPct">8.1%</span></div>
+      <div class="chip">FISH EMOTIONALLY DISPLACED: <span id="dispCount">0/8</span></div>
+      <div class="chip">PUMPS: 1 PIPE + 1 CRAZY STRAW</div>
+    </div>
+  </div>
+</div>
+
+<main class="stats">
+  <section class="panel">
+    <h2>MONTHLY INTAKE <span>· billions of tokens ≈ billions of gallons, probably</span></h2>
+    <div class="mrow"><span>APR</span><div class="bar"><i style="width:5.8%"></i></div><b>0.72B</b></div>
+    <div class="mrow"><span>MAY</span><div class="bar"><i style="width:0.1%"></i></div><b>0.01B</b></div>
+    <div class="note">May was a juice cleanse.</div>
+    <div class="mrow"><span>JUN</span><div class="bar"><i style="width:12.8%"></i></div><b>1.59B</b></div>
+    <div class="mrow"><span>JUL</span><div class="bar"><i style="width:65.5%"></i></div><b>8.11B</b></div>
+    <div class="mrow"><span>AUG</span><div class="bar"><i style="width:100%"></i></div><b>12.39B</b></div>
+    <div class="note">August: the big gulp.</div>
+  </section>
+
+  <section class="panel">
+    <h2>WHO'S BEEN DRINKING <span>· by seat</span></h2>
+    <div class="srow"><span>Claude Code</span><div class="bar"><i style="width:100%"></i></div><b>15.15B</b></div>
+    <div class="note scap">drank the Marina District</div>
+    <div class="srow"><span>Codex</span><div class="bar"><i style="width:9.6%"></i></div><b>1.45B</b></div>
+    <div class="note scap">drank Aquatic Park</div>
+    <div class="srow"><span>Grok CLI</span><div class="bar"><i style="width:4px;min-width:4px"></i></div><b>16.3M</b></div>
+    <div class="note scap">a kiddie pool</div>
+    <div class="srow"><span>Antigravity</span><div class="bar"><i style="width:4px;min-width:4px"></i></div><b>~9.1M est</b></div>
+    <div class="note scap">a hot tub (estimated)</div>
+    <div class="srow"><span>Cursor CLI</span><div class="bar"><i style="width:4px;min-width:4px"></i></div><b>~452K est</b></div>
+    <div class="note scap">a polite sip</div>
+  </section>
+
+  <section class="panel wide">
+    <h2>PUMP HOUSE TELEMETRY <span>· live-ish</span></h2>
+    <div class="tele">
+      <div><small>PIPE #1</small><b class="bad" id="telePipe">SLURPING</b></div>
+      <div><small>CRAZY STRAW</small><b class="good">CARRYING THE TEAM</b></div>
+      <div><small>THIRST</small><b class="bad">MAXIMUM</b></div>
+      <div><small>BAY REMAINING</small><b class="bad" id="bayPct2">8.1% AND FALLING</b></div>
+    </div>
+  </section>
+
+  <footer>
+    * “Every total measured, never estimated.” — except Antigravity &amp; Cursor CLI (estimates, clearly marked),
+    and the total volume of San Francisco Bay, which we measured with a straw.<br>
+    No fish were harmed in the making of this dashboard. Several were emotionally displaced.
+    Alcatraz inmates are asked to report to the gift shop.<br>
+    <b>TOKEN BURN TICKER · BAY DIVISION · AS OF 2026-08-26</b>
+  </footer>
+</main>
+
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (RM) document.documentElement.classList.add('rm');
+const SVGNS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs, parent){
+  const n = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+}
+
+/* ---------- geometry ---------- */
+const FULL_Y = 600, DRAIN_PX = 210;
+const FP = [[-20,752],[0,748],[120,742],[220,748],[320,772],[420,812],[520,838],[700,847],[880,842],[1000,822],[1100,796],[1180,778],[1260,772],[1620,768]];
+function floorY(x){
+  if (x <= FP[0][0]) return FP[0][1];
+  for (let i = 0; i < FP.length - 1; i++){
+    const a = FP[i], b = FP[i+1];
+    if (x <= b[0]){ const t = (x - a[0]) / (b[0] - a[0]); return a[1] + (b[1] - a[1]) * t; }
+  }
+  return FP[FP.length-1][1];
+}
+function smooth(pts){
+  let d = `M ${pts[0][0]} ${pts[0][1].toFixed(1)}`;
+  for (let i = 0; i < pts.length - 1; i++){
+    const p0 = pts[Math.max(0, i-1)], p1 = pts[i], p2 = pts[i+1], p3 = pts[Math.min(pts.length-1, i+2)];
+    const c1x = p1[0] + (p2[0]-p0[0])/6, c1y = p1[1] + (p2[1]-p0[1])/6;
+    const c2x = p2[0] - (p3[0]-p1[0])/6, c2y = p2[1] - (p3[1]-p1[1])/6;
+    d += ` C ${c1x.toFixed(1)} ${c1y.toFixed(1)} ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${p2[0]} ${p2[1].toFixed(1)}`;
+  }
+  return d;
+}
+function qPoint(p0,p1,p2,t){ const u=1-t; return [u*u*p0[0]+2*u*t*p1[0]+t*t*p2[0], u*u*p0[1]+2*u*t*p1[1]+t*t*p2[1]]; }
+
+/* ---------- static generated decor ---------- */
+(function buildFloor(){
+  const top = smooth(FP);
+  const sil = top + ' L 1620 902 L -20 902 Z';
+  $('floorPath').setAttribute('d', sil);
+  $('stainPath').setAttribute('d', sil);
+})();
+(function stars(){
+  const g = $('stars');
+  for (let i = 0; i < 70; i++){
+    const c = el('circle', {cx:(Math.random()*1600).toFixed(0), cy:(Math.random()*300).toFixed(0),
+      r:(0.6+Math.random()).toFixed(1), fill:'#fff', opacity:(0.2+Math.random()*0.5).toFixed(2)}, g);
+    if (i % 6 === 0){ c.setAttribute('class','twk'); c.style.animationDelay = (Math.random()*3)+'s'; }
+  }
+})();
+(function suspenders(){
+  const gg = $('ggSusp');
+  for (let i = 1; i < 13; i++){
+    const [x,y] = qPoint([74,302],[185,498],[296,302], i/13);
+    el('line',{x1:x.toFixed(1),y1:y.toFixed(1),x2:x.toFixed(1),y2:520}, gg);
+  }
+  const bb = $('bbSusp');
+  for (let i = 1; i < 8; i++){
+    const [x,y] = qPoint([1360,384],[1430,522],[1500,384], i/8);
+    el('line',{x1:x.toFixed(1),y1:y.toFixed(1),x2:x.toFixed(1),y2:540}, bb);
+  }
+})();
+(function city(){
+  const boxes = [[600,440,50,120],[720,470,25,90],[770,410,25,150],[855,450,50,110],[910,380,40,180],
+                 [955,420,50,140],[1010,465,40,95],[1140,430,40,130],[1185,460,45,100]];
+  const gB = $('cityBoxes'), gW = $('windows');
+  boxes.forEach(([x,y,w,h]) => {
+    el('rect',{x,y,width:w,height:h}, gB);
+    for (let wy = y+10; wy < y+h-12; wy += 16)
+      for (let wx = x+6; wx < x+w-8; wx += 13)
+        if (Math.random() < 0.32)
+          el('rect',{x:wx,y:wy,width:5,height:7,fill:'#ffd76a',opacity:(0.4+Math.random()*0.5).toFixed(2)}, gW);
+  });
+  [[672,420,22,140],[1065,300,60,260]].forEach(([x,y,w,h]) => {
+    for (let wy = y+12; wy < y+h-10; wy += 20)
+      for (let wx = x+4; wx < x+w-6; wx += 14)
+        if (Math.random() < 0.25)
+          el('rect',{x:wx,y:wy,width:4,height:8,fill:'#ffd76a',opacity:(0.35+Math.random()*0.4).toFixed(2)}, gW);
+  });
+})();
+(function leds(){
+  const g = $('leds'), cols = ['#29e6ff','#2ed573','#ff3df0','#ffd76a'];
+  for (let r = 0; r < 3; r++)
+    for (let c = 0; c < 6; c++){
+      const led = el('rect',{x:1232+c*50, y:508+r*18, width:10, height:6, rx:2,
+        fill:cols[(r*6+c)%4]}, g);
+      led.setAttribute('class','led');
+      led.style.animationDelay = (Math.random()*2).toFixed(2)+'s';
+    }
+})();
+(function meter(){
+  const g = $('meterTicks');
+  [[100,'100%'],[75,'75'],[50,'50'],[25,'25']].forEach(([p,lab]) => {
+    const y = FULL_Y + (1 - p/100) * DRAIN_PX;
+    el('line',{x1:126,y1:y,x2:140,y2:y}, g);
+    const t = el('text',{x:144,y:y+3}, g); t.textContent = lab;
+  });
+})();
+
+/* ---------- fish ---------- */
+const LINES = {
+  fish:["glub.","bruh.","WATER??","I had PLANS.","tell the kelp I loved it.","my gills are DRY.",
+        "I pay RENT here.","this is fine.","so THIS is air.","flop flop flop"],
+  pool:["move over.","too close.","whose fin is this?","I liked the deep end.","we're gonna need a bigger puddle."],
+  crab:["finally. legroom.","walkin' here!"],
+  pipe:["*cough* *sputter*","404: water not found"]
+};
+const FISH_DEFS = [
+  {x:180,c:'#ffb142',s:1},{x:258,c:'#2ed573',s:.9},{x:330,c:'#ff6b81',s:1.05},
+  {x:560,c:'#a55eea',s:.95,pool:true},{x:745,c:'#1dd1a1',s:1,pool:true},
+  {x:1052,c:'#ffb142',s:.95},{x:1118,c:'#2ed573',s:1},{x:1152,c:'#ff6b81',s:.85}
+];
+function shade(hex){
+  const n = parseInt(hex.slice(1),16);
+  const f = v => Math.max(0, v - 45);
+  return `rgb(${f(n>>16)},${f((n>>8)&255)},${f(n&255)})`;
+}
+const fishes = FISH_DEFS.map(def => {
+  const g = el('g', {}, $('swimmers'));
+  const dark = shade(def.c);
+  const tail = el('path',{d:'M-14 0 L-27 -9 L-27 9 Z', fill:dark, 'class':'tail'}, g);
+  el('ellipse',{cx:0,cy:0,rx:16,ry:10,fill:def.c}, g);
+  el('path',{d:'M-2 2 Q2 11 -7 9', fill:dark}, g);
+  const eyeOK = el('g',{},g);
+  el('circle',{cx:7,cy:-3,r:3.2,fill:'#fff'}, eyeOK);
+  el('circle',{cx:8,cy:-3,r:1.6,fill:'#111'}, eyeOK);
+  const eyeX = el('path',{d:'M4 -6 L10 0 M10 -6 L4 0', stroke:'#111','stroke-width':1.8, fill:'none', display:'none'}, g);
+  const mouth = el('path',{d:'M12 3 Q15 5 13 7', stroke:dark,'stroke-width':1.6, fill:'none'}, g);
+  return {def, g, tail, eyeOK, eyeX, mouth, state:'swim', ph:Math.random()*6.28,
+          sp:0.5+Math.random()*0.5, homeY:660+Math.random()*60, strandT:0, fy:floorY(def.x)};
+});
+let displaced = 0;
+function strand(f, now){
+  f.state = 'stranded'; f.strandT = now;
+  $('stranded').appendChild(f.g);
+  f.g.setAttribute('class','strandedFish');
+  f.eyeOK.setAttribute('display','none');
+  f.eyeX.setAttribute('display','inline');
+  f.mouth.setAttribute('d','M11 7 Q15 2 17 6');
+  displaced++;
+  $('dispCount').textContent = displaced + '/8';
+}
+
+/* ---------- speech bubbles ---------- */
+function say(x, y, text, dur){
+  const layer = $('sayLayer');
+  const g = el('g', {'class':'say', opacity:0}, layer);
+  const w = text.length * 7.4 + 22, h = 26;
+  const bx = Math.max(30 + w/2, Math.min(1570 - w/2, x));
+  const by = Math.max(40, y);
+  el('rect',{x:bx-w/2, y:by-h, width:w, height:h, rx:9, fill:'#fff', stroke:'#111','stroke-width':2}, g);
+  el('polygon',{points:`${bx-7},${by-1} ${bx+7},${by-1} ${x},${by+12}`, fill:'#fff', stroke:'#111','stroke-width':2}, g);
+  const t = el('text',{x:bx, y:by-8, 'text-anchor':'middle','font-size':13,'font-weight':700, fill:'#111'}, g);
+  t.textContent = text;
+  requestAnimationFrame(() => g.setAttribute('opacity',1));
+  setTimeout(() => { g.setAttribute('opacity',0); setTimeout(() => g.remove(), 300); }, dur || 2300);
+}
+
+/* ---------- water particles ---------- */
+const bubbs = [], ripps = [];
+function spawnBubble(x, y){
+  if (bubbs.length > 42) return;
+  const c = el('circle',{cx:x, cy:y, r:1.5+Math.random()*2.5, fill:'#bffcff', opacity:.7}, $('bubblesW'));
+  bubbs.push({el:c, x, y, vy:-(0.5+Math.random()*0.9), vx:(Math.random()-.5)*0.4});
+}
+function spawnRipple(x, y){
+  if (ripps.length > 10) return;
+  const e = el('ellipse',{cx:x, cy:y, rx:4, ry:1.6, fill:'none', stroke:'#bffcff','stroke-width':2, opacity:.8}, $('ripples'));
+  ripps.push({el:e, r:4});
+}
+
+/* ---------- state ---------- */
+let FINAL = 22973285119;
+let displayed = 0, drain = 0, slurp = true;
+let slidSeal = false, saidAlca = false, nextTalk = 0, lastRipple = 0, frameN = 0;
+const DUR = 5200;
+const easeOutExpo = p => p >= 1 ? 1 : 1 - Math.pow(2, -10*p);
+
+function renderWater(y, t){
+  const amp = slurp ? 4.5 : 2;
+  const pts = [];
+  for (let x = -20; x <= 1620; x += 40)
+    pts.push([x, y + Math.sin(x*0.016 + t*2.1)*amp + Math.sin(x*0.047 - t*3.3)*amp*0.45]);
+  const top = smooth(pts);
+  $('water').setAttribute('d', top + ' L 1620 902 L -20 902 Z');
+  $('surface').setAttribute('d', top);
+}
+function renderStraw(y){
+  const d = `M1300 442 L1300 356 Q1300 338 1314 336 L1094 306 Q1076 303 1073 320 L1054 ${(y+14).toFixed(1)}`;
+  $('strawBase').setAttribute('d', d);
+  $('strawStripe').setAttribute('d', d);
+}
+function updateReadouts(y){
+  const pct = Math.max(1.9, (1 - drain) * 100);
+  $('bayPct').textContent = pct.toFixed(1) + '%';
+  $('bayPct2').textContent = pct.toFixed(1) + '% AND FALLING';
+  const fill = $('bayBarFill');
+  fill.style.width = pct + '%';
+  const hue = pct * 1.2;
+  fill.style.background = `hsl(${hue} 90% 55%)`;
+  $('bayPct').style.color = `hsl(${hue} 90% 65%)`;
+  $('lcdText').textContent = 'BAY USED: ' + (displayed/1e9).toFixed(2) + 'B GAL';
+  $('bigNum').textContent = Math.round(displayed).toLocaleString('en-US');
+  $('marker').setAttribute('transform', `translate(0 ${y.toFixed(1)})`);
+  $('stainRect').setAttribute('height', Math.max(0, y - 598).toFixed(1));
+  $('chevrons').setAttribute('transform', `translate(0 ${(y+24).toFixed(1)})`);
+}
+
+function updateFish(t, y, now){
+  for (const f of fishes){
+    const fy = f.fy, depth = fy - y, s = f.def.s;
+    if (f.state === 'swim'){
+      if (depth < 26 && !f.def.pool){ strand(f, now); continue; }
+      const cramped = f.def.pool && depth < 70;
+      const range = cramped ? 13 : 34;
+      const nx = f.def.x + Math.sin(t*f.sp + f.ph) * range;
+      const ny = Math.min(fy - 12, Math.max(y + 16, f.homeY + Math.sin(t*0.7 + f.ph)*10));
+      const dir = Math.cos(t*f.sp + f.ph) >= 0 ? 1 : -1;
+      f.g.setAttribute('transform', `translate(${nx.toFixed(1)} ${ny.toFixed(1)}) scale(${(dir*s).toFixed(2)} ${s})`);
+      f.cx = nx; f.cy = ny; f.cramped = cramped;
+    } else {
+      const a = Math.min(1, Math.max(0, (now - f.strandT - 350) / 500));
+      const wob = Math.sin(t*10 + f.ph) * 18 * a;
+      const hop = Math.max(0, Math.sin(t*5 + f.ph*2)) * 8 * a;
+      f.g.setAttribute('transform',
+        `translate(${f.def.x} ${(fy - 6 - hop).toFixed(1)}) rotate(${(78 + wob).toFixed(1)}) scale(${s})`);
+      f.cx = f.def.x; f.cy = fy - 6;
+    }
+  }
+}
+function updateCritters(t, y, now){
+  // crab
+  const crab = $('crab');
+  if (floorY(220) - y > 10){
+    const cx = 220 + Math.sin(t*0.5) * 60;
+    const cy = floorY(cx) - 7;
+    crab.setAttribute('opacity', 1);
+    crab.setAttribute('transform', `translate(${cx.toFixed(1)} ${cy.toFixed(1)})`);
+    crab.cx = cx; crab.cy = cy; crab.active = true;
+  } else { crab.active = false; crab.setAttribute('opacity', 0); }
+  // sea lion
+  if (y > 752 && !slidSeal){
+    slidSeal = true;
+    $('seal').classList.add('slide');
+    setTimeout(() => say(950, 760, 'I had a ROCK.', 2800), 1400);
+  }
+  // raft
+  const raft = $('raft');
+  if (drain > 0.5){
+    raft.setAttribute('opacity', 1);
+    const rx = 500 + ((t*9) % 420);
+    raft.setAttribute('transform',
+      `translate(${rx.toFixed(1)} ${(y-3).toFixed(1)}) rotate(${(Math.sin(t*1.3)*5).toFixed(1)})`);
+  }
+  // alcatraz
+  if (drain > 0.5 && !saidAlca){
+    saidAlca = true;
+    say(500, 505, "moat's gone. we're leaving.", 3600);
+  }
+}
+function updateParticles(y){
+  for (let i = bubbs.length - 1; i >= 0; i--){
+    const b = bubbs[i];
+    b.y += b.vy; b.x += b.vx;
+    if (b.y < y + 5){ b.el.remove(); bubbs.splice(i,1); if (Math.random() < .3) spawnRipple(b.x, y); continue; }
+    b.el.setAttribute('cx', b.x.toFixed(1)); b.el.setAttribute('cy', b.y.toFixed(1));
+  }
+  for (let i = ripps.length - 1; i >= 0; i--){
+    const r = ripps[i];
+    r.r += 0.9;
+    const o = 0.8 - r.r / 45;
+    if (o <= 0){ r.el.remove(); ripps.splice(i,1); continue; }
+    r.el.setAttribute('rx', r.r.toFixed(1));
+    r.el.setAttribute('ry', (r.r*0.38).toFixed(1));
+    r.el.setAttribute('opacity', o.toFixed(2));
+  }
+}
+function talk(now, y){
+  if (now < nextTalk) return;
+  nextTalk = now + 2600 + Math.random()*3800;
+  const talkers = [];
+  for (const f of fishes){
+    if (f.state === 'stranded') talkers.push({x:f.cx, y:f.cy - 42, lines:LINES.fish});
+    else if (f.cramped) talkers.push({x:f.cx, y:f.cy - 34, lines:LINES.pool});
+  }
+  const crab = $('crab');
+  if (crab.active) talkers.push({x:crab.cx, y:crab.cy - 42, lines:LINES.crab});
+  if (y > 700) talkers.push({x:1146, y:656, lines:LINES.pipe});
+  if (!talkers.length) return;
+  const tk = talkers[Math.floor(Math.random()*talkers.length)];
+  say(tk.x, tk.y, tk.lines[Math.floor(Math.random()*tk.lines.length)]);
+}
+
+/* ---------- main loop ---------- */
+const t0 = performance.now();
+function frame(now){
+  const t = now / 1000;
+  frameN++;
+  if (slurp){
+    const p = Math.min(1, (now - t0) / DUR);
+    const e = easeOutExpo(p);
+    displayed = FINAL * e;
+    drain = e * 0.92;
+    if (p >= 1){
+      slurp = false;
+      displayed = FINAL;
+      document.body.classList.remove('slurping');
+      $('statusLine').textContent = 'DATACENTER STATUS: IDLE · STILL THIRSTY';
+      $('telePipe').textContent = 'SUCKING AIR (HEROICALLY)';
+    }
+  }
+  const y = FULL_Y + drain * DRAIN_PX;
+  renderWater(y, t);
+  renderStraw(y);
+  updateReadouts(y);
+  updateFish(t, y, now);
+  updateCritters(t, y, now);
+  updateParticles(y);
+  if (slurp && frameN % 3 === 0) spawnBubble(1054 + (Math.random()-.5)*10, y + 16);
+  if (slurp && now - lastRipple > 550){ lastRipple = now; spawnRipple(1054, y); }
+  if (drain > 0.8 && frameN % 50 === 0) spawnBubble(500 + Math.random()*400, y + 20);
+  if (y > 700) $('pipeFlow').setAttribute('opacity', .15);
+  talk(now, y);
+  requestAnimationFrame(frame);
+}
+
+/* ---------- live ticking after the big drain ---------- */
+function startTicks(){
+  setInterval(() => {
+    const add = 50000 + Math.floor(Math.random()*1200000);
+    FINAL += add; displayed = FINAL;
+    drain = Math.min(0.965, drain + 0.0012);
+    const n = $('bigNum');
+    n.classList.remove('pop'); void n.offsetWidth; n.classList.add('pop');
+  }, 1600 + Math.random()*1200);
+}
+
+/* ---------- bar charts ---------- */
+function animateBars(){
+  document.querySelectorAll('.bar i').forEach((b, i) => {
+    const w = b.style.width;
+    b.style.width = '0';
+    setTimeout(() => { b.style.width = w; }, 600 + i*110);
+  });
+}
+
+/* ---------- boot ---------- */
+if (RM){
+  // settle instantly, no loops
+  slurp = false;
+  document.body.classList.remove('slurping');
+  displayed = FINAL; drain = 0.92;
+  const y = FULL_Y + drain * DRAIN_PX;
+  renderWater(y, 0);
+  renderStraw(y);
+  updateReadouts(y);
+  for (const f of fishes){
+    if (!f.def.pool){ strand(f, 0); f.g.setAttribute('transform',
+      `translate(${f.def.x} ${f.fy - 6}) rotate(78) scale(${f.def.s})`); }
+    else f.g.setAttribute('transform', `translate(${f.def.x} ${y + 22}) scale(${f.def.s})`);
+  }
+  displaced = 6; $('dispCount').textContent = '6/8';
+  $('crab').setAttribute('opacity', 1);
+  $('crab').setAttribute('transform', `translate(220 ${floorY(220) - 7})`);
+  $('seal').classList.add('slide');
+  $('raft').setAttribute('opacity', 1);
+  $('raft').setAttribute('transform', `translate(650 ${y - 3})`);
+  $('pipeFlow').setAttribute('opacity', .15);
+  $('statusLine').textContent = 'DATACENTER STATUS: IDLE · STILL THIRSTY';
+  $('telePipe').textContent = 'SUCKING AIR (HEROICALLY)';
+} else {
+  displayed = 0;
+  requestAnimationFrame(frame);
+  setTimeout(startTicks, DUR + 800);
+  animateBars();
+}
+</script>
+</body>
+</html>
