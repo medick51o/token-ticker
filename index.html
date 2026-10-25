@@ -1650,7 +1650,7 @@
       <div class="power-strip" aria-hidden="true" id="power-strip"><span class="power-label">GRID <span class="live" id="grid-status">···</span></span></div>
       <div class="tools" id="tools"></div>
       <div class="fleet">
-        <div class="fleet-title">THE FLEET — FIVE CLIs, ONE CREW</div>
+        <div class="fleet-title">THE BENCH — SIX SEATS, ONE CREW</div>
         <div class="fleet-chips" id="fleet-chips"></div>
         <p class="fleet-note" id="fleet-note">All five work this shop in one orchestrated
         multi-agent environment. Fleet scan data unavailable in this snapshot.</p>
@@ -1685,13 +1685,13 @@
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-10-25T16:12:17Z",
+  "as_of": "2026-10-25T16:16:14Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 29735668772,
+    "all": 29738221250,
     "by_tool": {
-      "claude_code": 21448313819,
+      "claude_code": 21450866297,
       "codex_cli": 1922849290
     },
     "month_carry": 0,
@@ -1724,7 +1724,7 @@
     },
     {
       "month": "2026-10",
-      "tokens": 537296666
+      "tokens": 539849144
     }
   ],
   "sessions_total": 1192,
@@ -1734,9 +1734,9 @@
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 21448313819,
+      "measured_tokens": 21450866297,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-25T16:12:26Z"
+      "scanned_at": "2026-10-25T16:16:23Z"
     },
     {
       "vendor": "OpenAI",
@@ -1745,7 +1745,7 @@
       "status": "measured",
       "measured_tokens": 1922849290,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-25T16:12:26Z"
+      "scanned_at": "2026-10-25T16:16:23Z"
     },
     {
       "vendor": "xAI",
@@ -1754,7 +1754,7 @@
       "status": "measured",
       "measured_tokens": 89886434,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-25T16:12:26Z"
+      "scanned_at": "2026-10-25T16:16:23Z"
     },
     {
       "vendor": "Google",
@@ -1763,7 +1763,16 @@
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 13690948,
-      "scanned_at": "2026-10-25T16:12:26Z"
+      "scanned_at": "2026-10-25T16:16:23Z"
+    },
+    {
+      "vendor": "xAI",
+      "tool": "grok_bot",
+      "detected": true,
+      "status": "detected — no measurable token logs",
+      "measured_tokens": null,
+      "estimated_tokens": null,
+      "scanned_at": "2026-10-25T16:16:23Z"
     },
     {
       "vendor": "Cursor",
@@ -1772,7 +1781,7 @@
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
       "estimated_tokens": 1292046,
-      "scanned_at": "2026-10-25T16:12:26Z"
+      "scanned_at": "2026-10-25T16:16:23Z"
     }
   ]
 }
@@ -2625,7 +2634,7 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     const TOOL_LABELS = {
       claude_code: "Anthropic · Claude Code", codex_cli: "OpenAI · Codex",
       grok_cli: "Grok · Grok CLI", antigravity_cli: "Google · Antigravity CLI (Gemini)",
-      cursor_cli: "Cursor · Cursor CLI"
+      cursor_cli: "Cursor · Cursor CLI", grok_bot: "xAI · Grok Bot"
     };
     const CHIP_CLASS = {
       "measured": "measured",
@@ -2732,6 +2741,17 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
     // seat confesses what it cannot see"). Not conditional on any scan result.
     noteText += " Grok's web and X usage leaves no local records and appears " +
       "in no figure on this page.";
+
+    // EP16 (2026-10-25): the go-to seats' standing confession. Cursor is the
+    // shop's lead seat and Grok Bot now runs this project, but both meter on
+    // Cursor's account dashboard, not on disk -- so their heaviest work is in
+    // no figure here yet. Rendered only when the seat is actually on the bench.
+    const hasSeat = function (t) { return fleet.some(function (f) { return f.tool === t; }); };
+    if (hasSeat("cursor_cli") || hasSeat("grok_bot")) {
+      noteText += " Cursor is this shop's go-to seat and Grok Bot now runs this " +
+        "project; both are metered on Cursor's own account dashboard, not in local " +
+        "logs, so their real usage is in no figure here until it can be measured.";
+    }
 
     noteEl.textContent = noteText;
   }
