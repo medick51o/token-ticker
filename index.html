@@ -478,8 +478,8 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
  <section id="it">
   <div class="kick rv"><span class="no">00</span><h3>What I've built. <em class="s">Self-taught, with AI.</em></h3></div>
   <ol class="track">
-   <li class="era rv" style="--c:var(--codex)"><div class="d">SOFTWARE</div><b>A software project</b><p>A software project, the latest in a line of versions. The one before it hit 928 passing tests and a signed installer, then got shelved. This one is about cutting back to what actually gets used.</p></li>
-   <li class="era rv" style="--c:var(--claude)"><div class="d">HARDWARE</div><b>A 3D printer on a schedule</b><p>A networked Bambu Lab P2S with a job ledger and a maintenance check sheet: every print, weekly, monthly and every three months, each task logged with a photo or video.</p></li>
+   <li class="era rv" style="--c:var(--codex)"><div class="d">SOFTWARE</div><b>Controller enthusiast</b><p>I got into AI fixing a mod&rsquo;s broken code. Now I build controller apps for accessibility and remote play, streaming a controller over a home network or the internet to a server. AI took me from waiting on developers to building for the community myself.</p></li>
+   <li class="era rv" style="--c:var(--claude)"><div class="d">HARDWARE</div><b>3D printers, running 24/7</b><p>I help run an array of 3D printers for a growing family business. My AI agents schedule jobs and keep operations running around the clock, so the printers keep earning while I sleep.</p></li>
    <li class="era rv" style="--c:var(--bot1)"><div class="d">THIS PAGE</div><b>Token Ticker</b><p>The page you're reading. It counts my AI usage from my own logs and billing exports, rounds it and updates daily. <a href="https://github.com/medick51o/token-ticker">Code on GitHub</a>.</p></li>
   </ol>
  </section>
@@ -609,7 +609,7 @@ document.body.classList.remove('nojs');
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-10-27T07:07:06Z",
+  "as_of": "2026-10-27T07:26:26Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
@@ -660,7 +660,7 @@ document.body.classList.remove('nojs');
       "status": "measured",
       "measured_tokens": 21487559141,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:07:15Z"
+      "scanned_at": "2026-10-27T07:26:29Z"
     },
     {
       "vendor": "OpenAI",
@@ -669,7 +669,7 @@ document.body.classList.remove('nojs');
       "status": "measured",
       "measured_tokens": 1923671277,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:07:15Z"
+      "scanned_at": "2026-10-27T07:26:29Z"
     },
     {
       "vendor": "xAI",
@@ -678,7 +678,7 @@ document.body.classList.remove('nojs');
       "status": "measured",
       "measured_tokens": 89886434,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:07:15Z"
+      "scanned_at": "2026-10-27T07:26:29Z"
     },
     {
       "vendor": "Google",
@@ -687,7 +687,7 @@ document.body.classList.remove('nojs');
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 13676188,
-      "scanned_at": "2026-10-27T07:07:15Z"
+      "scanned_at": "2026-10-27T07:26:29Z"
     },
     {
       "vendor": "xAI",
@@ -696,7 +696,7 @@ document.body.classList.remove('nojs');
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:07:15Z"
+      "scanned_at": "2026-10-27T07:26:29Z"
     },
     {
       "vendor": "Cursor",
@@ -705,7 +705,7 @@ document.body.classList.remove('nojs');
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
       "estimated_tokens": 1297428,
-      "scanned_at": "2026-10-27T07:07:15Z"
+      "scanned_at": "2026-10-27T07:26:29Z"
     }
   ]
 }
