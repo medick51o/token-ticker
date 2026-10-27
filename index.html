@@ -576,7 +576,7 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
   <div class="kick rv"><span class="no">04</span><h3>Local open-weight models.</h3></div>
   <div class="local rv">
    <p class="in">Models I run on my own GPUs, no cloud needed.</p>
-   <div class="rt"><span class="rtb" style="--c:#F4F1EA"><svg class="mk" aria-hidden="true"><use href="#m-ollama"/></svg><b>Ollama</b><small>Local runner for the Qwen LLMs</small></span><span class="rtb" style="--c:#0866FF"><svg class="mk" aria-hidden="true"><use href="#m-llama"/></svg><b>Llama</b><small>Meta’s open model family</small></span></div>
+   <div class="rt"><span class="rtb" style="--c:#F4F1EA"><svg class="mk" aria-hidden="true"><use href="#m-ollama"/></svg><b>Ollama</b><small>Local runner for the Qwen LLMs on my home-lab machines</small></span><span class="rtb" style="--c:#0866FF"><svg class="mk" aria-hidden="true"><use href="#m-llama"/></svg><b>Llama</b><small>Meta’s open model family</small></span></div>
    <div class="groups">
     <div><h5>Code &amp; language</h5><div class="chips"><span class="chip" style="--c:#F97316">Qwen3-Coder 30B</span><span class="chip" style="--c:#FB923C">Qwen3.8 27B</span><span class="chip" style="--c:#FBBF24">Qwen3 0.6B</span><span class="chip" style="--c:#4ADE80">Qwen3-VL 8B</span></div></div>
     <div><h5>Images &amp; vision</h5><div class="chips"><span class="chip" style="--c:#A3E635">Qwen-Image 2.1</span><span class="chip" style="--c:#2DD4BF">Shuttle 3 Diffusion</span><span class="chip" style="--c:#22D3EE">RealVisXL V5</span><span class="chip" style="--c:#38BDF8">IP-Adapter FaceID</span><span class="chip" style="--c:#818CF8">InsightFace</span><span class="chip" style="--c:#F59E0B">Real-ESRGAN</span><span class="chip" style="--c:#34D399">Depth-Anything V2</span></div></div>
@@ -614,7 +614,7 @@ document.body.classList.remove('nojs');
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-10-27T07:48:13Z",
+  "as_of": "2026-10-27T07:53:25Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
@@ -665,7 +665,7 @@ document.body.classList.remove('nojs');
       "status": "measured",
       "measured_tokens": 21487894894,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:48:16Z"
+      "scanned_at": "2026-10-27T07:53:28Z"
     },
     {
       "vendor": "OpenAI",
@@ -674,7 +674,7 @@ document.body.classList.remove('nojs');
       "status": "measured",
       "measured_tokens": 1923671277,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:48:16Z"
+      "scanned_at": "2026-10-27T07:53:28Z"
     },
     {
       "vendor": "xAI",
@@ -683,7 +683,7 @@ document.body.classList.remove('nojs');
       "status": "measured",
       "measured_tokens": 89886434,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:48:16Z"
+      "scanned_at": "2026-10-27T07:53:28Z"
     },
     {
       "vendor": "Google",
@@ -692,7 +692,7 @@ document.body.classList.remove('nojs');
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 13676188,
-      "scanned_at": "2026-10-27T07:48:16Z"
+      "scanned_at": "2026-10-27T07:53:28Z"
     },
     {
       "vendor": "xAI",
@@ -701,7 +701,7 @@ document.body.classList.remove('nojs');
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:48:16Z"
+      "scanned_at": "2026-10-27T07:53:28Z"
     },
     {
       "vendor": "Cursor",
@@ -710,7 +710,7 @@ document.body.classList.remove('nojs');
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
       "estimated_tokens": 1297428,
-      "scanned_at": "2026-10-27T07:48:16Z"
+      "scanned_at": "2026-10-27T07:53:28Z"
     }
   ]
 }
