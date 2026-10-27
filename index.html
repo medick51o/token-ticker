@@ -139,14 +139,16 @@ section{padding:104px 0 0}
 .lane{height:20px;border-radius:10px;margin-left:calc(var(--s)*100%);width:calc((.9724 - var(--s))*100%);background:var(--c);color:#fff;font:700 11px/20px var(--mono);letter-spacing:.06em;padding:0 10px;white-space:nowrap;overflow:hidden}
 .lane.dk{color:var(--ink)}
 .plot{position:relative;display:grid;grid-template-columns:repeat(7,1fr);height:290px;border-bottom:1.5px solid var(--ink);margin-bottom:36px}
-.curband{position:absolute;left:66.36%;right:2.76%;top:0;bottom:0;background:repeating-linear-gradient(45deg,#7C3AED26 0 3px,#7C3AED0A 3px 9px);border-radius:10px 10px 0 0;z-index:0}
-.curband span{position:absolute;left:0;right:0;top:12px;text-align:center;font:700 11px/1.35 var(--mono);letter-spacing:.06em;color:#4B2A9C;padding:0 6px}
 .now{position:absolute;left:97.24%;top:-8px;bottom:0;border-left:1.5px dashed var(--ink);z-index:2}
 .now:before{content:"NOW";position:absolute;top:-16px;left:0;transform:translateX(-50%);font:700 10px var(--mono);letter-spacing:.08em}
 .col{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
 .col b{font-weight:850;font-size:15px;letter-spacing:-.02em;margin-bottom:6px;white-space:nowrap}
 .col b.lt{font-weight:600;color:#8A8273}
 .col i{display:block;width:56%;height:max(3px,calc(var(--v)/14.2*220px));border-radius:6px 6px 0 0;background:linear-gradient(180deg,var(--claude),var(--codex))}
+.col u{display:block;width:56%;height:calc(var(--g)/14.2*220px);border-radius:6px 6px 0 0;background:linear-gradient(180deg,#7C3AED,#4F8CFF)}
+.col u+i{border-radius:0}
+.col b small{display:block;margin-top:3px;font:600 10px/1.25 var(--mono);letter-spacing:.01em;color:#5B33B8;white-space:normal;text-align:center;max-width:120px}
+.col b.has{text-align:center;display:flex;flex-direction:column;align-items:center}
 .col span{position:absolute;top:calc(100% + 10px);left:0;right:0;text-align:center;font:700 12px var(--mono);letter-spacing:.1em;color:var(--mute)}
 .tlkey{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--mute)}
 .tlkey span{display:inline-flex;align-items:center;gap:8px}
@@ -209,10 +211,14 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
  .lanes{display:none}
  /* bars turn sideways: one row per month */
  .plot{grid-template-columns:1fr;grid-auto-rows:40px;height:auto;border-bottom:0;border-left:1.5px solid var(--ink);margin:0 0 18px 44px}
- .curband{left:0;right:0;top:66.36%;bottom:2.76%;border-radius:0 10px 10px 0}
- .curband span,.now{display:none}
+ .now{display:none}
  .col{flex-direction:row;justify-content:flex-start;align-items:center}
- .col i{order:1;width:max(3px,calc(var(--v)/14.2*72%));height:20px;border-radius:0 6px 6px 0;background:linear-gradient(90deg,var(--claude),var(--codex))}
+ .col i{order:0;width:max(3px,calc(var(--v)/14.2*72%));height:20px;border-radius:0 6px 6px 0;background:linear-gradient(90deg,var(--claude),var(--codex))}
+ .col u{order:1;width:calc(var(--g)/14.2*72%);height:20px;border-radius:0 6px 6px 0;background:linear-gradient(90deg,#7C3AED,#4F8CFF)}
+ .col u+i{border-radius:0}
+ .col b small{margin-top:1px;font-size:9px;text-align:left;max-width:none;white-space:nowrap}
+ .col b.has{align-items:flex-start;text-align:left}
+ .plot{grid-auto-rows:46px}
  .col b{order:2;margin:0 0 0 8px;font-size:14px}
  .col span{top:50%;left:-44px;right:auto;width:38px;transform:translateY(-50%);text-align:left;font-size:11px}
  .track{grid-template-columns:1fr;gap:30px;padding-left:34px}
@@ -478,7 +484,7 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
  <section id="it">
   <div class="kick rv"><span class="no">00</span><h3>What I've built. <em class="s">Self-taught, with AI.</em></h3></div>
   <ol class="track">
-   <li class="era rv" style="--c:var(--codex)"><div class="d">SOFTWARE</div><b>Controller enthusiast</b><p>I got into AI fixing a mod&rsquo;s broken code. Now I build controller apps for accessibility and remote play, streaming a controller over a home network or the internet to a server. AI took me from waiting on developers to building for the community myself.</p></li>
+   <li class="era rv" style="--c:var(--codex)"><div class="d">SOFTWARE</div><b>Controller enthusiast</b><p>I got into AI fixing a mod&rsquo;s broken code. Now I build video game controller apps for accessibility and remote play, streaming controller inputs over a home network or the internet to a server. AI took me from waiting on developers to building for the community myself.</p></li>
    <li class="era rv" style="--c:var(--claude)"><div class="d">HARDWARE</div><b>3D printers, running 24/7</b><p>I help run an array of 3D printers for a growing family business. My AI agents schedule jobs and keep operations running around the clock, so the printers keep earning while I sleep.</p></li>
    <li class="era rv" style="--c:var(--bot1)"><div class="d">THIS PAGE</div><b>Token Ticker</b><p>The page you're reading. It counts my AI usage from my own logs and billing exports, rounds it and updates daily. <a href="https://github.com/medick51o/token-ticker">Code on GitHub</a>.</p></li>
   </ol>
@@ -541,18 +547,17 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
     <div class="lane" style="--s:.6636;--c:var(--cursor)">CURSOR · AUG</div>
     <div class="lane" style="--s:.7476;--c:linear-gradient(90deg,var(--bot1),var(--bot2))">GROK BOT · SEP</div>
    </div>
-   <div class="plot" role="img" aria-label="Claude Code and Codex by month: April about 0.7B, May under 0.1B, June about 1.6B, July about 8.3B, August about 14.2B, September about 4.4B, October so far about 0.6B. Cursor and Grok Bot, about 6.7B from late August, not split by month.">
-    <div class="curband"><span>CURSOR + GROK BOT<br>~6.7B · not split by month</span></div>
+   <div class="plot" role="img" aria-label="Claude Code and Codex by month: April about 0.7B, May under 0.1B, June about 1.6B, July about 8.3B, August about 14.2B, September about 4.4B, October so far about 0.6B. Cursor and Grok Bot, about 6.7B in total across August to October, not split by month; the September and October bars are drawn up to 6.7B as a visual cue.">
     <div class="now"></div>
     <div class="col" style="--v:.7"><b>~0.7B</b><i></i><span>APR</span></div>
     <div class="col" style="--v:0"><b class="lt">&lt;0.1B</b><i></i><span>MAY</span></div>
     <div class="col" style="--v:1.6"><b>~1.6B</b><i></i><span>JUN</span></div>
     <div class="col" style="--v:8.3"><b>~8.3B</b><i></i><span>JUL</span></div>
     <div class="col" style="--v:14.2"><b>~14.2B</b><i></i><span>AUG</span></div>
-    <div class="col" style="--v:4.4"><b>~4.4B</b><i></i><span>SEP</span></div>
-    <div class="col" style="--v:.553"><b>~0.6B</b><i></i><span>OCT*</span></div>
+    <div class="col" style="--v:4.4;--g:2.3"><b class="has">~4.4B<small>(+ Cursor &amp; Grok Bot: ~6.7B over Aug–Oct)</small></b><u></u><i></i><span>SEP</span></div>
+    <div class="col" style="--v:.553;--g:6.147"><b class="has">~0.6B<small>(+ Cursor &amp; Grok Bot: ~6.7B over Aug–Oct)</small></b><u></u><i></i><span>OCT*</span></div>
    </div>
-   <div class="tlkey"><span><s style="background:linear-gradient(180deg,var(--claude),var(--codex))"></s>Claude Code + Codex, by month</span><span><s style="background:repeating-linear-gradient(45deg,#7C3AED55 0 2px,#7C3AED14 2px 5px)"></s>Cursor + Grok Bot ~6.7B, not split by month</span><span>*October so far · 2026</span></div>
+   <div class="tlkey"><span><s style="background:linear-gradient(180deg,var(--claude),var(--codex))"></s>Claude Code + Codex, by month</span><span><s style="background:linear-gradient(180deg,#7C3AED,#4F8CFF)"></s>Cursor + Grok Bot · ~6.7B total across Aug–Oct (not split by month; bar height is a visual cue)</span><span>*October so far · 2026</span></div>
    <p class="cap">Coloured lanes start when each tool first shows up in my logs. <b>The September drop isn't me slowing down. That's when my projects moved into Cursor and Grok Bot.</b></p>
   </div>
 
@@ -609,13 +614,13 @@ document.body.classList.remove('nojs');
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-10-27T07:26:26Z",
+  "as_of": "2026-10-27T07:48:13Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 29775736081,
+    "all": 29776071834,
     "by_tool": {
-      "claude_code": 21487559141,
+      "claude_code": 21487894894,
       "codex_cli": 1923671277
     },
     "month_carry": 0,
@@ -648,19 +653,19 @@ document.body.classList.remove('nojs');
     },
     {
       "month": "2026-10",
-      "tokens": 577363975
+      "tokens": 577699728
     }
   ],
-  "sessions_total": 1205,
+  "sessions_total": 1206,
   "fleet": [
     {
       "vendor": "Anthropic",
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 21487559141,
+      "measured_tokens": 21487894894,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:26:29Z"
+      "scanned_at": "2026-10-27T07:48:16Z"
     },
     {
       "vendor": "OpenAI",
@@ -669,7 +674,7 @@ document.body.classList.remove('nojs');
       "status": "measured",
       "measured_tokens": 1923671277,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:26:29Z"
+      "scanned_at": "2026-10-27T07:48:16Z"
     },
     {
       "vendor": "xAI",
@@ -678,7 +683,7 @@ document.body.classList.remove('nojs');
       "status": "measured",
       "measured_tokens": 89886434,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:26:29Z"
+      "scanned_at": "2026-10-27T07:48:16Z"
     },
     {
       "vendor": "Google",
@@ -687,7 +692,7 @@ document.body.classList.remove('nojs');
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 13676188,
-      "scanned_at": "2026-10-27T07:26:29Z"
+      "scanned_at": "2026-10-27T07:48:16Z"
     },
     {
       "vendor": "xAI",
@@ -696,7 +701,7 @@ document.body.classList.remove('nojs');
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:26:29Z"
+      "scanned_at": "2026-10-27T07:48:16Z"
     },
     {
       "vendor": "Cursor",
@@ -705,7 +710,7 @@ document.body.classList.remove('nojs');
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
       "estimated_tokens": 1297428,
-      "scanned_at": "2026-10-27T07:26:29Z"
+      "scanned_at": "2026-10-27T07:48:16Z"
     }
   ]
 }
