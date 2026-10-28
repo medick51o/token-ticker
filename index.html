@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Token Burn Ticker — 29.78B tokens</title>
-<meta name="description" content="29.78B tokens processed since April 2026 — headline measured from local CLI logs by a five-CLI, multi-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 29.78B tokens, measured">
+<title>Token Burn Ticker — 29.81B tokens</title>
+<meta name="description" content="29.81B tokens processed since April 2026 — headline measured from local CLI logs by a five-CLI, multi-vendor AI crew, never estimated.">
+<meta property="og:title" content="Token Burn Ticker — 29.81B tokens, measured">
 <meta property="og:url" content="https://medick51o.github.io/token-ticker/">
 <meta property="og:image" content="https://medick51o.github.io/token-ticker/social-card.png">
 <meta property="og:description" content="AI · desktop support · sysadmin. Self-taught in AI, I run a crew of AI agents that build real projects.">
@@ -591,7 +591,7 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
  <div class="close" id="talk">
   <h3 class="rv">Hiring for desktop<br>support or IT?<br><em class="s">Let’s talk.</em></h3>
  </div>
- <footer><span>Token Ticker · 2026</span><span>Numbers are rounded, counted from my own usage logs and billing exports. Updated daily.</span></footer>
+ <footer><span>Token Ticker · 2026</span><span>Numbers are rounded, counted from my own usage logs and billing exports. Updated daily.</span><span style="display:block;font-size:.8em;opacity:.6;margin-top:.5em">37B+ includes Grok Bot and Cursor as running totals.</span></footer>
 </div>
 
 <script>
@@ -614,14 +614,14 @@ document.body.classList.remove('nojs');
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-10-27T07:53:25Z",
+  "as_of": "2026-10-28T15:02:10Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 29776071834,
+    "all": 29810365926,
     "by_tool": {
-      "claude_code": 21487894894,
-      "codex_cli": 1923671277
+      "claude_code": 21518737254,
+      "codex_cli": 1927123009
     },
     "month_carry": 0,
     "tool_carry": 6364505663
@@ -653,37 +653,37 @@ document.body.classList.remove('nojs');
     },
     {
       "month": "2026-10",
-      "tokens": 577699728
+      "tokens": 611993820
     }
   ],
-  "sessions_total": 1206,
+  "sessions_total": 1209,
   "fleet": [
     {
       "vendor": "Anthropic",
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 21487894894,
+      "measured_tokens": 21518737254,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:53:28Z"
+      "scanned_at": "2026-10-28T15:03:38Z"
     },
     {
       "vendor": "OpenAI",
       "tool": "codex_cli",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 1923671277,
+      "measured_tokens": 1927123009,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:53:28Z"
+      "scanned_at": "2026-10-28T15:03:38Z"
     },
     {
       "vendor": "xAI",
       "tool": "grok_cli",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 89886434,
+      "measured_tokens": 90784181,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:53:28Z"
+      "scanned_at": "2026-10-28T15:03:38Z"
     },
     {
       "vendor": "Google",
@@ -691,8 +691,8 @@ document.body.classList.remove('nojs');
       "detected": true,
       "status": "dispatch-measured",
       "measured_tokens": 101,
-      "estimated_tokens": 13676188,
-      "scanned_at": "2026-10-27T07:53:28Z"
+      "estimated_tokens": 13696688,
+      "scanned_at": "2026-10-28T15:03:38Z"
     },
     {
       "vendor": "xAI",
@@ -701,7 +701,7 @@ document.body.classList.remove('nojs');
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-27T07:53:28Z"
+      "scanned_at": "2026-10-28T15:03:38Z"
     },
     {
       "vendor": "Cursor",
@@ -709,8 +709,8 @@ document.body.classList.remove('nojs');
       "detected": true,
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
-      "estimated_tokens": 1297428,
-      "scanned_at": "2026-10-27T07:53:28Z"
+      "estimated_tokens": 1297520,
+      "scanned_at": "2026-10-28T15:03:38Z"
     }
   ]
 }
