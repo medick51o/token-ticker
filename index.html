@@ -616,13 +616,13 @@ document.body.classList.remove('nojs');
 <script type="application/json" id="ledger">
 {
   "schema_version": 1,
-  "as_of": "2026-10-29T15:02:16Z",
+  "as_of": "2026-10-30T15:02:02Z",
   "started": "2026-05-31",
   "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
   "totals": {
-    "all": 29810365926,
+    "all": 29810959907,
     "by_tool": {
-      "claude_code": 21518737254,
+      "claude_code": 21519331235,
       "codex_cli": 1927123009
     },
     "month_carry": 0,
@@ -655,7 +655,7 @@ document.body.classList.remove('nojs');
     },
     {
       "month": "2026-10",
-      "tokens": 611993820
+      "tokens": 612587801
     }
   ],
   "sessions_total": 1209,
@@ -665,9 +665,9 @@ document.body.classList.remove('nojs');
       "tool": "claude_code",
       "detected": true,
       "status": "measured",
-      "measured_tokens": 21518737254,
+      "measured_tokens": 21519331235,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-29T15:03:39Z"
+      "scanned_at": "2026-10-30T15:02:14Z"
     },
     {
       "vendor": "OpenAI",
@@ -676,7 +676,7 @@ document.body.classList.remove('nojs');
       "status": "measured",
       "measured_tokens": 1927123009,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-29T15:03:39Z"
+      "scanned_at": "2026-10-30T15:02:14Z"
     },
     {
       "vendor": "xAI",
@@ -685,7 +685,7 @@ document.body.classList.remove('nojs');
       "status": "measured",
       "measured_tokens": 90784181,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-29T15:03:39Z"
+      "scanned_at": "2026-10-30T15:02:14Z"
     },
     {
       "vendor": "Google",
@@ -694,7 +694,7 @@ document.body.classList.remove('nojs');
       "status": "dispatch-measured",
       "measured_tokens": 101,
       "estimated_tokens": 13695887,
-      "scanned_at": "2026-10-29T15:03:39Z"
+      "scanned_at": "2026-10-30T15:02:14Z"
     },
     {
       "vendor": "xAI",
@@ -703,7 +703,7 @@ document.body.classList.remove('nojs');
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
       "estimated_tokens": null,
-      "scanned_at": "2026-10-29T15:03:39Z"
+      "scanned_at": "2026-10-30T15:02:14Z"
     },
     {
       "vendor": "Cursor",
@@ -712,7 +712,7 @@ document.body.classList.remove('nojs');
       "status": "detected — no measurable token logs",
       "measured_tokens": null,
       "estimated_tokens": 1297871,
-      "scanned_at": "2026-10-29T15:03:39Z"
+      "scanned_at": "2026-10-30T15:02:14Z"
     }
   ]
 }
