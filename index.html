@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Token snapshots — CLI Nov 2 · Cursor Nov 7</title>
-<meta name="description" content="Separate measured snapshots: CLI 29,878,234,657 tokens as of November 2; Cursor 8,450,874,389 tokens in the November 7 official export, including Grok Bot 4,072,739,590. Not added together.">
+<meta name="description" content="Separate measured snapshots: CLI 29,878,234,657 tokens as of November 2; Cursor 8,450,874,389 tokens in the November 7 official export, including Grok Bot 4,072,739,590. Separate dated snapshots; combined sum may overlap and is not deduplicated.">
 
 <meta property="og:url" content="https://medick51o.github.io/token-ticker/">
 
@@ -460,11 +460,12 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
   <span><svg class="mk"><use href="#m-bot"/></svg>Grok Bot</span><span><svg class="mk"><use href="#m-cursor"/></svg>Cursor</span><span><svg class="mk"><use href="#m-claude"/></svg>Claude Code</span><span><svg class="mk"><use href="#m-codex"/></svg>Codex</span><span><svg class="mk"><use href="#m-gemini"/></svg>Gemini · Antigravity</span><span><svg class="mk"><use href="#m-grok"/></svg>Grok</span><span><svg class="mk"><use href="#m-local"/></svg>Local models</span><span><svg class="mk"><use href="#m-ollama"/></svg>Ollama</span><span><svg class="mk"><use href="#m-llama"/></svg>Llama</span>
   <span><svg class="mk"><use href="#m-bot"/></svg>Grok Bot</span><span><svg class="mk"><use href="#m-cursor"/></svg>Cursor</span><span><svg class="mk"><use href="#m-claude"/></svg>Claude Code</span><span><svg class="mk"><use href="#m-codex"/></svg>Codex</span><span><svg class="mk"><use href="#m-gemini"/></svg>Gemini · Antigravity</span><span><svg class="mk"><use href="#m-grok"/></svg>Grok</span><span><svg class="mk"><use href="#m-local"/></svg>Local models</span><span><svg class="mk"><use href="#m-ollama"/></svg>Ollama</span><span><svg class="mk"><use href="#m-llama"/></svg>Llama</span>
  </div></div>
+<section class="wrap" id="combined-snapshots" aria-labelledby="combined-label" style="padding-top:32px;padding-bottom:24px"><h2 id="combined-label">Combined snapshots · arithmetic sum</h2><div id="combined-value" aria-describedby="combined-note" style="font:700 clamp(22px,4vw,42px)/1.3 var(--mono);white-space:nowrap">38,329,109,046</div><p id="combined-note" style="max-width:76ch;margin-top:12px">CLI snapshot: November 2; Cursor snapshot: November 7. These snapshots may overlap; this sum is not deduplicated and is not a unique verified token total. Grok Bot (4,072,739,590) is included in Cursor, not added again.</p></section>
  <div class="wrap top">
   <div class="big" aria-label="Cursor snapshot 8,450,874,389 tokens">8.45B</div>
   <div>
    <h2>Cursor tokens · November 7 export</h2><div id="snapshot-chips"></div><p id="snapshot-method"></p>
-   <p>8,450,874,389 measured Cursor tokens, including 4,072,739,590 through Grok Bot. Preserved CLI snapshot: 29,878,234,657 tokens · November 2. These separate snapshots are not added together.</p>
+   <p>8,450,874,389 measured Cursor tokens, including 4,072,739,590 through Grok Bot. Preserved CLI snapshot: 29,878,234,657 tokens · November 2. Separate components of the disclosed arithmetic sum above; overlap has not been ruled out.</p>
   </div>
  </div>
  <div class="wrap">
@@ -598,7 +599,7 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
  <div class="close" id="talk">
   <h3 class="rv">Hiring for desktop<br>support or IT?<br><em class="s">Let’s talk.</em></h3>
  </div>
- <details class="wrap"><summary>Built by · methods and credits</summary><pre id="credits" style="white-space:pre-wrap"></pre></details><footer><span>Token Ticker · 2026</span><span>Numbers are rounded from usage logs and billing exports. Source dates vary.</span><span style="display:block;font-size:.8em;opacity:.6;margin-top:.5em">Separate Cursor/Grok Bot November 7 export: 1,899 blank token rows excluded. CLI ticker: November 2. Snapshots are not added together.</span></footer>
+ <details class="wrap"><summary>Built by · methods and credits</summary><pre id="credits" style="white-space:pre-wrap"></pre></details><footer><span>Token Ticker · 2026</span><span>Numbers are rounded from usage logs and billing exports. Source dates vary.</span><span style="display:block;font-size:.8em;opacity:.6;margin-top:.5em">Separate Cursor/Grok Bot November 7 export: 1,899 blank token rows excluded. CLI ticker: November 2. Combined snapshots above are not deduplicated.</span></footer>
 </div>
 
 <script>
@@ -785,7 +786,7 @@ function validateLedger(d) {
   document.title='Token snapshots — CLI Nov 2 · Cursor Nov 7';
   put('odometer',fmt(ledger.totals.all));put('odometer-status',fmt(ledger.totals.all)+' CLI tokens as of November 2');
   put('abbrev','CLI snapshot · November 2, 2026');put('tt-live-txt','CLI snapshot · November 2');
-  put('tt-honest','Preserved CLI bank: November 2, 8:02:07 AM PST. Separate Cursor CSV: November 7. Not added together.');
+  put('tt-honest','Preserved CLI bank: November 2, 8:02:07 AM PST. Separate Cursor CSV: November 7. Combined display is not deduplicated.');
   put('grid-status','SNAPSHOT');
   const tools=document.getElementById('tools');tools.textContent='';
   [['Claude Code',ledger.totals.by_tool.claude_code],['Codex',ledger.totals.by_tool.codex_cli],['Unattributed banked history',ledger.totals.tool_carry]].forEach(([label,n])=>{
