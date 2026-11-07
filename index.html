@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Token Burn Ticker — 29.88B tokens</title>
-<meta name="description" content="29.88B tokens processed since April 2026 — headline measured from local CLI logs by a five-CLI, multi-vendor AI crew, never estimated.">
-<meta property="og:title" content="Token Burn Ticker — 29.88B tokens, measured">
+<title>Token snapshots — CLI Nov 2 · Cursor Nov 7</title>
+<meta name="description" content="Separate measured snapshots: CLI 29,878,234,657 tokens as of November 2; Cursor 8,450,874,389 tokens in the November 7 official export, including Grok Bot 4,072,739,590. Not added together.">
+
 <meta property="og:url" content="https://medick51o.github.io/token-ticker/">
-<meta property="og:image" content="https://medick51o.github.io/token-ticker/og-37b.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://medick51o.github.io/token-ticker/og-37b.png">
-<meta property="og:description" content="AI · desktop support · sysadmin. Self-taught in AI, I run a crew of AI agents that build real projects.">
-<meta name="twitter:description" content="AI · desktop support · sysadmin. Self-taught in AI, I run a crew of AI agents that build real projects.">
+
+
+
+
+
 <style>
 :root{--paper:#F3EFE6;--paper2:#EAE4D7;--ink:#15130F;--mute:#5E584D;--rule:#D9D2C3;
 --claude:#D97757;--codex:#10A37F;--gem1:#4F8CFF;--gem2:#9B6BFF;--cursor:#1B1B22;--cursorL:#A9A5D6;--bot1:#E8368F;--bot2:#7C3AED;--local:#F59E0B;--grokL:#EDE7DA;
@@ -359,6 +359,13 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
  .tt-live .split-visual:after,.tt-live .odometer .digit.roll:before{display:none}
  .tt-live .tool,.tt-live .tool-fill,.tt-live .abbrev,.tt-live .tt-how>summary:after{transition:none}
 }
+/* Snapshot component cards: override legacy swatch-grid layout only. */
+.tt-live #tools{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tt-live #tools .tool{display:block;min-width:0;padding:14px 0;overflow-wrap:normal;word-break:normal}
+.tt-live #tools .component-label{display:block;font-size:14px;line-height:1.4;font-weight:650;margin-bottom:8px}
+.tt-live #tools .component-value{display:block;white-space:nowrap;font:600 13px/1.6 var(--mono);font-variant-numeric:tabular-nums}
+.tt-live #tools .component-date{display:block;font-size:12px;line-height:1.5;color:#A8A091;margin-top:4px}
+@media(max-width:760px){.tt-live #tools{grid-template-columns:1fr}}
 </style></head>
 <body class="nojs">
 
@@ -391,28 +398,28 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
  <!-- LIVE TICKER (r21 band, review adopted): renderer + ledger copied from the live site -->
  <section class="tt-live" aria-labelledby="hero-label">
   <div class="tt-top">
-   <span class="tt-kicker"><span class="tt-marks" aria-hidden="true"><svg class="mk"><use href="#m-claude"/></svg><svg class="mk"><use href="#m-codex"/></svg><svg class="mk"><use href="#m-grok"/></svg><svg class="mk"><use href="#m-gemini"/></svg><svg class="mk"><use href="#m-cursor"/></svg></span>Token burn · right now</span>
-   <b class="tt-live-lbl" id="tt-live-lbl"><i class="tt-dot"></i><span id="tt-live-txt">measured</span></b>
+   <span class="tt-kicker"><span class="tt-marks" aria-hidden="true"><svg class="mk"><use href="#m-claude"/></svg><svg class="mk"><use href="#m-codex"/></svg><svg class="mk"><use href="#m-grok"/></svg><svg class="mk"><use href="#m-gemini"/></svg><svg class="mk"><use href="#m-cursor"/></svg></span>CLI snapshot · November 2</span>
+   <b class="tt-live-lbl" id="tt-live-lbl"><i class="tt-dot"></i><span id="tt-live-txt">CLI snapshot · November 2</span></b>
   </div>
-  <h2 class="tt-head" id="hero-label">Tokens my AI crew and I <em class="s">have burned so far</em></h2>
-  <div class="odometer-shell"><div class="odometer" id="odometer" aria-hidden="true">0</div><div class="sr-only" id="odometer-status" role="status" aria-live="polite"></div></div>
-  <div class="tt-read"><div class="abbrev" id="abbrev">—</div><p class="tt-honest" id="tt-honest">Recorded by the app, synced to GitHub daily; projected in between.</p></div>
-  <div class="tt-split"><div class="tt-split-hd">Who's burning them<span>live, by tool</span></div><div class="tools" id="tools"></div></div>
+  <h2 class="tt-head" id="hero-label">Preserved CLI tokens <em class="s">as of November 2</em></h2>
+  <div class="odometer-shell"><div class="odometer" id="odometer" aria-hidden="true">29,878,234,657</div><div class="sr-only" id="odometer-status" role="status" aria-live="polite">29,878,234,657 CLI tokens as of November 2</div></div>
+  <div class="tt-read"><div class="abbrev" id="abbrev">CLI snapshot · November 2, 2026</div><p class="tt-honest" id="tt-honest">Measured CLI snapshot: November 2. Cursor/Grok Bot export: November 7.</p></div>
+  <div class="tt-split"><div class="tt-split-hd">Preserved CLI components<span>November 2 CLI snapshot</span></div><div class="tools" id="tools"></div></div>
   <details class="tt-how">
    <summary>How this is counted</summary>
    <div class="tt-how-body">
     <div>
-     <p class="tt-note" id="tt-note">Headline measured from local CLI logs, never estimated. Estimated and banked rows are labelled as such and sit outside the headline.</p>
-     <p><b>What the big number counts:</b> Claude Code and Codex, measured from their own logs, plus “Unattributed (banked)”: real, measured work whose tool label was lost when old logs were pruned. Banked work is kept at its high-water mark, so a total can only rise.</p>
-     <p><b>Shown alongside, not added in:</b> Grok CLI (measured), Antigravity and Cursor (estimated from saved transcripts, so they may undercount).</p>
-     <p><b>Between syncs</b> the counter projects at this month's average rate. If no sync arrives within 48 hours it stops projecting and shows the last measured total.</p>
+     <p class="tt-note" id="tt-note">Preserved CLI bank: 29,878,234,657 tokens as of November 2. Separate official Cursor CSV: November 7.</p>
+     <p><b>Preserved CLI snapshot:</b> Claude Code, Codex and banked unattributed history. The original ledger is unchanged; it is not added to the separate Cursor snapshot.</p>
+     <p><b>Separate CSV snapshot:</b> Cursor 8,450,874,389 tokens, including Grok Bot 4,072,739,590. Official November 7 export; 1,899 blank-token rows excluded. Not added to the preserved CLI total.</p>
+     <p><b>CLI snapshot:</b> November 2. The separate Cursor/Grok Bot export was refreshed November 7. No projection.</p>
      <p class="tt-sub" id="tt-sub"></p>
      <ul class="tt-rownotes" id="tt-rownotes"></ul>
     </div>
-    <div><h5>Stats</h5><div class="stats" id="stats"></div></div>
+    <div><h5>CLI snapshot stats · November 2</h5><div class="stats" id="stats"></div></div>
    </div>
   </details>
-  <div class="tt-stub" aria-hidden="true"><div id="meta"></div><div id="chart"></div><p id="month-carry-note" hidden></p><div id="power-strip"><span class="power-label">GRID <span id="grid-status"></span></span></div><div id="fleet-chips"></div><p id="fleet-note"></p><pre id="credits"></pre></div>
+  <div class="tt-stub" aria-hidden="true"><div id="meta"></div><div id="chart"></div><p id="month-carry-note" hidden></p><div id="power-strip"><span class="power-label">GRID <span id="grid-status"></span></span></div><div id="fleet-chips"></div><p id="fleet-note"></p></div>
  </section>
 
  <!-- HERO -->
@@ -454,29 +461,27 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
   <span><svg class="mk"><use href="#m-bot"/></svg>Grok Bot</span><span><svg class="mk"><use href="#m-cursor"/></svg>Cursor</span><span><svg class="mk"><use href="#m-claude"/></svg>Claude Code</span><span><svg class="mk"><use href="#m-codex"/></svg>Codex</span><span><svg class="mk"><use href="#m-gemini"/></svg>Gemini · Antigravity</span><span><svg class="mk"><use href="#m-grok"/></svg>Grok</span><span><svg class="mk"><use href="#m-local"/></svg>Local models</span><span><svg class="mk"><use href="#m-ollama"/></svg>Ollama</span><span><svg class="mk"><use href="#m-llama"/></svg>Llama</span>
  </div></div>
  <div class="wrap top">
-  <div class="big" aria-label="37B+"><span id="cnt">37</span>B+</div>
+  <div class="big" aria-label="Cursor snapshot 8,450,874,389 tokens">8.45B</div>
   <div>
-   <h2>tokens across every tool, including estimates, since April 2026.</h2>
-   <p>Counted from my own usage logs and billing exports across every tool on this page, then rounded. That's what running a team of AI agents on projects looks like.</p>
+   <h2>Cursor tokens · November 7 export</h2><div id="snapshot-chips"></div><p id="snapshot-method"></p>
+   <p>8,450,874,389 measured Cursor tokens, including 4,072,739,590 through Grok Bot. Preserved CLI snapshot: 29,878,234,657 tokens · November 2. These separate snapshots are not added together.</p>
   </div>
  </div>
  <div class="wrap">
-  <div class="spec" role="img" aria-label="Split by tool: Claude Code about 27.8B, Cursor about 6.7B including Grok Bot, Codex about 1.9B, Gemini and Antigravity about 0.7B, Grok CLI about 0.2B">
-   <i class="cc"></i><i class="cu"><b></b><u></u></i><i class="cx"></i><i class="gm"></i><i class="gk"></i>
-  </div>
-  <div class="speccap mono"><span>Split by tool</span><span>Breakdown below ↓</span></div>
+  <p class="mono">Cursor 8,450,874,389 · CLI 29,878,234,657 · separate snapshots</p>
  </div>
 </div>
 
 <div class="wrap">
  <div class="bk rv">
-  <div class="hd mono"><b>Where the 37B+ comes from</b><span>Rounded · Grok Bot counted once</span></div>
+  <div class="hd mono"><b>Separate measured snapshots</b><span>Rounded · Grok Bot counted once</span></div>
   <div class="rows">
-   <div class="row" style="--c:var(--claude)"><i class="sw"></i><svg class="mk"><use href="#m-claude"/></svg><div><b>Claude Code</b><small>Long agent runs and big builds. Where it started.</small></div><div class="v">~27.8B</div></div>
-   <div class="row" style="--c:linear-gradient(180deg,var(--bot1) 0 39%,var(--cursorL) 39%)"><i class="sw"></i><svg class="mk"><use href="#m-cursor"/></svg><div><b>Cursor</b><small>Editor, CLI and cloud agents. Includes Grok Bot ~2.6B, inside Cursor.</small></div><div class="v">~6.7B</div></div>
+   <div class="row" style="--c:var(--claude)"><i class="sw"></i><svg class="mk"><use href="#m-claude"/></svg><div><b>Claude Code</b><small>Recorded CLI total; November 2 snapshot.</small></div><div class="v">~21.6B</div></div>
+   <div class="row" style="--c:#8B8577"><i class="sw"></i><span aria-hidden="true">●</span><div><b>Unattributed banked history</b><small>Preserved measured work; tool attribution unavailable.</small></div><div class="v">~6.4B</div></div>
+   <div class="row" style="--c:linear-gradient(180deg,var(--bot1) 0 39%,var(--cursorL) 39%)"><i class="sw"></i><svg class="mk"><use href="#m-cursor"/></svg><div><b>Cursor</b><small>November 7 export. Includes Grok Bot ~4.1B, counted once.</small></div><div class="v">~8.5B</div></div>
    <div class="row" style="--c:var(--codex)"><i class="sw"></i><svg class="mk"><use href="#m-codex"/></svg><div><b>Codex</b><small>A second builder, and a reviewer from another lab.</small></div><div class="v">~1.9B</div></div>
-   <div class="row" style="--c:linear-gradient(180deg,var(--gem1),var(--gem2))"><i class="sw"></i><svg class="mk"><use href="#m-gemini"/></svg><div><b>Gemini / Antigravity</b><small>Research and a second opinion from Google.</small></div><div class="v">~0.7B</div></div>
-   <div class="row" style="--c:#CFC7B6"><i class="sw"></i><svg class="mk"><use href="#m-grok"/></svg><div><b>Grok CLI</b><small>Quick command-line work with xAI's model.</small></div><div class="v">~0.2B</div></div>
+   
+   
    <div class="row" style="--c:var(--local)"><i class="sw"></i><svg class="mk"><use href="#m-local"/></svg><div><b>Local models</b><small>Running on my own GPUs. Not in the total.</small></div><div class="v t">No meter</div></div>
   </div>
  </div>
@@ -488,7 +493,7 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
   <ol class="track">
    <li class="era rv" style="--c:var(--codex)"><div class="d">SOFTWARE</div><b>Controller enthusiast</b><p>I got into AI fixing a mod&rsquo;s broken code. Now I build video game controller apps for accessibility and remote play, streaming controller inputs over a home network or the internet to a server. AI took me from waiting on developers to building for the community myself.</p></li>
    <li class="era rv" style="--c:var(--claude)"><div class="d">HARDWARE</div><b>3D printers, running 24/7</b><p>I help run an array of 3D printers for a growing family business. My AI agents schedule jobs and keep operations running around the clock, so the printers keep earning while I sleep.</p></li>
-   <li class="era rv" style="--c:var(--bot1)"><div class="d">THIS PAGE</div><b>Token Ticker</b><p>The page you're reading. It counts my AI usage from my own logs and billing exports, rounds it and updates daily. <a href="https://github.com/medick51o/token-ticker">Code on GitHub</a>.</p></li>
+   <li class="era rv" style="--c:var(--bot1)"><div class="d">THIS PAGE</div><b>Token Ticker</b><p>The page you're reading. It counts my AI usage from my own logs and billing exports, rounds measured snapshots and shows their source dates. <a href="https://github.com/medick51o/token-ticker">Code on GitHub</a>.</p></li>
   </ol>
  </section>
 
@@ -500,16 +505,16 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
     <div class="tag">The crew chief</div>
     <h4>Grok Bot runs the team.</h4>
     <p>Grok Bot runs a team of bots for me. It breaks a job into pieces, hands each piece to the right agent, and when a decision matters it calls a council of models from different labs and has them argue it out.</p>
-    <div class="stat"><b>~2.6B</b><span>tokens through Grok Bot</span></div>
+    <div class="stat"><b>~4.1B</b><span>measured Grok Bot tokens in the November 7 export</span></div>
    </article>
    <article class="panel cur rv">
     <svg class="mk bigmk" aria-hidden="true"><use href="#m-cursor"/></svg>
     <div class="tag">The workshop</div>
     <h4>Cursor is where it gets built.</h4>
     <p>The Cursor editor when I want my hands on the code, the Cursor CLI when I want to script it, and cloud agents when I want several things built at once.</p>
-    <div class="stat"><b>~6.7B</b><span>tokens in Cursor since late August</span></div>
-    <div class="split" role="img" aria-label="Inside Cursor: Grok Bot about 2.6B, cloud agents about 3.0B, CLI about 1.0B, editor a small slice"><i style="flex:26;background:linear-gradient(90deg,#E8368F,#7C3AED)"></i><i style="flex:30;background:#9C98FF"></i><i style="flex:10;background:#4FB8F0"></i><i style="flex:1;background:#E9E7F0"></i></div>
-    <div class="legend"><span><s style="background:#E8368F"></s>Grok Bot ~2.6B</span><span><s style="background:#9C98FF"></s>Cloud agents ~3.0B</span><span><s style="background:#4FB8F0"></s>CLI ~1.0B</span><span><s style="background:#E9E7F0"></s>Editor, a small slice</span></div>
+    <div class="stat"><b>~8.5B</b><span>measured Cursor tokens in the November 7 export</span></div>
+    <div class="split" role="img" aria-label="Measured Cursor snapshot; CLI/editor not separately attributed"><i style="flex:4072739590;background:#E8368F"></i><i style="flex:3089020309;background:#9C98FF"></i><i style="flex:1289114490;background:#4FB8F0"></i></div>
+    <div class="legend"><span><s style="background:#E8368F"></s>Grok Bot ~4.1B</span><span><s style="background:#9C98FF"></s>Other cloud agents ~3.1B</span><span><s style="background:#4FB8F0"></s>Other Cursor ~1.3B</span></div>
    </article>
   </div>
   <div class="note rv"><b>Most of my project time now runs here.</b> It's the newest part of how I build, and the busiest.</div>
@@ -549,7 +554,7 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
     <div class="lane" style="--s:.6636;--c:var(--cursor)">CURSOR · AUG</div>
     <div class="lane" style="--s:.7476;--c:linear-gradient(90deg,var(--bot1),var(--bot2))">GROK BOT · SEP</div>
    </div>
-   <div class="plot" role="img" aria-label="Claude Code and Codex by month: April about 0.7B, May under 0.1B, June about 1.6B, July about 8.3B, August about 14.2B, September about 4.4B, October so far about 0.6B. Cursor and Grok Bot, about 6.7B in total across August to October, not split by month; the September and October bars are drawn up to 6.7B as a visual cue.">
+   <div class="plot" role="img" aria-label="Historical October 26 snapshot. Claude Code and Codex by month: April about 0.7B, May under 0.1B, June about 1.6B, July about 8.3B, August about 14.2B, September about 4.4B, October so far about 0.6B. Cursor and Grok Bot, about 6.7B in total across August to October, not split by month; the September and October bars are drawn up to 6.7B as a visual cue.">
     <div class="now"></div>
     <div class="col" style="--v:.7"><b>~0.7B</b><i></i><span>APR</span></div>
     <div class="col" style="--v:0"><b class="lt">&lt;0.1B</b><i></i><span>MAY</span></div>
@@ -559,7 +564,7 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
     <div class="col" style="--v:4.4;--g:2.3"><b class="has">~4.4B<small>(+ Cursor &amp; Grok Bot: ~6.7B over Aug–Oct)</small></b><u></u><i></i><span>SEP</span></div>
     <div class="col" style="--v:.553;--g:6.147"><b class="has">~0.6B<small>(+ Cursor &amp; Grok Bot: ~6.7B over Aug–Oct)</small></b><u></u><i></i><span>OCT*</span></div>
    </div>
-   <div class="tlkey"><span><s style="background:linear-gradient(180deg,var(--claude),var(--codex))"></s>Claude Code + Codex, by month</span><span><s style="background:linear-gradient(180deg,#7C3AED,#4F8CFF)"></s>Cursor + Grok Bot · ~6.7B total across Aug–Oct (not split by month; bar height is a visual cue)</span><span>*October so far · 2026</span></div>
+   <div class="tlkey"><span><s style="background:linear-gradient(180deg,var(--claude),var(--codex))"></s>Claude Code + Codex, by month</span><span><s style="background:linear-gradient(180deg,#7C3AED,#4F8CFF)"></s>Cursor + Grok Bot · ~6.7B total across Aug–Oct (not split by month; bar height is a visual cue)</span><span>Historical chart: October 26, 2026 snapshot</span></div>
    <p class="cap">Coloured lanes start when each tool first shows up in my logs. <b>The September drop isn't me slowing down. That's when my projects moved into Cursor and Grok Bot.</b></p>
   </div>
 
@@ -593,7 +598,7 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
  <div class="close" id="talk">
   <h3 class="rv">Hiring for desktop<br>support or IT?<br><em class="s">Let’s talk.</em></h3>
  </div>
- <footer><span>Token Ticker · 2026</span><span>Numbers are rounded, counted from my own usage logs and billing exports. Updated daily.</span><span style="display:block;font-size:.8em;opacity:.6;margin-top:.5em">37B+ includes Grok Bot and Cursor as running totals.</span></footer>
+ <details class="wrap"><summary>Built by · methods and credits</summary><pre id="credits" style="white-space:pre-wrap"></pre></details><footer><span>Token Ticker · 2026</span><span>Numbers are rounded from usage logs and billing exports. Source dates vary.</span><span style="display:block;font-size:.8em;opacity:.6;margin-top:.5em">Separate Cursor/Grok Bot November 7 export: 1,899 blank token rows excluded. CLI ticker: November 2. Snapshots are not added together.</span></footer>
 </div>
 
 <script>
@@ -604,13 +609,7 @@ document.body.classList.remove('nojs');
  if (reduce || !('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('on'); }); return; }
  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }); }, {threshold:.12});
  els.forEach(function(e){ io.observe(e); });
- var c = document.getElementById('cnt'), done = false;
- var io2 = new IntersectionObserver(function(es){
-  if (done || !es[0].isIntersecting) return; done = true;
-  var t0 = performance.now(), D = 1400;
-  (function f(t){ var p = Math.min(1, (t - t0) / D); c.textContent = Math.round(37 * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(f); })(t0);
- }, {threshold:.4});
- io2.observe(c);
+
 })();
 </script>
 <script type="application/json" id="ledger">
@@ -722,9 +721,94 @@ document.body.classList.remove('nojs');
 }
 </script>
 <script>
-(function () {
-  "use strict";
+function isNonnegSafeInt(n) {
+    return Number.isSafeInteger(n) && n >= 0;
+  }
+function dateOnly(s) {
+    return String(s).slice(0, 10);
+  }
+function isValidUtcDateOnly(s) {
+    const raw = dateOnly(s);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return false;
+    const parts = raw.split("-").map(Number);
+    const y = parts[0], mo = parts[1], day = parts[2];
+    const dt = new Date(Date.UTC(y, mo - 1, day));
+    return (
+      dt.getUTCFullYear() === y &&
+      dt.getUTCMonth() === mo - 1 &&
+      dt.getUTCDate() === day
+    );
+  }
+function validateLedger(d) {
+    if (!d || typeof d !== "object") return false;
+    if (d.schema_version !== 1) return false;
+    if (typeof d.as_of !== "string" || typeof d.started !== "string") return false;
+    if (!isValidUtcDateOnly(d.started) || !isValidUtcDateOnly(d.as_of)) return false;
+    if (dateOnly(d.started) > dateOnly(d.as_of)) return false;
+    if (!d.totals || typeof d.totals !== "object") return false;
+    if (!d.totals.by_tool || typeof d.totals.by_tool !== "object") return false;
+    if (!isNonnegSafeInt(d.totals.all) || d.totals.all <= 0) return false;
+    if (!isNonnegSafeInt(d.totals.by_tool.claude_code)) return false;
+    if (!isNonnegSafeInt(d.totals.by_tool.codex_cli)) return false;
+    // THE BANK's carry fields (round 2, BLOCKER 1 fix) — a byte-for-byte
+    // mirror of validate_ledger()'s Python side. Absent → 0 (the raw
+    // collector.py ledger never carries these; reduces to the pre-bank
+    // checks exactly). Present and nonzero on the published/banked ledger
+    // whenever months/by_tool's marginal sums don't independently agree
+    // with totals.all — see propose_bank_merge()'s docstring.
+    const monthCarry = d.totals.month_carry === undefined ? 0 : d.totals.month_carry;
+    const toolCarry = d.totals.tool_carry === undefined ? 0 : d.totals.tool_carry;
+    if (!isNonnegSafeInt(monthCarry)) return false;
+    if (!isNonnegSafeInt(toolCarry)) return false;
+    if (!Number.isSafeInteger(d.sessions_total) || d.sessions_total <= 0) return false;
+    if (!Array.isArray(d.monthly) || d.monthly.length === 0) return false;
+    for (let i = 0; i < d.monthly.length; i++) {
+      const m = d.monthly[i];
+      if (!m || typeof m.month !== "string" || !/^\d{4}-\d{2}$/.test(m.month)) return false;
+      if (!isNonnegSafeInt(m.tokens)) return false;
+    }
+    const monthSum = d.monthly.reduce(function (acc, m) { return acc + m.tokens; }, 0);
+    const toolSum = d.totals.by_tool.claude_code + d.totals.by_tool.codex_cli;
+    if (monthSum + monthCarry !== d.totals.all) return false;
+    if (toolSum + toolCarry !== d.totals.all) return false;
+    return true;
+  }
+/* Separate measured snapshots only. No historical estimates, timers or projections. */
+(function(){
+ function renderSnapshots(){
+  const ledger=JSON.parse(document.getElementById('ledger').textContent);
+  const snapshot=JSON.parse(document.getElementById('usage-snapshot').textContent);
+  if(!validateLedger(ledger)||ledger.totals.all!==29878234657||ledger.as_of!=='2026-11-02T16:02:07Z'||snapshot.cursor.tokens!==8450874389||snapshot.cursor.grok_bot_subset!==4072739590)throw Error('Snapshot integrity failure');
+  window.__tickerLedger=ledger;
+  const fmt=n=>n.toLocaleString('en-US');
+  const put=(id,t)=>{const e=document.getElementById(id);if(e)e.textContent=t;};
+  document.title='Token snapshots — CLI Nov 2 · Cursor Nov 7';
+  put('odometer',fmt(ledger.totals.all));put('odometer-status',fmt(ledger.totals.all)+' CLI tokens as of November 2');
+  put('abbrev','CLI snapshot · November 2, 2026');put('tt-live-txt','CLI snapshot · November 2');
+  put('tt-honest','Preserved CLI bank: November 2, 8:02:07 AM PST. Separate Cursor CSV: November 7. Not added together.');
+  put('grid-status','SNAPSHOT');
+  const tools=document.getElementById('tools');tools.textContent='';
+  [['Claude Code',ledger.totals.by_tool.claude_code],['Codex',ledger.totals.by_tool.codex_cli],['Unattributed banked history',ledger.totals.tool_carry]].forEach(([label,n])=>{
+   const row=document.createElement('div');row.className='tool';[['component-label',label],['component-value',fmt(n)+' tokens'],['component-date','November 2']].forEach(([cls,text])=>{const block=document.createElement('span');block.className=cls;block.textContent=text;row.appendChild(block);});tools.appendChild(row);
+  });
+  const stats=document.getElementById('stats');stats.textContent='';
+  [['Sessions',fmt(ledger.sessions_total)],['Peak historical month',fmt(Math.max(...ledger.monthly.map(m=>m.tokens)))+' tokens'],['CLI as of','November 2, 2026']].forEach(([label,value])=>{const el=document.createElement('div');el.className='stat';el.textContent=label+' · '+value;stats.appendChild(el);});
+  const sourceRows=[['Cursor',snapshot.cursor.tokens,'Official CSV · November 7'],['Grok Bot',snapshot.cursor.grok_bot_subset,'Included within Cursor · November 7']];
+  ['snapshot-chips','fleet-chips'].forEach(id=>{const host=document.getElementById(id);if(!host)return;host.textContent='';sourceRows.forEach(([label,n,source])=>{const chip=document.createElement('span');chip.className='fleet-chip measured';chip.textContent=label+' · '+fmt(n)+' tokens · '+source;chip.title=source;host.appendChild(chip);});});
+  put('fleet-note','Official Cursor CSV snapshot; Grok Bot included once within Cursor. CLI bank is separate. 1,899 blank-token rows excluded.');
+  put('snapshot-method','Official November 7 CSV: 1,899 blank-token rows excluded. Grok Bot is included within Cursor once. Separate from preserved November 2 CLI bank.');
+ }
+ function safe(){try{renderSnapshots();}catch(e){document.title='Token snapshots — integrity check failed';const el=document.getElementById('tt-live-txt');if(el)el.textContent='INTEGRITY CHECK FAILED';throw e;}}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',safe,{once:true});else safe();
+})();
 
+</script>
+
+
+
+
+<script>
+(function(){
   /* ── VISIT COUNTER CONFIG — the owner's knobs. Edit these three lines only. ── */
   const COUNTER = {
     enabled: true,        // false = no counter, no network call, strip never renders
@@ -777,20 +861,16 @@ amnesia calls. Same laws as ever: reviewers come in blind, and every
 ruling becomes a named test.
 Governed by the Anderson Method (human↔model intent) and the
 Team Rocket Method (now public).
-Every total is measured, not estimated; rates and percentages are
-calculated from those measured totals.
+Token figures are separate measured snapshots with source dates.
+The visit counter labels its historical estimate separately.
 
 Could one model in one CLI have built this? Easily.
 Was a five-CLI crew overkill for a token counter? Completely — on purpose.
 If this is what I do to count my tokens, imagine what I do when it counts.
 Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  function fmt(n) {
-    return Math.round(n).toLocaleString("en-US");
-  }
-
+function fmt(n){return Math.round(n).toLocaleString("en-US");}
   /* ── Visit counter (GoatCounter fetch + JSON; no third-party script) ── */
   function counterIsLive() {
     if (COUNTER.enabled !== true) return false;
@@ -974,880 +1054,41 @@ Process receipts: BUILD-LOG-PUBLIC.md, ships beside this file.`;
 
   bootVisitCounter();
 
-  function abbreviate(n) {
-    if (n >= 1e9) return (n / 1e9).toFixed(2).replace(/\.?0+$/, "") + "B";
-    if (n >= 1e6) return (n / 1e6).toFixed(2).replace(/\.?0+$/, "") + "M";
-    if (n >= 1e3) return (n / 1e3).toFixed(1).replace(/\.?0+$/, "") + "K";
-    return String(n);
-  }
 
-  function monthLabel(ym) {
-    const [y, m] = ym.split("-");
-    const names = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-    return names[parseInt(m, 10) - 1] + " '" + y.slice(2);
-  }
-
-  function easeOutExpo(t) {
-    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-  }
-
-  /* YYYY-MM-DD from a date or ISO datetime string. */
-  function dateOnly(s) {
-    return String(s).slice(0, 10);
-  }
-
-  /* Inclusive day count from calendar dates via UTC midnights (timezone-stable). */
-  function utcDaysInclusive(started, asOf) {
-    const s = dateOnly(started).split("-").map(Number);
-    const e = dateOnly(asOf).split("-").map(Number);
-    const ms =
-      Date.UTC(e[0], e[1] - 1, e[2]) -
-      Date.UTC(s[0], s[1] - 1, s[2]);
-    return ms / (1000 * 60 * 60 * 24) + 1;
-  }
-
-  function isFiniteNumber(n) {
-    return typeof n === "number" && Number.isFinite(n);
-  }
-
-  function isNonnegSafeInt(n) {
-    return Number.isSafeInteger(n) && n >= 0;
-  }
-
-  /* UTC round-trip of YYYY-MM-DD components — rejects 2026-13-99 rollovers. */
-  function isValidUtcDateOnly(s) {
-    const raw = dateOnly(s);
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return false;
-    const parts = raw.split("-").map(Number);
-    const y = parts[0], mo = parts[1], day = parts[2];
-    const dt = new Date(Date.UTC(y, mo - 1, day));
-    return (
-      dt.getUTCFullYear() === y &&
-      dt.getUTCMonth() === mo - 1 &&
-      dt.getUTCDate() === day
-    );
-  }
-
-  function validateLedger(d) {
-    if (!d || typeof d !== "object") return false;
-    if (d.schema_version !== 1) return false;
-    if (typeof d.as_of !== "string" || typeof d.started !== "string") return false;
-    if (!isValidUtcDateOnly(d.started) || !isValidUtcDateOnly(d.as_of)) return false;
-    if (dateOnly(d.started) > dateOnly(d.as_of)) return false;
-    if (!d.totals || typeof d.totals !== "object") return false;
-    if (!d.totals.by_tool || typeof d.totals.by_tool !== "object") return false;
-    if (!isNonnegSafeInt(d.totals.all) || d.totals.all <= 0) return false;
-    if (!isNonnegSafeInt(d.totals.by_tool.claude_code)) return false;
-    if (!isNonnegSafeInt(d.totals.by_tool.codex_cli)) return false;
-    // THE BANK's carry fields (round 2, BLOCKER 1 fix) — a byte-for-byte
-    // mirror of validate_ledger()'s Python side. Absent → 0 (the raw
-    // collector.py ledger never carries these; reduces to the pre-bank
-    // checks exactly). Present and nonzero on the published/banked ledger
-    // whenever months/by_tool's marginal sums don't independently agree
-    // with totals.all — see propose_bank_merge()'s docstring.
-    const monthCarry = d.totals.month_carry === undefined ? 0 : d.totals.month_carry;
-    const toolCarry = d.totals.tool_carry === undefined ? 0 : d.totals.tool_carry;
-    if (!isNonnegSafeInt(monthCarry)) return false;
-    if (!isNonnegSafeInt(toolCarry)) return false;
-    if (!Number.isSafeInteger(d.sessions_total) || d.sessions_total <= 0) return false;
-    if (!Array.isArray(d.monthly) || d.monthly.length === 0) return false;
-    for (let i = 0; i < d.monthly.length; i++) {
-      const m = d.monthly[i];
-      if (!m || typeof m.month !== "string" || !/^\d{4}-\d{2}$/.test(m.month)) return false;
-      if (!isNonnegSafeInt(m.tokens)) return false;
-    }
-    const monthSum = d.monthly.reduce(function (acc, m) { return acc + m.tokens; }, 0);
-    const toolSum = d.totals.by_tool.claude_code + d.totals.by_tool.codex_cli;
-    if (monthSum + monthCarry !== d.totals.all) return false;
-    if (toolSum + toolCarry !== d.totals.all) return false;
-    return true;
-  }
-
-  function showIntegrityFailure() {
-    const odo = document.getElementById("odometer");
-    const odoStatus = document.getElementById("odometer-status");
-    const msg = "LEDGER INTEGRITY CHECK FAILED — numbers withheld";
-    odo.textContent = msg;
-    odo.classList.add("integrity-fail");
-    odoStatus.textContent = msg;
-    document.getElementById("abbrev").textContent = "";
-    renderCredits();
-    document.title = "Token Burn Ticker — ledger integrity failure";
-  }
-
-  /* Parse embedded ledger (collector → ledger → renderer). Zero network. */
-  var DATA = null;
-  try {
-    var ledgerEl = document.getElementById("ledger");
-    DATA = JSON.parse(ledgerEl.textContent);
-  } catch (err) {
-    showIntegrityFailure();
-    return;
-  }
-
-  if (!validateLedger(DATA)) {
-    showIntegrityFailure();
-    return;
-  }
-
-  window.__tickerLedger = DATA;
-
-  /* One source of truth for the title: static <title> for no-JS + runtime sync. */
-  document.title = "Token Burn Ticker — " + abbreviate(DATA.totals.all) + " tokens";
-
-  /* Meta header — calendar date from ledger as_of (may be full ISO). */
-  document.getElementById("meta").innerHTML =
-    '<span>AS OF <span class="val">' + dateOnly(DATA.as_of) + "</span></span>" +
-    '<span>SINCE <span class="val">' + DATA.started + "</span></span>" +
-    '<span>SESSIONS <span class="val">' + fmt(DATA.sessions_total) + "</span></span>";
-
-  /* Stats strip */
-  const maxMonth = Math.max.apply(null, DATA.monthly.map(function (m) { return m.tokens; }));
-  const peak = DATA.monthly.find(function (m) { return m.tokens === maxMonth; });
-  const days = utcDaysInclusive(DATA.started, DATA.as_of);
-  const perDay = Math.round(DATA.totals.all / days);
-
-  document.getElementById("stats").innerHTML =
-    '<div class="stat"><div class="stat-val">' + abbreviate(peak.tokens) + '</div><div class="stat-lbl">Peak month</div></div>' +
-    '<div class="stat"><div class="stat-val">' + fmt(DATA.sessions_total) + '</div><div class="stat-lbl">Sessions</div></div>' +
-    '<div class="stat"><div class="stat-val">' + abbreviate(perDay) + '/d</div><div class="stat-lbl">Avg burn rate</div></div>';
-
-  /* Monthly chart */
-  const chart = document.getElementById("chart");
-  const maxTokens = Math.max.apply(null, DATA.monthly.map(function (m) { return m.tokens; }));
-  const chartAriaParts = [];
-
-  DATA.monthly.forEach(function (m) {
-    const col = document.createElement("div");
-    col.className = "bar-col";
-    const track = document.createElement("div");
-    track.className = "bar-track";
-    const bar = document.createElement("div");
-    bar.className = "bar";
-    bar.setAttribute("data-val", abbreviate(m.tokens));
-    bar.setAttribute("title", fmt(m.tokens) + " tokens");
-    const label = document.createElement("div");
-    label.className = "bar-label";
-    label.textContent = monthLabel(m.month);
-    track.appendChild(bar);
-    col.appendChild(track);
-    col.appendChild(label);
-    chart.appendChild(col);
-
-    chartAriaParts.push(monthLabel(m.month) + " " + fmt(m.tokens) + " tokens");
-
-    // Honest linear scale (no log, no fake bulk). 1px floor keeps real-but-tiny months visible.
-    const pct = maxTokens > 0 ? (m.tokens / maxTokens) * 100 : 0;
-    requestAnimationFrame(function () {
-      setTimeout(function () {
-        const trackH = track.clientHeight || 1;
-        const rawPx = (pct / 100) * trackH;
-        if (m.tokens > 0 && rawPx < 1.5) {
-          bar.style.height = "1px";
-          bar.classList.add("tiny");
-        } else {
-          bar.style.height = pct + "%";
-        }
-        bar.classList.add("ready");
-      }, reduceMotion ? 0 : 180);
-    });
-  });
-
-  chart.setAttribute(
-    "aria-label",
-    "Monthly token totals bar chart. " + chartAriaParts.join(". ") + "."
-  );
-
-  /* THE BANK's month_carry (round 2, BLOCKER 1 fix): rendered honestly-but-
-     minimally as a small note under the chart, never as a phantom bar --
-     hidden entirely when there's nothing to carry. */
-  const monthCarry = DATA.totals.month_carry || 0;
-  const monthCarryNote = document.getElementById("month-carry-note");
-  if (monthCarryNote) {
-    if (monthCarry > 0) {
-      monthCarryNote.textContent = "+ " + fmt(monthCarry) + " tokens banked but unattributed " +
-        "to a specific month (measured work whose attribution was lost to pruning)";
-      monthCarryNote.title = "measured work whose attribution was lost to pruning";
-      monthCarryNote.hidden = false;
-    } else {
-      monthCarryNote.hidden = true;
-    }
-  }
-
-  /* Tool breakdown — from ledger totals.by_tool */
-  const toolsEl = document.getElementById("tools");
-  const total = DATA.totals.all;
-  const claudeTokens = DATA.totals.by_tool.claude_code;
-  const codexTokens = DATA.totals.by_tool.codex_cli;
-  const claudePct = (claudeTokens / total) * 100;
-  const codexPct = (codexTokens / total) * 100;
-  // THE BANK's tool_carry (round 2, BLOCKER 1 fix): the gap between
-  // totals.all and by_tool's marginal sum -- honest, never assigned to a
-  // real tool. Rendered as its own quiet row, never folded into the pie
-  // slices above (those stay a pure claude/codex split).
-  const toolCarry = DATA.totals.tool_carry || 0;
-  const toolCarryPct = (toolCarry / total) * 100;
-
-  // Boss cleanup ("what is the deal with antigravities numbers lol"): a tiny
-  // real share (e.g. Antigravity's dispatch-measured sliver) formatted at 4
-  // decimals was rendering as a wall of zeros ("0.0000%"). Any pct strictly
-  // between 0 and 0.01 now renders as "<0.01%" instead -- an honest floor on
-  // the DISPLAY only, never on the underlying token count. Exact zero and
-  // anything >= 0.01 format exactly as before.
-  function formatPct(pct, decimals) {
-    if (pct > 0 && pct < 0.01) {
-      return "<0.01%";
-    }
-    return pct.toFixed(decimals) + "%";
-  }
-
-  // FOUR-SEAT STRIP (boss ruling, 2026-07-18: "added grok and antigravity" --
-  // the combined visual now represents ALL MEASURED WORK, not the two-tool-
-  // era headline split). 100% data-driven: no hardcoded tool list, no
-  // hardcoded figures. Any DATA.fleet entry OUTSIDE the headline (not
-  // claude_code/codex_cli -- those are already inside totals.all) with a
-  // real number contributes to both the denominator and its own slice.
-  // CLAIMS-CAP: only status "measured" or "dispatch-measured" counts -- an
-  // entry with no such number (not-detected / detected-only) gets NO slice,
-  // never a fabricated one; the Antigravity ESTIMATE (estimated_tokens)
-  // never enters this at all, dispatch-measured only. This never implies
-  // fold-in: Grok/Antigravity stay OUT of totals.all/the headline (a
-  // separate, still-queued boss ruling) -- the strip just shows them
-  // alongside it, honestly labeled as outside.
-  const externalFleetSlices = [];
-  let externalFleetTotal = 0;
-  if (Array.isArray(DATA.fleet)) {
-    DATA.fleet.forEach(function (entry) {
-      if (entry.tool === "claude_code" || entry.tool === "codex_cli") return;
-      if ((entry.status === "measured" || entry.status === "dispatch-measured")
-          && typeof entry.measured_tokens === "number") {
-        externalFleetTotal += entry.measured_tokens;
-        externalFleetSlices.push(entry);
-      }
-    });
-  }
-  const allMeasuredTotal = total + externalFleetTotal;
-  const STRIP_SWATCH = { grok_cli: "grok", antigravity_cli: "antigravity", cursor_cli: "cursor" };
-
-  // Boss cleanup: carry moves to the BOTTOM of the row list (was right after
-  // Codex) -- built here as its own variable, appended after the fleet rows
-  // below rather than inline, same vanish-at-zero conditional as always.
-  const carryRowHtml = toolCarry > 0 ?
-    '<div class="tool" data-seat="carry" title="measured work whose attribution was lost to pruning">' +
-      '<span class="swatch carry" aria-hidden="true"></span>' +
-      '<span class="tool-name">Unattributed (banked)</span>' +
-      '<div class="nums"><span class="tokens" data-count="' + toolCarry + '">' + fmt(toolCarry) + '</span>' +
-        '<span class="pct">' + formatPct(toolCarryPct, 1) + "</span></div>" +
-      '<div class="tool-track" aria-hidden="true"><div class="tool-fill carry" id="fill-carry"></div></div>' +
-      '<div class="tool-note">measured work whose attribution was lost to pruning</div>' +
-    "</div>"
-  : "";
-
-  var toolsHtml =
-    '<div class="tool" data-seat="claude">' +
-      '<span class="swatch claude" aria-hidden="true"></span>' +
-      '<span class="tool-name">Anthropic · Claude Code</span>' +
-      '<div class="nums"><span class="tokens" data-count="' + claudeTokens + '">' + fmt(claudeTokens) + '</span>' +
-        '<span class="pct">' + formatPct(claudePct, 1) + "</span></div>" +
-      '<div class="tool-track" aria-hidden="true"><div class="tool-fill claude" id="fill-claude"></div></div>' +
-    "</div>" +
-    '<div class="tool" data-seat="codex">' +
-      '<span class="swatch codex" aria-hidden="true"></span>' +
-      '<span class="tool-name">OpenAI · Codex</span>' +
-      '<div class="nums"><span class="tokens" data-count="' + codexTokens + '">' + fmt(codexTokens) + '</span>' +
-        '<span class="pct">' + formatPct(codexPct, 1) + "</span></div>" +
-      '<div class="tool-track" aria-hidden="true"><div class="tool-fill codex" id="fill-codex"></div></div>' +
-    "</div>";
-
-  const dynamicFills = [];
-  if (DATA && Array.isArray(DATA.fleet)) {
-    const TOOL_LABELS = {
-      grok_cli: "Grok · Grok CLI",
-      antigravity_cli: "Google · Antigravity CLI (Gemini)",
-      cursor_cli: "Cursor · Cursor CLI"
-    };
-    const TOOL_SWATCHES = {
-      grok_cli: "grok",
-      antigravity_cli: "antigravity",
-      cursor_cli: "cursor"
-    };
-
-    ["grok_cli", "antigravity_cli", "cursor_cli"].forEach(function (toolKey) {
-      const entry = DATA.fleet.find(function (f) { return f.tool === toolKey; });
-      if (!entry) return;
-
-      let pct = 0;
-
-      // THE ANTIGRAVITY COMPOSITION BAR (boss design riff, 2026-07-18):
-      // data-driven off the two fields themselves, never a hardcoded tool
-      // name -- ANY fleet entry with BOTH a real measured/dispatch-measured
-      // figure AND an estimate gets the two-tone treatment (today: only
-      // antigravity_cli's shape produces this, but nothing here assumes
-      // that). estimated_tokens is NEVER summed into total/allMeasuredTotal
-      // or any pct -- it only drives this ONE row's own internal white/color
-      // SPLIT, computed against itself (est+measured), not the headline.
-      const hasComposition = (entry.status === "measured" || entry.status === "dispatch-measured")
-        && typeof entry.estimated_tokens === "number" && entry.estimated_tokens > 0
-        && typeof entry.measured_tokens === "number";
-      const compNote = hasComposition
-        ? "~" + fmt(entry.estimated_tokens) + " transcript-estimated · " : "";
-
-      // Real percentages, always -- the boss's rule: "if you show a %
-      // figure for them, it's the REAL one." toFixed(4) rather than the
-      // claude/codex convention's toFixed(1): these shares are expected to
-      // be small, and 1 decimal would just print "0.0%" for most of them.
-      let tokensHtml, pctText, noteText, pctClass = "pct";
-      if (entry.status === "measured") {
-        pct = (entry.measured_tokens / total) * 100;
-        tokensHtml = '<span class="tokens" data-count="' + entry.measured_tokens + '">' + fmt(entry.measured_tokens) + "</span>";
-        pctText = formatPct(pct, 4);
-        noteText = compNote + "measured — outside headline total";
-      } else if (entry.status === "dispatch-measured") {
-        pct = (entry.measured_tokens / total) * 100;
-        tokensHtml = '<span class="tokens" data-count="' + entry.measured_tokens + '">' + fmt(entry.measured_tokens) + "</span>";
-        pctText = formatPct(pct, 4);
-        noteText = compNote + "dispatch-measured — partial floor";
-      } else if ((entry.status === "detected — no measurable token logs" || entry.status === "detected — measurement unavailable")
-                 && typeof entry.estimated_tokens === "number" && entry.estimated_tokens > 0) {
-        // Estimate-only row (no measured/dispatch-measured baseline to pair
-        // it with, unlike Antigravity's composition case above): the figure
-        // itself is still real data, just never summed into total/pct here
-        // -- pct is computed for display only, against the headline total,
-        // same denominator convention as the measured/dispatch branches.
-        pct = (entry.estimated_tokens / total) * 100;
-        tokensHtml = '<span class="tokens" data-count="' + entry.estimated_tokens + '">~' + fmt(entry.estimated_tokens) + "</span>";
-        pctText = formatPct(pct, 4);
-        noteText = "estimated from local transcripts (chars÷4) — outside headline, never summed";
-      } else if (entry.status === "detected — no measurable token logs" || entry.status === "detected — measurement unavailable") {
-        tokensHtml = "";
-        pctText = entry.status;
-        pctClass = "pct status";
-        noteText = "";
-        pct = 0;
-      } else {
-        return;
-      }
-
-      const label = TOOL_LABELS[toolKey] || toolKey;
-      const swatchClass = TOOL_SWATCHES[toolKey] || "unlogged";
-      const fillId = "fill-" + swatchClass;
-
-      // GRAPH FLOOR (the May-sliver law, third application): a real-but-tiny
-      // share still gets a VISIBLE bar (>=1% of track width) so a glancing
-      // viewer never misreads an empty bar as a broken seat. The floor is
-      // PIXELS ONLY, disclosed right here -- the number above is always the
-      // true one, never touched by this.
-      const isFloored = pct > 0 && pct < 1;
-      // (Composition-mode rows below use a DIFFERENT floor -- a hard 3px CSS
-      // min-width, not this headline-relative one. See hasComposition below.)
-
-
-      // Grok's standing disclaimer: a static fact, not scanned data, riding
-      // this row's tooltip (and echoed in the fleet note as a sibling
-      // sentence to Antigravity's -- "every seat confesses what it cannot see").
-      const rowTitle = toolKey === "grok_cli"
-        ? ' title="CLI usage measured exactly from local logs; Grok\'s web and X ' +
-          'usage leaves no local records and appears in no figure on this page."'
-        : "";
-
-      let trackHtml;
-      if (hasComposition) {
-        // Self-scaled to the estimate+measured PAIR alone -- not the headline, not
-        // allMeasuredTotal. White is deliberately NOT the seat's own color: it's
-        // the ghost flag for "estimated," so the honest story reads as a huge
-        // white mass with a hard receipt-tick of real color, never the reverse.
-        // The measured sliver's ~3px floor is a plain CSS min-width (see
-        // .composition-fill-measured) -- flexbox enforces it natively, shrinking
-        // the white segment to make room, no JS pixel math needed.
-        var compositionTitle = ' title="composition of this seat\'s own work: white = transcript-estimated (may undercount), color = ' +
-          'dispatch-measured API receipts — this bar shows the estimate-to-receipts ratio, ' +
-          'NOT share of the headline"';
-        var compTotal = entry.estimated_tokens + entry.measured_tokens;
-        var estShare = (entry.estimated_tokens / compTotal) * 100;
-        var measuredShare = 100 - estShare;
-        var estId = "fill-" + swatchClass + "-estimate";
-        trackHtml = '<div class="tool-track two-tone"' + compositionTitle + '>' +
-          '<div class="composition-fill-estimate" id="' + estId + '"></div>' +
-          '<div class="tool-fill ' + swatchClass + ' composition-fill-measured" id="' + fillId + '"></div>' +
-        "</div>";
-        dynamicFills.push({ id: estId, flexGrow: estShare });
-        dynamicFills.push({ id: fillId, flexGrow: measuredShare });
-      } else {
-        var trackTitle = isFloored
-          ? ' title="bar floored for visibility — true share &lt;1%"' : "";
-        trackHtml = '<div class="tool-track"' + trackTitle + '><div class="tool-fill ' + swatchClass + '" id="' + fillId + '"></div></div>';
-        dynamicFills.push({ id: fillId, pct: isFloored ? 1 : pct });
-      }
-
-      toolsHtml +=
-        '<div class="tool" data-seat="' + swatchClass + '"' + rowTitle + '>' +
-          '<span class="swatch ' + swatchClass + '" aria-hidden="true"></span>' +
-          '<span class="tool-name">' + label + "</span>" +
-          '<div class="nums">' + tokensHtml + '<span class="' + pctClass + '">' + pctText + "</span></div>" +
-          trackHtml +
-          (noteText ? '<div class="tool-note">' + noteText + "</div>" : "") +
-        "</div>";
-    });
-  }
-
-  // Boss cleanup: carry's row is last in the list now -- appended here,
-  // after the fleet rows, before the combined strip.
-  toolsHtml += carryRowHtml;
-
-  // FOUR-SEAT STRIP markup (boss ruling, 2026-07-18): built LAST, after every
-  // row above, so it reads as the combined visual summary of the whole
-  // breakdown just listed. Data-driven slice list, mirroring the row order
-  // above: claude, codex, each external fleet entry, then carry LAST (only
-  // when nonzero -- same conditional as its row, "keep it in so the strip is
-  // truthful").
-  const stripSlices = [
-    { key: "claude", tokens: claudeTokens },
-    { key: "codex", tokens: codexTokens },
-  ];
-  externalFleetSlices.forEach(function (entry) {
-    stripSlices.push({ key: STRIP_SWATCH[entry.tool] || entry.tool, tokens: entry.measured_tokens });
-  });
-  if (toolCarry > 0) {
-    stripSlices.push({ key: "carry", tokens: toolCarry });
-  }
-
-  const stripFills = [];
-  var stripHtml = '<div class="split-visual" aria-hidden="true" title="all measured work across ' +
-    'the seats — sub-1% seats shown at a 1% visual floor; seats beyond Claude Code + Codex are ' +
-    'measured outside the headline total.">';
-  stripSlices.forEach(function (slice) {
-    const pct = (slice.tokens / allMeasuredTotal) * 100;
-    const flooredPct = (pct > 0 && pct < 1) ? 1 : pct;
-    const fillId = "strip-slice-" + slice.key;
-    stripHtml += '<div class="' + slice.key + '-slice" id="' + fillId + '"></div>';
-    stripFills.push({ id: fillId, pct: flooredPct });
-  });
-  stripHtml += "</div>";
-  toolsHtml += stripHtml;
-
-  toolsEl.innerHTML = toolsHtml;
-
-  // ── TRON BOOT CASCADE (Butch's crowned design, contest R3·H2): one LED
-  // per rendered row, rows reveal staggered, tokens count up and LOCK on the
-  // exact baked values (never re-derived), conduits energize via the same
-  // width/flex-grow application as always, then the flow arms. Reduced
-  // motion: everything settles instantly, no loops.
-  const toolRows = Array.prototype.slice.call(toolsEl.querySelectorAll(".tool"));
-  const powerStrip = document.getElementById("power-strip");
-  const gridStatus = document.getElementById("grid-status");
-
-  function applyFills() {
-    document.getElementById("fill-claude").style.width = claudePct + "%";
-    document.getElementById("fill-codex").style.width = codexPct + "%";
-    const fillCarry = document.getElementById("fill-carry");
-    if (fillCarry) {
-      fillCarry.style.width = toolCarryPct + "%";
-    }
-    dynamicFills.forEach(function (fill) {
-      const el = document.getElementById(fill.id);
-      if (!el) return;
-      if (fill.flexGrow !== undefined) {
-        // Composition-bar segments: set ONLY flex-grow (never the "flex"
-        // shorthand) -- the shorthand would reset flex-shrink/flex-basis
-        // too, clobbering the CSS-defined 3px min-width floor on the
-        // measured segment. See .composition-fill-measured.
-        el.style.flexGrow = String(fill.flexGrow);
-      } else {
-        el.style.width = fill.pct + "%";
-      }
-    });
-    stripFills.forEach(function (fill) {
-      const el = document.getElementById(fill.id);
-      if (el) {
-        el.style.flex = String(fill.pct);
-      }
-    });
-  }
-
-  // THE SETTLED STATE IS THE ESSENTIAL PATH (James's coronation MATERIAL):
-  // idempotent, exception-armored, watchdog-scheduled. Whatever the boot
-  // theater does or fails to do, this lands the console on the exact baked
-  // values with every row visible.
-  let toolsSettled = false;
-  function settleTools() {
-    if (toolsSettled) return;
-    toolsSettled = true;
-    toolsEl.classList.remove("booting");
-    toolRows.forEach(function (row) {
-      row.classList.add("revealed");
-      const tok = row.querySelector(".tokens[data-count]");
-      if (tok) tok.textContent = fmt(parseFloat(tok.getAttribute("data-count")));
-    });
-    if (powerStrip) {
-      Array.prototype.slice.call(powerStrip.querySelectorAll(".led"))
-        .forEach(function (led) { led.classList.add("on"); });
-    }
-    applyFills();
-    if (gridStatus) gridStatus.textContent = "LIVE";
-    if (!reduceMotion) {
-      Array.prototype.slice.call(toolsEl.querySelectorAll(".tool-fill, .composition-fill-estimate"))
-        .forEach(function (el) { el.classList.add("flowing"); });
-    }
-  }
-
-  function countUp(el, target, duration, delay) {
-    const startAt = performance.now() + delay;
-    function frame(now) {
-      try {
-        if (now < startAt) { requestAnimationFrame(frame); return; }
-        const t = Math.min(1, (now - startAt) / duration);
-        const e = 1 - Math.pow(1 - t, 3);
-        el.textContent = fmt(target * e);
-        if (t < 1) requestAnimationFrame(frame);
-        else el.textContent = fmt(target); // lock the exact baked value
-      } catch (err) {
-        el.textContent = fmt(target); // a dying animation still lands the truth
-      }
-    }
-    requestAnimationFrame(frame);
-  }
-
-  try {
-    if (powerStrip) {
-      const powerLabel = powerStrip.querySelector(".power-label");
-      toolRows.forEach(function (row) {
-        const led = document.createElement("span");
-        led.className = "led " + (row.getAttribute("data-seat") || "carry");
-        powerStrip.insertBefore(led, powerLabel);
-      });
-    }
-
-    if (reduceMotion) {
-      settleTools();
-    } else {
-      toolsEl.classList.add("booting");
-      requestAnimationFrame(function () {
-        setTimeout(function () {
-          try {
-            const leds = powerStrip
-              ? Array.prototype.slice.call(powerStrip.querySelectorAll(".led")) : [];
-            if (gridStatus) gridStatus.textContent = "BOOT";
-
-            toolRows.forEach(function (row, i) {
-              const delay = 180 + i * 140;
-              setTimeout(function () {
-                row.classList.add("revealed");
-                if (leds[i]) leds[i].classList.add("on");
-              }, delay);
-              try {
-                const tok = row.querySelector(".tokens[data-count]");
-                if (tok) countUp(tok, parseFloat(tok.getAttribute("data-count")), 900, delay + 80);
-              } catch (err) { /* one bad count-up never aborts the cascade */ }
-            });
-
-            applyFills();
-            setTimeout(settleTools, 180 + toolRows.length * 140 + 1100);
-          } catch (err) {
-            settleTools();
-          }
-        }, 220);
-      });
-      // watchdog: whatever happens above, the console settles
-      setTimeout(settleTools, 4000);
-    }
-  } catch (err) {
-    settleTools();
-  }
-
-  /* Fleet block — rendered FROM the ledger's own "fleet" key (a machine-verified
-     scan the refresh pipeline performs every run), not hand-written claims. If
-     the key is absent (an older ledger snapshot), the chips stay empty and the
-     static fallback note above is left alone -- no chips, no error. */
-  renderFleet(DATA.fleet);
-
-  function renderFleet(fleet) {
-    const chipsEl = document.getElementById("fleet-chips");
-    const noteEl = document.getElementById("fleet-note");
-    if (!chipsEl || !noteEl || !Array.isArray(fleet) || fleet.length === 0) return;
-
-    const TOOL_LABELS = {
-      claude_code: "Anthropic · Claude Code", codex_cli: "OpenAI · Codex",
-      grok_cli: "Grok · Grok CLI", antigravity_cli: "Google · Antigravity CLI (Gemini)",
-      cursor_cli: "Cursor · Cursor CLI", grok_bot: "xAI · Grok Bot"
-    };
-    const CHIP_CLASS = {
-      "measured": "measured",
-      "dispatch-measured": "dispatch",
-      "detected — no measurable token logs": "unlogged",
-      "detected — measurement unavailable": "unlogged",
-      "not detected": "absent"
-    };
-    const CHIP_TEXT = {
-      "measured": "measured",
-      "dispatch-measured": "dispatch floor",
-      "detected — no measurable token logs": "unmeasurable",
-      "detected — measurement unavailable": "unavailable",
-      "not detected": "not detected"
-    };
-
-    let measuredCount = 0, dispatchCount = 0, estimateCount = 0, scannedAt = null;
-    // Per-tool estimate capture (BUG FIX 2026-08-26: a single captured value
-    // meant the LAST estimating tool's figure rode a sentence hardcoded to
-    // name Antigravity — with two estimating seats that misattributed
-    // Cursor's number. Each estimating seat now gets its own confession.)
-    const estimateByTool = {};
-    chipsEl.innerHTML = ""; // defense-in-depth: build chips via DOM/textContent, never innerHTML+string-concat
-    fleet.forEach(function (entry) {
-      const label = TOOL_LABELS[entry.tool] || entry.tool;
-      const hasEstimate = typeof entry.estimated_tokens === "number";
-      scannedAt = entry.scanned_at;
-
-      let cls, text, title;
-      if (hasEstimate) {
-        // House precedent: the visit counter's "1,000 estimated + N measured"
-        // side-by-side. Two figures, clearly severed, estimate first for
-        // magnitude -- NEITHER folds into measured_tokens or the headline.
-        estimateCount++;
-        estimateByTool[entry.tool] = entry.estimated_tokens;
-        const estAbbrev = "~" + abbreviate(entry.estimated_tokens);
-        const dispatchPart = entry.status === "dispatch-measured"
-          ? fmt(entry.measured_tokens) + " dispatch-measured"
-          : "not yet dispatch-measured";
-        cls = "estimate";
-        text = estAbbrev + " transcript-estimated · " + dispatchPart;
-        title = "estimated from local transcripts (chars÷4 — deliberately excludes " +
-          "re-sent context and may undercount); " +
-          (entry.status === "dispatch-measured"
-            ? "dispatch-measured figure is exact API metadata"
-            : "no dispatch-measured figure yet") +
-          "; neither is in the headline.";
-      } else {
-        if (entry.status === "measured") measuredCount++;
-        else if (entry.status === "dispatch-measured") dispatchCount++;
-        cls = CHIP_CLASS[entry.status] || "unlogged";
-        text = CHIP_TEXT[entry.status] || entry.status;
-        title = entry.status === "measured"
-          ? "measured — " + fmt(entry.measured_tokens) + " tokens, from its own local log"
-          : entry.status === "dispatch-measured"
-          ? "dispatch-measured — " + fmt(entry.measured_tokens) + " tokens (partial floor: only " +
-            "dispatches this shop tracked, not full account usage)"
-          : entry.status;
-      }
-
-      const chip = document.createElement("span");
-      chip.className = "fleet-chip " + cls;
-      chip.title = title;
-      chip.appendChild(document.createTextNode(label + " "));
-      const em = document.createElement("em");
-      em.textContent = text;
-      chip.appendChild(em);
-      chipsEl.appendChild(chip);
-    });
-
-    const otherCount = fleet.length - measuredCount - dispatchCount - estimateCount;
-    const scanDate = scannedAt ? scannedAt.slice(0, 10) : null;
-    const clauses = [measuredCount + " fully measured from local logs"];
-    if (estimateCount > 0) clauses.push(estimateCount + " transcript-estimated");
-    if (dispatchCount > 0) clauses.push(dispatchCount + " dispatch-measured (partial floor)");
-    if (otherCount > 0) clauses.push(otherCount + " detected but unlogged");
-    const COUNT_WORDS = { 4: "four", 5: "five", 6: "six", 7: "seven" };
-    let noteText =
-      "All " + (COUNT_WORDS[fleet.length] || fleet.length) +
-      " work this shop in one orchestrated multi-agent environment — " +
-      clauses.join(", ") + ". The headline stays Claude Code + Codex CLI only — " +
-      "a floor, not a ceiling." +
-      (scanDate ? " Scanned " + scanDate + "." : "");
-
-    // Boss's addendum (trimmed per his order 2026-07-22): a VISIBLE disclaimer,
-    // not just a chip tooltip -- rendered only when an estimate actually exists
-    // this scan, figures live from the data, each seat named for ITS OWN number.
-    if (typeof estimateByTool.antigravity_cli === "number") {
-      noteText += " Antigravity carries ~" + abbreviate(estimateByTool.antigravity_cli) +
-        " more tokens of estimated usage, in no total above: its local artifacts " +
-        "expose no per-token accounting, so the figure is reconstructed from " +
-        "transcripts (history excluded — may undercount), and estimates never " +
-        "enter the measured totals. It's real work. It just can't be sworn to.";
-    }
-    if (typeof estimateByTool.cursor_cli === "number") {
-      noteText += " Cursor CLI carries ~" + abbreviate(estimateByTool.cursor_cli) +
-        " estimated the same way: its agent reports exact usage live at call " +
-        "time but persists none of it to disk, so only its saved transcripts " +
-        "can be counted — visible text only, chars÷4, never in the headline.";
-    }
-
-    // Grok's sibling disclaimer: a standing fact, not scanned data -- always
-    // rendered, reading alongside Antigravity's confession as siblings ("every
-    // seat confesses what it cannot see"). Not conditional on any scan result.
-    noteText += " Grok's web and X usage leaves no local records and appears " +
-      "in no figure on this page.";
-
-    // EP16 (2026-10-25): the go-to seats' standing confession. Cursor is the
-    // shop's lead seat and Grok Bot now runs this project, but both meter on
-    // Cursor's account dashboard, not on disk -- so their heaviest work is in
-    // no figure here yet. Rendered only when the seat is actually on the bench.
-    const hasSeat = function (t) { return fleet.some(function (f) { return f.tool === t; }); };
-    if (hasSeat("cursor_cli") || hasSeat("grok_bot")) {
-      noteText += " Cursor is this shop's go-to seat and Grok Bot now runs this " +
-        "project; both are metered on Cursor's own account dashboard, not in local " +
-        "logs, so their real usage is in no figure here until it can be measured.";
-    }
-
-    noteEl.textContent = noteText;
-  }
-
-  /* Credits */
-  renderCredits();
-
-  /* Odometer */
-  const odo = document.getElementById("odometer");
-  const odoStatus = document.getElementById("odometer-status");
-  const abbrevEl = document.getElementById("abbrev");
-  const target = DATA.totals.all;
-  const duration = reduceMotion ? 0 : 2400;
-  const finalFormatted = fmt(target);
-
-  /* Reserve final formatted width so count-up never reflows the centered shell. */
-  const clone = document.createElement("div");
-  clone.className = odo.className;
-  clone.style.position = "absolute";
-  clone.style.visibility = "hidden";
-  clone.style.pointerEvents = "none";
-  let cloneHtml = "";
-  for (let i = 0; i < finalFormatted.length; i++) {
-    const ch = finalFormatted[i];
-    if (ch === ",") {
-      cloneHtml += '<span class="sep">,</span>';
-    } else {
-      cloneHtml += '<span class="digit">' + ch + "</span>";
-    }
-  }
-  clone.innerHTML = cloneHtml;
-  odo.parentNode.appendChild(clone);
-  const measuredWidth = clone.offsetWidth;
-  odo.style.minWidth = measuredWidth + "px";
-  odo.parentNode.removeChild(clone);
-
-  function renderOdo(n) {
-    const s = fmt(Math.round(n));
-    let html = "";
-    for (let i = 0; i < s.length; i++) {
-      const ch = s[i];
-      if (ch === ",") {
-        html += '<span class="sep">,</span>';
-      } else {
-        html += '<span class="digit">' + ch + "</span>";
-      }
-    }
-    odo.innerHTML = html;
-  }
-
-  function announceFinalTotal() {
-    odoStatus.textContent = "Total tokens processed: " + fmt(target);
-  }
-
-  if (duration === 0) {
-    renderOdo(target);
-    announceFinalTotal();
-    abbrevEl.textContent = abbreviate(target) + " TOKENS";
-    abbrevEl.classList.add("show");
-    odo.classList.add("live");
-  } else {
-    const start = performance.now();
-    function tick(now) {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = easeOutExpo(t);
-      renderOdo(target * eased);
-      if (t < 1) {
-        requestAnimationFrame(tick);
-      } else {
-        renderOdo(target);
-        announceFinalTotal();
-        abbrevEl.textContent = abbreviate(target) + " TOKENS";
-        abbrevEl.classList.add("show");
-        odo.classList.add("live");
-      }
-    }
-    requestAnimationFrame(tick);
-  }
+renderCredits();
 })();
+
+</script>
+<script type="application/json" id="usage-snapshot">
+{
+  "schema_version": 1,
+  "scope": "Separate cumulative snapshots, NOT a new CLI ticker sync",
+  "components_not_additive": {
+    "historical_cli_bank": 29878234657,
+    "cursor_export": 8450874389
+  },
+  "cursor": {
+    "tokens": 8450874389,
+    "grok_bot_subset": 4072739590,
+    "cloud_agents_excluding_grok_bot": 3089020309,
+    "other_cursor_not_split_cli_editor": 1289114490,
+    "latest_recorded_event_utc": "2026-11-07T16:25:13.686Z",
+    "selected_utc_dates": [
+      "2026-08-21",
+      "2026-11-07"
+    ],
+    "measurable_rows": 54583,
+    "unknown_token_rows_excluded": 1899,
+    "source_sha256": "b5e29d368c65eaa88893791d9b64bec8ab2660eca88afe22dc0d692ce2168c6d"
+  },
+  "source_dates": {
+    "historical_cli_bank": "2026-11-02T16:02:07Z",
+    "cursor_latest_event": "2026-11-07T16:25:13.686Z",
+    "antigravity_measured_on": "2026-10-25",
+    "grok_cli_measured_on": "2026-10-26"
+  },
+  "limits": "Cross-source overlap is not established; components are not additive. Grok Bot is included inside Cursor once. Blank token rows excluded. Antigravity prior measured snapshot skipped four WAL files. Old/new exports never merged. No new CLI/editor attribution; no monthly allocation. CLI ticker remains November2."
+}
 </script>
 
-<script>
-/* r19 LIVE ESTIMATE layer (preview). Reads only the #ledger above.
-   - base = totals.all (measured) at as_of
-   - rate = latest monthly bucket / seconds from that month's start to as_of (month-to-date average)
-   - shown = base + rate * min(now - as_of, 48h); past 48h without a sync it stops and shows the measured total
-   - headline tools (claude_code, codex_cli, banked carry) are projected by their share of base; outside-headline rows stay as measured/estimated */
-(function(){
- "use strict";
- var el=document.getElementById("ledger"); if(!el) return;
- var D; try{ D=JSON.parse(el.textContent); }catch(e){ return; }
- if(!D||!D.totals||!Array.isArray(D.monthly)||!D.monthly.length||!D.as_of) return;
- var base=D.totals.all, asOf=Date.parse(D.as_of); if(!(base>0)||isNaN(asOf)) return;
- var last=D.monthly[D.monthly.length-1], ms=Date.UTC(+last.month.slice(0,4),+last.month.slice(5,7)-1,1);
- var secs=(asOf-ms)/1000, rate=secs>0?last.tokens/secs:0;
- var CAP=48*3600*1000;
- var odo=document.getElementById("odometer"), txt=document.getElementById("tt-live-txt"), lbl=document.getElementById("tt-live-lbl"),
-     sub=document.getElementById("tt-sub"), note=document.getElementById("tt-note"), tools=document.getElementById("tools");
- var nf=new Intl.NumberFormat("en-US");
- function ago(ms){ var m=Math.round(ms/60000); if(m<1) return "just now"; if(m<60) return m+" min ago"; var h=Math.round(m/60); if(h<48) return h+"h ago"; return Math.round(h/24)+" days ago"; }
- function render(n){ var s=nf.format(Math.floor(n)),h=""; for(var i=0;i<s.length;i++){ h+= s[i]===","?'<span class="sep">,</span>':'<span class="digit">'+s[i]+'</span>'; } odo.innerHTML=h; }
- var headSeats={claude:D.totals.by_tool.claude_code||0, codex:D.totals.by_tool.codex_cli||0, carry:D.totals.tool_carry||0};
- var extra=0; (D.fleet||[]).forEach(function(f){ if(f.tool==="claude_code"||f.tool==="codex_cli") return; if(f.status==="measured"&&f.measured_tokens) extra+=f.measured_tokens; else if(f.estimated_tokens) extra+=f.estimated_tokens; });
- if(sub) sub.textContent="Measured "+nf.format(base)+" as of the last sync · all tools in the ledger, incl. Grok CLI and labelled estimates: ~"+((base+extra)/1e9).toFixed(2)+"B";
-  function step(){
-  var el2=Date.now()-asOf, stale=el2>CAP||el2<0||rate<=0, add=stale?0:rate*el2/1000;
-  if(lbl){ lbl.classList.toggle("stale",stale); }
-  if(txt) txt.textContent= stale ? "last synced "+ago(Math.max(0,el2))+" · measured total" : "live estimate · synced "+ago(el2);
-  if(note) note.textContent= stale ? "Token counts are recorded by the app and pushed to the GitHub repo daily. Last synced "+ago(Math.max(0,el2))+", so the counter shows the measured total and is not projecting." : "● Live estimate · Token counts are recorded by the app and pushed to the GitHub repo daily; between updates, the counter projects from that real usage (~"+Math.round(rate)+" tokens/s, this month's average). Last synced "+ago(el2)+".";
-  if(!started) return;
-  render(base+add);
-  if(tools){ ["claude","codex","carry"].forEach(function(k){ var t=tools.querySelector('.tool[data-seat="'+k+'"] .tokens'); if(t&&base>0) t.textContent=nf.format(Math.floor(headSeats[k]+add*headSeats[k]/base)); }); }
- }
- var started=false; step();
- function waitLive(){ if(odo.classList.contains("live")){ setTimeout(function(){ started=true; step(); setInterval(step,1000); },400); } else setTimeout(waitLive,200); }
- waitLive();
- window.__ttRate=rate;
-})();
-</script>
-
-<script>
-/* r20 ticker band polish (preview). Display only: never computes or changes a number.
-   - digit roll: animates only between consecutive values the renderer / live layer already wrote into #odometer
-   - lab marks on the split rows; row notes copied into "How this is counted"; stale state mirrored onto the band
-   - r21: the short row note stays visible under each bar (full text in its title and in the panel) */
-(function(){
- "use strict";
- var band=document.querySelector(".tt-live"); if(!band) return;
- var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
- var tools=document.getElementById("tools"), notes=document.getElementById("tt-rownotes");
- var MK={claude:"m-claude",codex:"m-codex",grok:"m-grok",antigravity:"m-gemini",cursor:"m-cursor"}, NS="http://www.w3.org/2000/svg";
- if(tools){ Array.prototype.forEach.call(tools.querySelectorAll(".tool"),function(row){
-  var seat=row.getAttribute("data-seat"), sw=row.querySelector(".swatch"), nm=row.querySelector(".tool-name"), nt=row.querySelector(".tool-note");
-  if(sw&&MK[seat]){ var s=document.createElementNS(NS,"svg"), u=document.createElementNS(NS,"use"); s.setAttribute("class","mk"); s.setAttribute("aria-hidden","true"); u.setAttribute("href","#"+MK[seat]); s.appendChild(u); sw.appendChild(s); sw.classList.add("has-mk"); }
-  if(nt) nt.title=nt.textContent;
-  if(notes&&nm&&nt&&nt.textContent.trim()){ var li=document.createElement("li"), b=document.createElement("b"); b.textContent=nm.textContent+": "; li.appendChild(b); li.appendChild(document.createTextNode(nt.textContent)); notes.appendChild(li); }
- }); }
- if(notes&&!notes.children.length) notes.hidden=true;
-
- var lbl=document.getElementById("tt-live-lbl"), honest=document.getElementById("tt-honest");
- function syncStale(){
-  var st=!!(lbl&&lbl.classList.contains("stale"));
-  band.classList.toggle("is-stale",st);
-  if(honest) honest.textContent= st ? "Recorded by the app, synced to GitHub daily. Showing the last synced total." : "Recorded by the app, synced to GitHub daily; projected in between.";
- }
- syncStale();
- if(lbl&&"MutationObserver" in window) new MutationObserver(syncStale).observe(lbl,{attributes:true,attributeFilter:["class"]});
-
- var odo=document.getElementById("odometer");
- if(!odo||reduce||!("MutationObserver" in window)) return;
- var prev="";
- new MutationObserver(function(){
-  var cur=odo.textContent;
-  if(odo.classList.contains("live")&&!odo.classList.contains("integrity-fail")&&prev&&cur!==prev&&cur.length===prev.length){
-   var spans=odo.children;
-   for(var i=0;i<spans.length;i++){
-    var a=prev.charAt(i), c=cur.charAt(i);
-    if(a!==c&&spans[i].className==="digit"){ spans[i].setAttribute("data-from",a); spans[i].setAttribute("data-to",c); spans[i].classList.add("roll"); }
-   }
-  }
-  prev=cur;
- }).observe(odo,{childList:true});
-})();
-</script>
 </body></html>
