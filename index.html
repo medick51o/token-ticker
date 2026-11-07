@@ -404,7 +404,7 @@ footer{border-top:1.5px solid var(--ink);padding:18px 0 34px;display:flex;justif
   <h2 class="tt-head" id="hero-label">Preserved CLI tokens <em class="s">as of November 2</em></h2>
   <div class="odometer-shell"><div class="odometer" id="odometer" aria-hidden="true">29,878,234,657</div><div class="sr-only" id="odometer-status" role="status" aria-live="polite">29,878,234,657 CLI tokens as of November 2</div></div>
   <div class="tt-read"><div class="abbrev" id="abbrev">CLI snapshot · November 2, 2026</div><p class="tt-honest" id="tt-honest">Measured CLI snapshot: November 2. Cursor/Grok Bot export: November 7.</p></div>
-  <div class="tt-split"><div class="tt-split-hd">Preserved CLI components<span>November 2 CLI snapshot</span></div><div class="tools" id="tools"></div></div>
+  <div class="tt-split"><div class="tt-split-hd">By-tool snapshots<span>CLI Nov 2 · Cursor/Grok Bot Nov 7</span></div><div class="tools" id="tools"></div><p id="tool-snapshot-note" style="font-size:12px;line-height:1.5;color:#CFC7B6">Dated snapshots · count-up animation, not live usage. Cursor/Grok Bot latest recorded event: November 7, 8:25 AM PST. Grok Bot is included within Cursor, not added again. Rows may overlap; not a unique summed total.</p></div>
   <details class="tt-how">
    <summary>How this is counted</summary>
    <div class="tt-how-body">
@@ -789,8 +789,24 @@ function validateLedger(d) {
   put('tt-honest','Preserved CLI bank: November 2, 8:02:07 AM PST. Separate Cursor CSV: November 7. Combined display is not deduplicated.');
   put('grid-status','SNAPSHOT');
   const tools=document.getElementById('tools');tools.textContent='';
-  [['Claude Code',ledger.totals.by_tool.claude_code],['Codex',ledger.totals.by_tool.codex_cli],['Unattributed banked history',ledger.totals.tool_carry]].forEach(([label,n])=>{
-   const row=document.createElement('div');row.className='tool';[['component-label',label],['component-value',fmt(n)+' tokens'],['component-date','November 2']].forEach(([cls,text])=>{const block=document.createElement('span');block.className=cls;block.textContent=text;row.appendChild(block);});tools.appendChild(row);
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const measuredRows=[
+   ['Claude Code',ledger.totals.by_tool.claude_code,'November 2'],
+   ['Codex',ledger.totals.by_tool.codex_cli,'November 2'],
+   ['Unattributed banked history',ledger.totals.tool_carry,'November 2'],
+   ['Cursor',snapshot.cursor.tokens,'November 7 · includes Grok Bot'],
+   ['Grok Bot',snapshot.cursor.grok_bot_subset,'November 7 · included within Cursor']
+  ];
+  measuredRows.forEach(([label,n,date])=>{
+   const row=document.createElement('div');row.className='tool';
+   [['component-label',label],['component-value',fmt(n)+' tokens'],['component-date',date]].forEach(([cls,text])=>{const block=document.createElement('span');block.className=cls;block.textContent=text;row.appendChild(block);});tools.appendChild(row);
+   const value=row.children[1];
+   // Finite entrance count-up for every row; snapshots are not live usage.
+   if(!reduce&&typeof requestAnimationFrame==='function'){
+    const start=performance.now(),duration=1000;value.textContent='0 tokens';
+    function frame(now){const t=Math.max(0,Math.min(1,(now-start)/duration));value.textContent=fmt(t===1?n:Math.floor(n*(1-Math.pow(1-t,3))))+' tokens';if(t<1)requestAnimationFrame(frame);}
+    requestAnimationFrame(frame);
+   }
   });
   const stats=document.getElementById('stats');stats.textContent='';
   [['Sessions',fmt(ledger.sessions_total)],['Peak historical month',fmt(Math.max(...ledger.monthly.map(m=>m.tokens)))+' tokens'],['CLI as of','November 2, 2026']].forEach(([label,value])=>{const el=document.createElement('div');el.className='stat';el.textContent=label+' · '+value;stats.appendChild(el);});
