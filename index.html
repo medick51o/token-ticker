@@ -1,543 +1,331 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Medick — desktop support &amp; systems</title>
-<meta name="description" content="Desktop support, systems administration and personal projects using AI development tools.">
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0a12">
+  <title>Medick — desktop support, sysadmin &amp; AI tooling</title>
+  <meta name="description" content="Desktop support, systems administration, and personal software projects built with AI development tools and local open-weight models.">
+  <meta property="og:title" content="Medick — 38.81B tokens across AI coding tools">
+  <meta property="og:description" content="Measured AI coding tool usage and local open-weight models run on personal GPUs.">
+  <meta property="og:url" content="https://medick51o.github.io/token-ticker/">
+  <!-- TODO: regenerate and stage og-38b.png for 38.33B before publishing -->
+  <meta property="og:image" content="https://medick51o.github.io/token-ticker/og-38b.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://medick51o.github.io/token-ticker/og-38b.png">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs><linearGradient gradientUnits="userSpaceOnUse" id="lobe-icons-gemini-0-_R_0_" x1="7" x2="11" y1="15.5" y2="12"><stop stop-color="#08B962"></stop><stop offset="1" stop-color="#08B962" stop-opacity="0"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" id="lobe-icons-gemini-1-_R_0_" x1="8" x2="11.5" y1="5.5" y2="11"><stop stop-color="#F94543"></stop><stop offset="1" stop-color="#F94543" stop-opacity="0"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" id="lobe-icons-gemini-2-_R_0_" x1="3.5" x2="17.5" y1="13.5" y2="12"><stop stop-color="#FABC12"></stop><stop offset=".46" stop-color="#FABC12" stop-opacity="0"></stop></linearGradient></defs>
+  <symbol id="m-history" viewBox="0 0 48 48"><rect x="5" y="9" width="38" height="9" rx="3" fill="none" stroke="currentColor" stroke-width="3"/><path d="M9 18v22h30V18M19 25h10" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+  <symbol id="m-re" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#FFD58A"/><circle cx="21" cy="21" r="9" fill="none" stroke="#15130F" stroke-width="3.5"/><line x1="28" y1="28" x2="37" y2="37" stroke="#15130F" stroke-width="4" stroke-linecap="round"/></symbol>
+  <symbol id="m-local" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#F59E0B"/><rect x="14" y="14" width="20" height="20" rx="4" fill="#15130F"/><rect x="19" y="19" width="10" height="10" rx="2" fill="#FBBF24"/><g stroke="#15130F" stroke-width="2.4" stroke-linecap="round"><path d="M19 9v5M24 9v5M29 9v5M19 34v5M24 34v5M29 34v5M9 19h5M9 24h5M9 29h5M34 19h5M34 24h5M34 29h5"/></g></symbol>
+  <symbol id="company-anthropic" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></symbol>
+  <symbol id="company-openai" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619.357-1.356.523-2.117.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.947-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z"></path></symbol>
+  <symbol id="company-cursor" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"/></symbol>
+  <symbol id="company-xai" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M6.469 8.776L16.512 23h-4.464L2.005 8.776H6.47zm-.004 7.9l2.233 3.164L6.467 23H2l4.465-6.324zM22 2.582V23h-3.659V7.764L22 2.582zM22 1l-9.952 14.095-2.233-3.163L17.533 1H22z"></path></symbol>
+  <symbol id="company-gemini" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="#3186FF"></path><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#lobe-icons-gemini-0-_R_0_)"></path><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#lobe-icons-gemini-1-_R_0_)"></path><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#lobe-icons-gemini-2-_R_0_)"></path></symbol>
+  <symbol id="company-ollama" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M16.361 10.26a.894.894 0 0 0-.558.47l-.072.148.001.207c0 .193.004.217.059.353.076.193.152.312.291.448.24.238.51.3.872.205a.86.86 0 0 0 .517-.436.752.752 0 0 0 .08-.498c-.064-.453-.33-.782-.724-.897a1.06 1.06 0 0 0-.466 0zm-9.203.005c-.305.096-.533.32-.65.639a1.187 1.187 0 0 0-.06.52c.057.309.31.59.598.667.362.095.632.033.872-.205.14-.136.215-.255.291-.448.055-.136.059-.16.059-.353l.001-.207-.072-.148a.894.894 0 0 0-.565-.472 1.02 1.02 0 0 0-.474.007Zm4.184 2c-.131.071-.223.25-.195.383.031.143.157.288.353.407.105.063.112.072.117.136.004.038-.01.146-.029.243-.02.094-.036.194-.036.222.002.074.07.195.143.253.064.052.076.054.255.059.164.005.198.001.264-.03.169-.082.212-.234.15-.525-.052-.243-.042-.28.087-.355.137-.08.281-.219.324-.314a.365.365 0 0 0-.175-.48.394.394 0 0 0-.181-.033c-.126 0-.207.03-.355.124l-.085.053-.053-.032c-.219-.13-.259-.145-.391-.143a.396.396 0 0 0-.193.032zm.39-2.195c-.373.036-.475.05-.654.086-.291.06-.68.195-.951.328-.94.46-1.589 1.226-1.787 2.114-.04.176-.045.234-.045.53 0 .294.005.357.043.524.264 1.16 1.332 2.017 2.714 2.173.3.033 1.596.033 1.896 0 1.11-.125 2.064-.727 2.493-1.571.114-.226.169-.372.22-.602.039-.167.044-.23.044-.523 0-.297-.005-.355-.045-.531-.288-1.29-1.539-2.304-3.072-2.497a6.873 6.873 0 0 0-.855-.031zm.645.937a3.283 3.283 0 0 1 1.44.514c.223.148.537.458.671.662.166.251.26.508.303.82.02.143.01.251-.043.482-.08.345-.332.705-.672.957a3.115 3.115 0 0 1-.689.348c-.382.122-.632.144-1.525.138-.582-.006-.686-.01-.853-.042-.57-.107-1.022-.334-1.35-.68-.264-.28-.385-.535-.45-.946-.03-.192.025-.509.137-.776.136-.326.488-.73.836-.963.403-.269.934-.46 1.422-.512.187-.02.586-.02.773-.002zm-5.503-11a1.653 1.653 0 0 0-.683.298C5.617.74 5.173 1.666 4.985 2.819c-.07.436-.119 1.04-.119 1.503 0 .544.064 1.24.155 1.721.02.107.031.202.023.208a8.12 8.12 0 0 1-.187.152 5.324 5.324 0 0 0-.949 1.02 5.49 5.49 0 0 0-.94 2.339 6.625 6.625 0 0 0-.023 1.357c.091.78.325 1.438.727 2.04l.13.195-.037.064c-.269.452-.498 1.105-.605 1.732-.084.496-.095.629-.095 1.294 0 .67.009.803.088 1.266.095.555.288 1.143.503 1.534.071.128.243.393.264.407.007.003-.014.067-.046.141a7.405 7.405 0 0 0-.548 1.873c-.062.417-.071.552-.071.991 0 .56.031.832.148 1.279L3.42 24h1.478l-.05-.091c-.297-.552-.325-1.575-.068-2.597.117-.472.25-.819.498-1.296l.148-.29v-.177c0-.165-.003-.184-.057-.293a.915.915 0 0 0-.194-.25 1.74 1.74 0 0 1-.385-.543c-.424-.92-.506-2.286-.208-3.451.124-.486.329-.918.544-1.154a.787.787 0 0 0 .223-.531c0-.195-.07-.355-.224-.522a3.136 3.136 0 0 1-.817-1.729c-.14-.96.114-2.005.69-2.834.563-.814 1.353-1.336 2.237-1.475.199-.033.57-.028.776.01.226.04.367.028.512-.041.179-.085.268-.19.374-.431.093-.215.165-.333.36-.576.234-.29.46-.489.822-.729.413-.27.884-.467 1.352-.561.17-.035.25-.04.569-.04.319 0 .398.005.569.04a4.07 4.07 0 0 1 1.914.997c.117.109.398.457.488.602.034.057.095.177.132.267.105.241.195.346.374.43.14.068.286.082.503.045.343-.058.607-.053.943.016 1.144.23 2.14 1.173 2.581 2.437.385 1.108.276 2.267-.296 3.153-.097.15-.193.27-.333.419-.301.322-.301.722-.001 1.053.493.539.801 1.866.708 3.036-.062.772-.26 1.463-.533 1.854a2.096 2.096 0 0 1-.224.258.916.916 0 0 0-.194.25c-.054.109-.057.128-.057.293v.178l.148.29c.248.476.38.823.498 1.295.253 1.008.231 2.01-.059 2.581a.845.845 0 0 0-.044.098c0 .006.329.009.732.009h.73l.02-.074.036-.134c.019-.076.057-.3.088-.516.029-.217.029-1.016 0-1.258-.11-.875-.295-1.57-.597-2.226-.032-.074-.053-.138-.046-.141.008-.005.057-.074.108-.152.376-.569.607-1.284.724-2.228.031-.26.031-1.378 0-1.628-.083-.645-.182-1.082-.348-1.525a6.083 6.083 0 0 0-.329-.7l-.038-.064.131-.194c.402-.604.636-1.262.727-2.04a6.625 6.625 0 0 0-.024-1.358 5.512 5.512 0 0 0-.939-2.339 5.325 5.325 0 0 0-.95-1.02 8.097 8.097 0 0 1-.186-.152.692.692 0 0 1 .023-.208c.208-1.087.201-2.443-.017-3.503-.19-.924-.535-1.658-.98-2.082-.354-.338-.716-.482-1.15-.455-.996.059-1.8 1.205-2.116 3.01a6.805 6.805 0 0 0-.097.726c0 .036-.007.066-.015.066a.96.96 0 0 1-.149-.078A4.857 4.857 0 0 0 12 3.03c-.832 0-1.687.243-2.456.698a.958.958 0 0 1-.148.078c-.008 0-.015-.03-.015-.066a6.71 6.71 0 0 0-.097-.725C8.997 1.392 8.337.319 7.46.048a2.096 2.096 0 0 0-.585-.041Zm.293 1.402c.248.197.523.759.682 1.388.03.113.06.244.069.292.007.047.026.152.041.233.067.365.098.76.102 1.24l.002.475-.12.175-.118.178h-.278c-.324 0-.646.041-.954.124l-.238.06c-.033.007-.038-.003-.057-.144a8.438 8.438 0 0 1 .016-2.323c.124-.788.413-1.501.696-1.711.067-.05.079-.049.157.013zm9.825-.012c.17.126.358.46.498.888.28.854.36 2.028.212 3.145-.019.14-.024.151-.057.144l-.238-.06a3.693 3.693 0 0 0-.954-.124h-.278l-.119-.178-.119-.175.002-.474c.004-.669.066-1.19.214-1.772.157-.623.434-1.185.68-1.382.078-.062.09-.063.159-.012z"/></symbol>
+  <symbol id="company-meta" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M6.915 4.03c-1.968 0-3.683 1.28-4.871 3.113C.704 9.208 0 11.883 0 14.449c0 .706.07 1.369.21 1.973a6.624 6.624 0 0 0 .265.86 5.297 5.297 0 0 0 .371.761c.696 1.159 1.818 1.927 3.593 1.927 1.497 0 2.633-.671 3.965-2.444.76-1.012 1.144-1.626 2.663-4.32l.756-1.339.186-.325c.061.1.121.196.183.3l2.152 3.595c.724 1.21 1.665 2.556 2.47 3.314 1.046.987 1.992 1.22 3.06 1.22 1.075 0 1.876-.355 2.455-.843a3.743 3.743 0 0 0 .81-.973c.542-.939.861-2.127.861-3.745 0-2.72-.681-5.357-2.084-7.45-1.282-1.912-2.957-2.93-4.716-2.93-1.047 0-2.088.467-3.053 1.308-.652.57-1.257 1.29-1.82 2.05-.69-.875-1.335-1.547-1.958-2.056-1.182-.966-2.315-1.303-3.454-1.303zm10.16 2.053c1.147 0 2.188.758 2.992 1.999 1.132 1.748 1.647 4.195 1.647 6.4 0 1.548-.368 2.9-1.839 2.9-.58 0-1.027-.23-1.664-1.004-.496-.601-1.343-1.878-2.832-4.358l-.617-1.028a44.908 44.908 0 0 0-1.255-1.98c.07-.109.141-.224.211-.327 1.12-1.667 2.118-2.602 3.358-2.602zm-10.201.553c1.265 0 2.058.791 2.675 1.446.307.327.737.871 1.234 1.579l-1.02 1.566c-.757 1.163-1.882 3.017-2.837 4.338-1.191 1.649-1.81 1.817-2.486 1.817-.524 0-1.038-.237-1.383-.794-.263-.426-.464-1.13-.464-2.046 0-2.221.63-4.535 1.66-6.088.454-.687.964-1.226 1.533-1.533a2.264 2.264 0 0 1 1.088-.285z"/></symbol>
+</svg>
+<canvas id="bg-canvas" class="bg-canvas" aria-hidden="true"></canvas>
+<div class="bg-aurora" aria-hidden="true">
+  <span class="bg-orb bg-orb-a"></span>
+  <span class="bg-orb bg-orb-b"></span>
+  <span class="bg-orb bg-orb-c"></span>
+  <span class="bg-grid"></span>
+</div>
+<div class="page">
+  <nav class="nav" aria-label="Primary">
+    <a class="nav-brand" href="#"><i class="nav-dot" aria-hidden="true"></i>MEDICK</a>
+    <div class="nav-links">
+      <a class="nav-link" href="#ticker">AI usage</a>
+      <a class="nav-link" href="#local-models">Local GPUs</a>
+      <a class="nav-pill" href="#talk"><i aria-hidden="true"></i><span>IT opportunities ↓</span></a>
+    </div>
+  </nav>
+  <main id="main">
+    <section class="intro">
+      <div class="intro-copy">
+        <p class="eyebrow"><i aria-hidden="true"></i>Desktop support &amp; sysadmin</p>
+        <h1>Desktop support.<br><em>Systems and networking.</em></h1>
+        <p class="intro-lead">I work in desktop support, with day-to-day responsibilities across networking, systems administration, and user support.</p>
+        <p class="intro-sub">Outside work, I build and review software with AI coding tools and run open-weight models on my own GPUs.</p>
+        <div class="intro-actions">
+          <a class="btn-primary" href="#ticker">See AI usage ↓</a>
+          <a class="btn-ghost" href="https://github.com/medick51o" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="orbit-stage" aria-hidden="true">
+        <div class="orbit-glow"></div>
+        <div class="orbit-compass"></div>
+        <div class="orbit">
+          <div class="spin">
+            <svg viewBox="14.645 14.645 70.71 70.71">
+              <defs>
+                <linearGradient id="orbit-ring-sig" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#f7add8" stop-opacity="0.95"/>
+                  <stop offset="50%" stop-color="#8c84f0" stop-opacity="0.75"/>
+                  <stop offset="100%" stop-color="#24c495" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="orbit-spoke-sig" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#f7add8" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#84e8c2" stop-opacity="0.85"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="50" r="28" fill="none" stroke="rgba(246,178,218,0.42)" stroke-width=".35" stroke-dasharray="1.2 1.4"/>
+              <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(199,193,255,0.38)" stroke-width=".35" stroke-dasharray="1.2 1.4"/>
+              <circle class="orbit-tracer orbit-tracer-outer" cx="50" cy="50" r="42" pathLength="100" fill="none" stroke="url(#orbit-ring-sig)" stroke-width=".62" stroke-linecap="round" stroke-dasharray="18 82"/>
+              <circle class="orbit-tracer orbit-tracer-inner" cx="50" cy="50" r="28" pathLength="100" fill="none" stroke="#f7add8" stroke-width=".58" stroke-linecap="round" stroke-dasharray="22 78"/>
+              <g stroke="rgba(168,139,250,0.38)" stroke-width=".34">
+                <line x1="78" y1="50" x2="86.37" y2="29"/><line x1="78" y1="50" x2="86.37" y2="71"/><line x1="78" y1="50" x2="50" y2="8"/>
+                <line x1="78" y1="50" x2="50" y2="92"/><line x1="78" y1="50" x2="13.63" y2="71"/><line x1="78" y1="50" x2="13.63" y2="29"/>
+              </g>
+              <g class="spoke-pulses" fill="none" stroke="url(#orbit-spoke-sig)" stroke-width=".66" stroke-linecap="round">
+                <line class="spoke-pulse s1" pathLength="100" x1="78" y1="50" x2="86.37" y2="29"/>
+                <line class="spoke-pulse s2" pathLength="100" x1="78" y1="50" x2="86.37" y2="71"/>
+                <line class="spoke-pulse s3" pathLength="100" x1="78" y1="50" x2="50" y2="92"/>
+                <line class="spoke-pulse s4" pathLength="100" x1="78" y1="50" x2="13.63" y2="71"/>
+                <line class="spoke-pulse s5" pathLength="100" x1="78" y1="50" x2="13.63" y2="29"/>
+                <line class="spoke-pulse s6" pathLength="100" x1="78" y1="50" x2="50" y2="8"/>
+              </g>
+              <line x1="50" y1="50" x2="78" y2="50" stroke="rgba(232,54,143,0.55)" stroke-width=".65" stroke-linecap="round"/>
+              <line class="core-tether-pulse" pathLength="100" x1="50" y1="50" x2="78" y2="50" stroke="#ffd1ec" stroke-width=".95" stroke-linecap="round"/>
+            </svg>
+            <div class="node bot" style="--a:0deg;--r:calc(var(--S)*.28);--nc:#E8368F"><div><div><svg class="mk" viewBox="0 0 24 24"><use href="#company-xai"/></svg><span>Grok Bot</span></div></div></div>
+            <div class="node" style="--a:-30deg;--r:calc(var(--S)*.42);--nc:#8C84F0"><div><div><svg class="mk" viewBox="0 0 24 24"><use href="#company-cursor"/></svg><span>Cursor</span></div></div></div>
+            <div class="node" style="--a:30deg;--r:calc(var(--S)*.42);--nc:#D97757"><div><div><svg class="mk" viewBox="0 0 24 24"><use href="#company-anthropic"/></svg><span>Claude Code</span></div></div></div>
+            <div class="node" style="--a:90deg;--r:calc(var(--S)*.42);--nc:#10A37F"><div><div><svg class="mk" viewBox="0 0 24 24"><use href="#company-openai"/></svg><span>ChatGPT</span></div></div></div>
+            <div class="node" style="--a:150deg;--r:calc(var(--S)*.42);--nc:#4F8CFF"><div><div><svg class="mk" viewBox="0 0 24 24"><use href="#company-gemini"/></svg><span>Gemini</span></div></div></div>
+            <div class="node" style="--a:210deg;--r:calc(var(--S)*.42);--nc:#CFC7B6"><div><div><svg class="mk" viewBox="0 0 24 24"><use href="#company-ollama"/></svg><span>Ollama</span></div></div></div>
+            <div class="node" style="--a:270deg;--r:calc(var(--S)*.42);--nc:#F59E0B"><div><div><svg class="mk" viewBox="0 0 48 48"><use href="#m-local"/></svg><span>Local GPUs</span></div></div></div>
+          </div>
+          <div class="core">
+            <div class="core-ring"></div>
+            <div class="core-ring core-ring-b"></div>
+            <div class="core-badge"><span class="core-spark">✳</span></div>
+            <span>Medick · IT &amp; AI</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<meta property="og:url" content="https://medick51o.github.io/token-ticker/">
+    <section class="ticker" id="ticker" aria-labelledby="hero-label">
+      <div class="marq" aria-hidden="true">
+        <div class="marq-track">
+          <span style="--mc:#f5b990"><svg class="mk" viewBox="0 0 24 24"><use href="#company-anthropic"/></svg>Claude Code</span>
+          <span style="--mc:#84e8c2"><svg class="mk" viewBox="0 0 24 24"><use href="#company-openai"/></svg>ChatGPT · Codex CLI</span>
+          <span style="--mc:#ccc6ff"><svg class="mk" viewBox="0 0 24 24"><use href="#company-cursor"/></svg>Cursor</span>
+          <span style="--mc:#f7add8"><svg class="mk" viewBox="0 0 24 24"><use href="#company-xai"/></svg>Grok Bot</span>
+          <span style="--mc:#93c5fd"><svg class="mk" viewBox="0 0 24 24"><use href="#company-gemini"/></svg>Gemini · Antigravity</span>
+          <span style="--mc:#f7add8"><svg class="mk" viewBox="0 0 24 24"><use href="#company-xai"/></svg>Grok Build</span>
+          <span style="--mc:#f4f1ea"><svg class="mk" viewBox="0 0 24 24"><use href="#company-ollama"/></svg>Ollama</span>
+          <span style="--mc:#6ea8ff"><svg class="mk" viewBox="0 0 24 24"><use href="#company-meta"/></svg>Llama</span>
+          <span style="--mc:#fbbf24"><svg class="mk" viewBox="0 0 48 48"><use href="#m-local"/></svg>Local GPUs</span>
+          <span style="--mc:#f5b990"><svg class="mk" viewBox="0 0 24 24"><use href="#company-anthropic"/></svg>Claude Code</span>
+          <span style="--mc:#84e8c2"><svg class="mk" viewBox="0 0 24 24"><use href="#company-openai"/></svg>ChatGPT · Codex CLI</span>
+          <span style="--mc:#ccc6ff"><svg class="mk" viewBox="0 0 24 24"><use href="#company-cursor"/></svg>Cursor</span>
+          <span style="--mc:#f7add8"><svg class="mk" viewBox="0 0 24 24"><use href="#company-xai"/></svg>Grok Bot</span>
+          <span style="--mc:#93c5fd"><svg class="mk" viewBox="0 0 24 24"><use href="#company-gemini"/></svg>Gemini · Antigravity</span>
+          <span style="--mc:#f7add8"><svg class="mk" viewBox="0 0 24 24"><use href="#company-xai"/></svg>Grok Build</span>
+          <span style="--mc:#f4f1ea"><svg class="mk" viewBox="0 0 24 24"><use href="#company-ollama"/></svg>Ollama</span>
+          <span style="--mc:#6ea8ff"><svg class="mk" viewBox="0 0 24 24"><use href="#company-meta"/></svg>Llama</span>
+          <span style="--mc:#fbbf24"><svg class="mk" viewBox="0 0 48 48"><use href="#m-local"/></svg>Local GPUs</span>
+        </div>
+      </div>
+      <div class="kicker"><span class="spark" aria-hidden="true">✳</span> Measured AI coding &amp; CLI usage</div>
+      <h2 id="hero-label">AI usage</h2>
+      <div class="odometer-wrap">
+        <div class="odometer-glow" aria-hidden="true"></div>
+        <div class="big-number" id="odometer" aria-hidden="true">38.81B</div>
+      </div>
+      <div id="odometer-status" class="sr-only" aria-live="polite">38,810,286,939 tokens across Claude Code, ChatGPT, Cursor and earlier usage</div>
+      <p class="energy" id="usage-context">38,810,286,939 tokens across Claude Code, ChatGPT, Cursor and earlier usage</p>
+      <div class="snapshot-strip" id="snapshot-strip">
+        <span id="cli-bank-pill">CLI bank: <strong>30,359,412,550</strong> as of Nov 18, 2026 · 1,279 sessions</span>
+        <span id="cursor-bank-pill">Cursor export: <strong>8,450,874,389</strong> (Aug 21 – Nov 7, 2026)</span>
+      </div>
 
+      <div class="bar-track" id="bar-track">
+        <div class="usage-bar" id="usage-bar" role="img" aria-label="Combined snapshots: Claude Code 22,040,292,615; ChatGPT 1,954,614,272; Cursor 8,450,874,389 including Grok Bot 4,072,739,590 as a subset; Earlier recorded usage 6,364,505,663">
+          <span class="bar-part claude" id="bar-claude" data-tool="claude" style="flex:22040292615" title="Claude Code"></span>
+          <span class="bar-part codex" id="bar-codex" data-tool="codex" style="flex:1954614272" title="ChatGPT (Codex CLI)"></span>
+          <span class="bar-part cursor" id="bar-cursor" data-tool="cursor" style="flex:8450874389" title="Cursor"><b class="bar-subset-grok" id="bar-grok-subset" data-tool="grok" title="Grok Bot (within Cursor)" style="width:48.193114730249%"></b></span>
+          <span class="bar-part history" id="bar-history" data-tool="history" style="flex:6364505663" title="Earlier recorded usage"></span>
+        </div>
+      </div>
 
+      <div class="tool-grid" id="tools">
+        <article class="tool-row claude" id="row-claude" data-tool="claude" style="--share:56.7898%" data-component="22040292615" aria-label="Claude Code, 22,040,292,615 tokens">
+          <svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#company-anthropic"/></svg>
+          <div class="tool-copy">
+            <h3 class="tool-label">Claude Code</h3>
+            <div class="tool-number" id="tool-claude">22.04B</div>
+            <div class="tool-detail" id="claude-detail">22,040,292,615 tokens · CLI bank Nov 18, 2026</div>
+          </div>
+        </article>
 
+        <article class="tool-row codex" id="row-codex" data-tool="codex" style="--share:5.0363%" data-component="1954614272" aria-label="ChatGPT, 1,954,614,272 tokens">
+          <svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#company-openai"/></svg>
+          <div class="tool-copy">
+            <h3 class="tool-label">ChatGPT</h3>
+            <div class="tool-number" id="tool-codex">1.95B</div>
+            <div class="tool-detail" id="codex-detail">1,954,614,272 tokens · Codex CLI logs · Nov 18, 2026</div>
+          </div>
+        </article>
 
+        <article class="tool-row cursor" id="row-cursor" data-tool="cursor" style="--share:21.7748%" data-component="8450874389" aria-label="Cursor, 8,450,874,389 tokens">
+          <svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#company-cursor"/></svg>
+          <div class="tool-copy">
+            <h3 class="tool-label">Cursor</h3>
+            <div class="tool-number" id="tool-cursor">8.45B</div>
+            <div class="tool-detail" id="cursor-detail">8,450,874,389 tokens · Aug 21 – Nov 7, 2026</div>
+          </div>
+          <div class="tool-subset" id="row-grok-subset" data-tool="grok" role="group" aria-label="Grok Bot is included within Cursor">
+            <svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#company-xai"/></svg>
+            <div class="tool-copy">
+              <h4 class="tool-label">Grok Bot <small>within Cursor</small></h4>
+              <div class="tool-number" id="tool-grok">4.07B</div>
+              <div class="tool-detail" id="grok-detail">4,072,739,590 tokens · included in Cursor</div>
+            </div>
+          </div>
+          <div class="cursor-breakdown" id="cursor-breakdown" aria-label="Cursor parts: Other cloud 3,089,020,309, Other Cursor 1,289,114,490, Grok Bot 4,072,739,590; sum equals Cursor 8,450,874,389, not added again">
+            <span class="cb-title">Parts of Cursor (sum to <span id="cursor-parts-sum">8,450,874,389</span>, not added again):</span>
+            <span class="cb-part cb-cloud"><i aria-hidden="true"></i>Other cloud <strong id="cursor-part-cloud">3,089,020,309</strong></span>
+            <span class="cb-part cb-other"><i aria-hidden="true"></i>Other Cursor <strong id="cursor-part-other">1,289,114,490</strong></span>
+            <span class="cb-part cb-grok"><i aria-hidden="true"></i>Grok Bot <strong id="cursor-part-grok">4,072,739,590</strong></span>
+          </div>
+        </article>
 
-<style>:root{--paper:#f3efe6;--ink:#171510;--mono:ui-monospace,SFMono-Regular,Consolas,monospace;--sans:system-ui,-apple-system,Segoe UI,sans-serif}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 var(--sans)}a{color:inherit}svg{display:block}.page{max-width:1120px;margin:auto;padding:0 34px}.nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0 22px;font-size:13px;font-weight:700}.nav a{text-decoration:none}.nav span{font-weight:500;color:#6a665d}.ticker{position:relative;overflow:hidden;background:#191712;color:#f7f2e7;border-radius:26px;padding:30px 38px 16px;box-shadow:0 18px 54px #312b1410}.ticker:before{content:"";position:absolute;pointer-events:none;width:550px;height:380px;background:radial-gradient(ellipse,#a1467b20,transparent 68%);right:-140px;top:-140px}.kicker{display:flex;align-items:center;gap:8px;font:600 11px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:#afa89c}.spark{color:#e991b9;font-size:18px}.ticker h2#hero-label{font:500 21px/1.2 var(--sans);margin:20px 0 0;color:#d4ccbe}.big-number{font:750 clamp(72px,13vw,152px)/1.05 var(--sans);letter-spacing:-.065em;white-space:nowrap;margin:3px 0 3px;color:#faf4e7;font-variant-numeric:tabular-nums}.energy{margin:0 0 26px;font-size:14px;color:#aba394}.tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 30px}.tool-row{display:flex;align-items:center;gap:16px;border-top:1px solid #3d3830;padding:19px 0;transition:transform .2s}.tool-row:hover{transform:translateX(4px)}.tool-icon{width:48px;height:48px;flex:none;filter:drop-shadow(0 5px 8px #0003)}.tool-copy{min-width:0}.tool-copy .tool-label{font-size:16px;line-height:1.3;margin:0 0 3px;font-weight:650}.tool-number{font:650 22px/1.3 var(--mono);letter-spacing:-.035em;white-space:nowrap}.tool-row.grok .tool-number{color:#f1a8d3}.tool-row.cursor .tool-number{color:#c7c1ff}.tool-row.claude .tool-number{color:#f0bb97}.tool-row.codex .tool-number{color:#87dbba}.tool-row.history{grid-column:1/-1;padding:12px 0;gap:10px;color:#9c9486}.tool-row.history .tool-icon{width:24px;height:24px;filter:none}.tool-row.history .tool-copy{display:flex;gap:12px;align-items:baseline}.tool-row.history .tool-label{font-size:12px;font-weight:500}.tool-row.history .tool-number{font-size:14px;color:#b8b0a2}.method{border-top:1px solid #3d3830;padding:13px 0 2px;font-size:12px;color:#aaa293}.method summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between}.method summary:after{content:'+';font-size:18px}.method[open] summary:after{content:'−'}.method p{max-width:80ch;line-height:1.65;margin:16px 0}.method .exact{font:11px/1.7 var(--mono);color:#938c80}.stats{display:flex;gap:18px;flex-wrap:wrap;font:11px var(--mono);margin:16px 0}.visit-counter{max-width:76ch;color:#938c80;font-size:11px;line-height:1.5}.intro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:55px;padding:72px 0 56px;align-items:start}.eyebrow{font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8c6d53;margin:0 0 15px}.intro h1{font-size:clamp(38px,5.2vw,66px);letter-spacing:-.055em;line-height:1.02;margin:0}.intro h1 em{font-family:Georgia,serif;font-weight:400}.intro p{margin:0 0 18px;color:#655f54;line-height:1.7}.crew{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;border-top:1px solid #d4cdc0;padding:30px 0 50px}.crew article{display:grid;grid-template-columns:40px 1fr;gap:15px}.crew svg{width:40px;height:40px}.crew h3{font-size:19px;letter-spacing:-.03em;margin:0 0 9px}.crew p{font-size:14px;color:#6c655a;margin:0;line-height:1.65}.work{border-top:1px solid #d4cdc0;padding:34px 0 50px}.work h2,.offline h2{font-size:27px;letter-spacing:-.04em;margin:0 0 24px}.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}.project .n{font:11px var(--mono);color:#927b62}.project h3{font-size:18px;margin:10px 0 8px}.project p{font-size:14px;line-height:1.65;color:#6c655a;margin:0}.process{border-top:1px solid #d4cdc0;border-bottom:1px solid #d4cdc0;padding:22px 0;display:flex;gap:12px;flex-wrap:wrap;font-size:14px}.process b{margin-right:12px}.process span{color:#756d60}.offline{display:flex;justify-content:space-between;gap:35px;align-items:center;padding:38px 0}.offline h2{margin:0 0 8px;font-size:24px}.offline p{font-size:14px;color:#756d60;margin:0;max-width:64ch}.local-marks{display:flex;gap:10px}.local-marks svg{width:38px;height:38px}.close{display:flex;justify-content:space-between;gap:24px;align-items:baseline;border-top:1px solid #d4cdc0;padding:26px 0}.close h2{font-size:25px;letter-spacing:-.04em;margin:0}.close p{font-size:12px;color:#756d60;margin:0}.credits{border-top:1px solid #d4cdc0;padding:16px 0;font-size:12px;color:#7c7364}.credits summary{cursor:pointer}.credits pre{font:11px/1.7 var(--mono);white-space:pre-wrap;padding:16px 0}.credits a{color:inherit}footer{display:flex;justify-content:space-between;padding:12px 0 28px;font:10px var(--mono);color:#8c8374}.sr-only{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden;white-space:nowrap}
-@media(max-width:650px){.page{padding:0 18px}.nav{padding:20px 0;font-size:12px}.nav span{display:none}.ticker{padding:24px 22px 12px;border-radius:20px}.big-number{font-size:clamp(70px,17vw,108px)}.ticker h2#hero-label{font-size:19px}.tool-grid{gap:0 18px}.tool-row{gap:10px;padding:16px 0}.tool-icon{width:34px;height:34px}.tool-copy .tool-label{font-size:13px}.tool-number{font-size:18px}.intro{grid-template-columns:1fr;gap:24px;padding:44px 0 32px}.crew{grid-template-columns:1fr;gap:25px;padding-bottom:32px}.projects{grid-template-columns:1fr;gap:24px}.work{padding:28px 0}.offline{padding:28px 0;gap:20px}.local-marks{flex-direction:column}.close{display:block}.close p{margin-top:12px}.energy{font-size:12px;margin-bottom:20px}}
-@media(max-width:390px){.tool-grid{gap:0 14px}.tool-row{gap:8px}.tool-icon{width:30px;height:30px}.tool-number{font-size:16px}.tool-copy .tool-label{font-size:12px}.tool-row.history .tool-copy{gap:8px}.nav a:last-child{font-size:10px}}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+        <article class="tool-row history" id="row-history" data-tool="history" style="--share:16.3990%" data-component="6364505663" aria-label="Earlier recorded usage, 6,364,505,663 tokens">
+          <svg class="tool-icon" viewBox="0 0 48 48" aria-hidden="true"><use href="#m-history"/></svg>
+          <div class="tool-copy">
+            <h3 class="tool-label">Earlier recorded usage</h3>
+            <div class="tool-number" id="tool-history">6.36B</div>
+            <div class="tool-detail" id="history-detail">6,364,505,663 tokens · carried in Nov 18, 2026 CLI bank</div>
+          </div>
+        </article>
+      </div>
 
-/* GLM #7: keep each process step intact rather than dangling arrow chains. */
-.process{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 18px}.process b{grid-column:1/-1}.process span{font-size:13px}
-@media(max-width:650px){.process{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px}}
+      <div class="monthly-strip" id="monthly-strip" role="region" aria-label="CLI bank monthly activity">
+        <div class="monthly-head">
+          <span class="monthly-title">CLI bank by month <small>Apr – Nov 18, 2026 · part of CLI bank above, not added again</small></span>
+          <span class="monthly-readout" id="monthly-readout" data-default="Peak: Aug 2026 · 14.17B (14,171,901,334 tokens)">Peak: Aug 2026 · 14.17B (14,171,901,334 tokens)</span>
+        </div>
+        <div class="monthly-bars" id="monthly-bars">
+          <button type="button" class="m-bar" data-month="Apr 2026" data-tokens="724564909" aria-label="Apr 2026: 724,564,909 tokens"><span class="m-val">0.72B</span><span class="m-track"><span class="m-fill" style="height:5.11%"></span></span><span class="m-lbl">Apr</span></button>
+          <button type="button" class="m-bar" data-month="May 2026" data-tokens="8246866" aria-label="May 2026: 8,246,866 tokens"><span class="m-val">8.2M</span><span class="m-track"><span class="m-fill" style="height:0.06%"></span></span><span class="m-lbl">May</span></button>
+          <button type="button" class="m-bar" data-month="Jun 2026" data-tokens="1575630146" aria-label="Jun 2026: 1,575,630,146 tokens"><span class="m-val">1.58B</span><span class="m-track"><span class="m-fill" style="height:11.12%"></span></span><span class="m-lbl">Jun</span></button>
+          <button type="button" class="m-bar" data-month="Jul 2026" data-tokens="8273279885" aria-label="Jul 2026: 8,273,279,885 tokens"><span class="m-val">8.27B</span><span class="m-track"><span class="m-fill" style="height:58.38%"></span></span><span class="m-lbl">Jul</span></button>
+          <button type="button" class="m-bar is-peak" data-month="Aug 2026" data-tokens="14171901334" aria-label="Aug 2026: 14,171,901,334 tokens"><span class="m-val">14.17B</span><span class="m-track"><span class="m-fill" style="height:100.00%"></span></span><span class="m-lbl">Aug</span></button>
+          <button type="button" class="m-bar" data-month="Sep 2026" data-tokens="4444748966" aria-label="Sep 2026: 4,444,748,966 tokens"><span class="m-val">4.44B</span><span class="m-track"><span class="m-fill" style="height:31.36%"></span></span><span class="m-lbl">Sep</span></button>
+          <button type="button" class="m-bar" data-month="Oct 2026" data-tokens="616283149" aria-label="Oct 2026: 616,283,149 tokens"><span class="m-val">0.62B</span><span class="m-track"><span class="m-fill" style="height:4.35%"></span></span><span class="m-lbl">Oct</span></button>
+          <button type="button" class="m-bar" data-month="Nov 2026" data-tokens="544757295" aria-label="Nov 2026: 544,757,295 tokens"><span class="m-val">0.54B</span><span class="m-track"><span class="m-fill" style="height:3.84%"></span></span><span class="m-lbl">Nov</span></button>
+        </div>
+      </div>
 
-/* Editorial hierarchy: work first; usage supports it. */
-.intro{padding:38px 0 40px}.ticker .big-number{font-size:clamp(70px,12vw,138px)}.ticker{margin-bottom:46px}.ticker h2#hero-label{margin-top:14px}.close h2{font-size:23px}
-@media(max-width:650px){.intro{padding:24px 0 32px}.ticker{margin-bottom:32px}.ticker .big-number{font-size:clamp(68px,17vw,108px)}}
+      <div class="also-tools" aria-labelledby="also-label">
+        <p class="also-label" id="also-label">Also used · not included in total</p>
+        <article class="also-tool gemini">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#company-gemini"/></svg>
+          <div>
+            <h3>Gemini <small>Antigravity</small></h3>
+            <p>Research and a second opinion.</p>
+          </div>
+        </article>
+        <article class="also-tool grok-build">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#company-xai"/></svg>
+          <div>
+            <h3>Grok Build</h3>
+            <p>Command-line work and review.</p>
+          </div>
+        </article>
+      </div>
 
-/* Additive top-level counters; Grok Bot is visibly nested within Cursor. */
-.bar-track{height:16px;background:#353126;border-radius:8px;margin:18px 0 16px;overflow:hidden}.usage-bar{display:flex;height:100%;gap:3px}.bar-part{min-width:0;position:relative}.bar-part.claude{background:#d9936c}.bar-part.codex{background:#7dd3ac}.bar-part.cursor{background:#a5a0ee}.bar-part.history{background:#c8ae75}.bar-part.cursor b{position:absolute;right:3px;top:3px;bottom:3px;border-radius:2px;background:#e48cba}
-.tool-row.cursor{grid-column:1/-1;display:grid;grid-template-columns:48px minmax(0,1fr) minmax(0,1fr);gap:16px}.tool-subset{display:flex;align-items:center;gap:16px;padding-left:22px;border-left:1px solid #4d454d}.tool-row.cursor .tool-subset .tool-number{color:#f1a8d3}.tool-copy small{font-size:11px;font-weight:400;color:#b9adbb}.tool-icon{padding:8px;background:#fff1;border-radius:11px;color:#f7eee2}.tool-row.claude .tool-icon{color:#f0bb97}.tool-row.codex .tool-icon{color:#87dbba}.tool-row.cursor>.tool-icon{color:#c7c1ff}.tool-subset .tool-icon{color:#f1a8d3}.tool-row.history .tool-number{color:#d4bc83}.tool-row.history{color:#c2b8a4}.tool-row.history .tool-icon{padding:0;background:transparent}
-@media(max-width:650px){.tool-row.cursor{grid-template-columns:34px minmax(0,1fr) minmax(0,1fr);gap:10px}.tool-subset{padding-left:12px;gap:9px}.tool-icon{padding:6px}.tool-subset .tool-icon{width:30px;height:30px}.tool-copy small{display:block;font-size:10px}.tool-subset .tool-number{font-size:17px}.bar-track{height:13px}.tool-row.history .tool-copy{flex-wrap:wrap}}
-@media(max-width:390px){.tool-row.cursor{grid-template-columns:30px minmax(0,1fr);gap:8px}.tool-subset{grid-column:1/-1;border-left:0;border-top:1px solid #453e42;margin-left:16px;padding:10px 0 0 18px}.tool-copy small{display:inline}.tool-subset .tool-number{font-size:18px}}
+      <details class="method" id="method">
+        <summary>How it’s counted</summary>
+        <p id="method-note">Counts come from two measured sources: local CLI session logs saved through Nov 18, 2026 (including cached input tokens) and Cursor&#x27;s official usage CSV export through Nov 7, 2026 (1,899 blank-token rows excluded). Grok Bot, other cloud agents, and other Cursor usage are parts of the Cursor total and are never added twice. Nothing estimated enters the token totals, and the numbers animate briefly once on load rather than streaming live. The sources are separate snapshots, so some overlap between them is possible.</p>
+        <p class="method-meta" id="stats">1,279 CLI sessions recorded.</p>
+        <p class="honest" id="honest-network-note">Only measured token counts appear in the totals above.</p>
+      </details>
+    </section>
 
-/* Focused restored local inventory and broader non-numeric tool lineup. */
-.also-tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;border-top:1px solid #453d39;padding:18px 0 14px}.also-tool{display:flex;gap:13px;align-items:center}.also-tool svg{width:38px;height:38px;flex:none;padding:7px;border-radius:10px;background:#383041;color:#eed6ed}.also-tool h3{font-size:15px;line-height:1.3;margin:0}.also-tool h3 small{display:block;font-size:11px;font-weight:450;color:#c3b8cb}.also-tool p{font-size:11px;line-height:1.5;margin:5px 0 0;color:#b9ada2}.also-tool.gemini{color:#d7c6fa}.tool-copy small{display:block;white-space:nowrap;font-size:11px}.intro h1{font-size:clamp(34px,4vw,48px)}.intro{grid-template-columns:1.1fr 1fr;gap:36px}
-.local-restored{border-top:1px solid #d4cdc0;padding:34px 0 38px}.local-restored h2{font-size:27px;line-height:1.2;letter-spacing:-.035em;margin:0 0 14px}.local-restored .in{margin:0 0 22px;color:#655f54}.local-restored .rt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-bottom:26px}.local-restored .rtb{display:grid;grid-template-columns:52px 1fr;column-gap:14px;align-items:center}.local-restored .rtb svg{grid-row:1/span 2;width:52px;height:52px;padding:9px;border:1px solid #d4cdc0;border-radius:12px;background:#fff9;color:#24211b}.local-restored .rtb:nth-child(2) svg{color:#0866ff}.local-restored .rtb b{font-size:17px}.local-restored .rtb small{font-size:12px;color:#655f54;line-height:1.5}.local-restored .groups{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:24px}.local-restored .group-title{font-size:14px;margin:0 0 12px}.local-restored .chips{display:flex;gap:8px;flex-wrap:wrap}.local-restored .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;line-height:1.4;padding:7px 10px;background:#fff7;border:1px solid #d7d0c4;border-radius:7px}.local-restored .chip:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c);flex:none}.local-restored .re{display:flex;gap:14px;align-items:start;border-top:1px solid #d4cdc0;margin-top:28px;padding-top:20px}.local-restored .re svg{width:38px;height:38px;flex:none}.local-restored .re p{font-size:14px;line-height:1.65;color:#655f54;margin:0;max-width:78ch}.local-restored .re b{color:#27231d}.process span,.project .n,.credits,footer,.close p{color:#655f54}.credits,footer{font-size:12px}.close p{font-size:14px}a:focus-visible,summary:focus-visible{outline:2px solid #6d4c85;outline-offset:4px}
-@media(max-width:650px){.intro{grid-template-columns:1fr;gap:22px}.local-restored .groups{grid-template-columns:1fr;gap:24px}.local-restored .rt{gap:18px}.local-restored .rtb{grid-template-columns:42px 1fr;column-gap:10px}.local-restored .rtb svg{width:42px;height:42px;padding:7px}.local-restored .rtb small{font-size:11px}.also-tools{gap:16px}.also-tool{gap:9px}.also-tool svg{width:32px;height:32px;padding:5px}.also-tool h3{font-size:14px}.local-restored{padding-top:28px}}
-@media(max-width:420px){.local-restored .rt{grid-template-columns:1fr}.also-tools{grid-template-columns:1fr;gap:16px}.local-restored .re{gap:10px}.local-restored .chip{font-size:11px}}
+    <section class="local-restored" id="local-models">
+      <h2>Local open-weight models.</h2>
+      <div class="local rv">
+        <p class="in">Models I run on my own GPUs, no cloud needed.</p>
+        <div class="rt">
+          <span class="rtb" style="--c:#F4F1EA">
+            <svg class="mk" viewBox="0 0 24 24" aria-hidden="true"><use href="#company-ollama"/></svg>
+            <b>Ollama</b>
+            <small>Local runner for the Qwen LLMs on my home-lab machines</small>
+          </span>
+          <span class="rtb" style="--c:#0866FF">
+            <svg class="mk" viewBox="0 0 24 24" aria-hidden="true"><use href="#company-meta"/></svg>
+            <b>Llama</b>
+            <small>Meta’s open model family</small>
+          </span>
+        </div>
+        <div class="groups">
+          <div class="group-card">
+            <h3 class="group-title">Code &amp; language</h3>
+            <div class="chips">
+              <span class="chip" style="--c:#F97316">Qwen3-Coder 30B</span>
+              <span class="chip" style="--c:#FB923C">Qwen3.8 27B</span>
+              <span class="chip" style="--c:#FBBF24">Qwen3 0.6B</span>
+              <span class="chip" style="--c:#4ADE80">Qwen3-VL 8B</span>
+            </div>
+          </div>
+          <div class="group-card">
+            <h3 class="group-title">Images &amp; vision</h3>
+            <div class="chips">
+              <span class="chip" style="--c:#A3E635">Qwen-Image 2.1</span>
+              <span class="chip" style="--c:#2DD4BF">Shuttle 3 Diffusion</span>
+              <span class="chip" style="--c:#22D3EE">RealVisXL V5</span>
+              <span class="chip" style="--c:#38BDF8">IP-Adapter FaceID</span>
+              <span class="chip" style="--c:#818CF8">InsightFace</span>
+              <span class="chip" style="--c:#F59E0B">Real-ESRGAN</span>
+              <span class="chip" style="--c:#34D399">Depth-Anything V2</span>
+            </div>
+          </div>
+          <div class="group-card">
+            <h3 class="group-title">Sound &amp; music</h3>
+            <div class="chips">
+              <span class="chip" style="--c:#C084FC">YuE 7B + 1B</span>
+              <span class="chip" style="--c:#F472B6">faster-whisper</span>
+              <span class="chip" style="--c:#FB7185">HTDemucs</span>
+              <span class="chip" style="--c:#60A5FA">Laya</span>
+            </div>
+          </div>
+        </div>
+        <div class="re">
+          <svg class="mk" viewBox="0 0 48 48" aria-hidden="true"><use href="#m-re"/></svg>
+          <p><b>Reverse engineering came first.</b> I was taking software apart to see how it works long before AI could help with that. Same habit, now pointed at models and agents.</p>
+        </div>
+      </div>
+    </section>
 
-/* Round2: unit/context, uncounted tools and narrow reflow; motion unchanged. */
-.energy{margin:0 0 8px;color:#c2b8a4;font-size:13px;line-height:1.5}
-.also-label{grid-column:1/-1;margin:0;color:#c2b8a4;font:600 11px/1.5 var(--mono)}
-.also-tools{row-gap:14px}.tool-subset{min-width:0}.also-tool{min-width:0}
-footer{flex-wrap:wrap;gap:8px 18px}
-@media(max-width:390px){.tool-grid{grid-template-columns:minmax(0,1fr)}.tool-row.cursor{grid-template-columns:30px minmax(0,1fr)}.local-restored .chip{max-width:100%;overflow-wrap:anywhere}}
-</style></head><body><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
- <defs>
-  <linearGradient id="gGem" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4F8CFF"/><stop offset=".55" stop-color="#9B6BFF"/><stop offset="1" stop-color="#F06AB0"/></linearGradient>
-  <linearGradient id="gBot" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8368F"/><stop offset="1" stop-color="#7C3AED"/></linearGradient>
-  <linearGradient id="gLoc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBBF24"/><stop offset="1" stop-color="#F97316"/></linearGradient>
- </defs>
- <symbol id="m-claude" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#D97757"/><g stroke="#FFF4EC" stroke-width="3.6" stroke-linecap="round"><line x1="24" y1="10" x2="24" y2="38"/><line x1="10" y1="24" x2="38" y2="24"/><line x1="14" y1="14" x2="34" y2="34"/><line x1="34" y1="14" x2="14" y2="34"/><line x1="18.6" y1="11" x2="29.4" y2="37"/><line x1="29.4" y1="11" x2="18.6" y2="37"/></g><circle cx="24" cy="24" r="4.5" fill="#D97757"/></symbol>
- <symbol id="m-codex" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#10A37F"/><polygon points="24,8 38,16 38,32 24,40 10,32 10,16" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M17 20l5 4-5 4" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><line x1="25" y1="29" x2="31" y2="29" stroke="#fff" stroke-width="3" stroke-linecap="round"/></symbol>
- <symbol id="m-grok" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#15130F"/><rect x=".75" y=".75" width="46.5" height="46.5" rx="12.4" fill="none" stroke="#4A453C" stroke-width="1.5"/><path d="M14 13 L34 37" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M35 10 L24.5 22.5 M21 27 L13 36.5" stroke="#fff" stroke-width="4" stroke-linecap="round"/></symbol>
- <symbol id="m-gemini" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#141833"/><path d="M24 7C25.4 17.5 30.5 22.6 41 24C30.5 25.4 25.4 30.5 24 41C22.6 30.5 17.5 25.4 7 24C17.5 22.6 22.6 17.5 24 7Z" fill="url(#gGem)"/></symbol>
- <symbol id="m-cursor" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#1B1B22"/><polygon points="24,9 37,16.5 37,31.5 24,39 11,31.5 11,16.5" fill="#2E2E38" stroke="#E9E7F0" stroke-width="2.2" stroke-linejoin="round"/><polygon points="24,9 37,16.5 24,24 11,16.5" fill="#E9E7F0"/><polygon points="24,24 37,16.5 37,31.5" fill="#8C8AA0"/><path d="M27 26 L34 36 L30.6 35.2 L28.6 38.6 Z" fill="#fff" stroke="#1B1B22" stroke-width="1.2"/></symbol>
- <symbol id="m-bot" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="url(#gBot)"/><line x1="24" y1="9" x2="24" y2="15" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="24" cy="8.5" r="2.6" fill="#fff"/><rect x="12" y="15" width="24" height="19" rx="7" fill="#fff"/><circle cx="19.5" cy="24" r="2.8" fill="#7C3AED"/><circle cx="28.5" cy="24" r="2.8" fill="#E8368F"/><path d="M20 29.5h8" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round"/><circle cx="9" cy="38" r="2.4" fill="#FFD0E6"/><circle cx="24" cy="40.5" r="2.4" fill="#FFD0E6"/><circle cx="39" cy="38" r="2.4" fill="#FFD0E6"/></symbol>
- <symbol id="m-ollama" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#F4F1EA"/><path d="M16 38V21c0-6 3.6-10 8-10s8 4 8 10v17" fill="#fff" stroke="#15130F" stroke-width="2.6" stroke-linejoin="round"/><path d="M18 13l-1-6M30 13l1-6" stroke="#15130F" stroke-width="2.6" stroke-linecap="round"/><circle cx="20.5" cy="22" r="1.8" fill="#15130F"/><circle cx="27.5" cy="22" r="1.8" fill="#15130F"/><ellipse cx="24" cy="28" rx="4" ry="2.8" fill="none" stroke="#15130F" stroke-width="2"/></symbol>
- <symbol id="m-llama" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#0866FF"/><path d="M10 31c0-8 3-14 6.5-14 5 0 9 14 15 14 3.3 0 6.5-3 6.5-8s-3-8-6.5-8c-6 0-10 14-15 14C13 29 10 32 10 31z" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
- <symbol id="m-local" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="url(#gLoc)"/><rect x="14" y="14" width="20" height="20" rx="4" fill="#15130F"/><rect x="19" y="19" width="10" height="10" rx="2" fill="#FBBF24"/><g stroke="#15130F" stroke-width="2.4" stroke-linecap="round"><path d="M19 9v5M24 9v5M29 9v5M19 34v5M24 34v5M29 34v5M9 19h5M9 24h5M9 29h5M34 19h5M34 24h5M34 29h5"/></g></symbol>
- <symbol id="m-me" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#15130F"/><text x="24" y="31.5" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="23" fill="#F3EFE6">A</text></symbol>
- <symbol id="m-re" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="#FFD58A"/><circle cx="21" cy="21" r="9" fill="none" stroke="#15130F" stroke-width="3.5"/><line x1="28" y1="28" x2="37" y2="37" stroke="#15130F" stroke-width="4" stroke-linecap="round"/></symbol>
-<symbol id="m-history" viewBox="0 0 48 48"><rect x="5" y="9" width="38" height="9" rx="3" fill="none" stroke="#aaa08c" stroke-width="3"/><path d="M9 18v22h30V18M19 25h10" fill="none" stroke="#aaa08c" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></symbol><symbol id="company-anthropic" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></symbol><symbol id="company-openai" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619.357-1.356.523-2.117.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.947-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z"></path></symbol><symbol id="company-cursor" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"/></symbol><symbol id="company-xai" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M6.469 8.776L16.512 23h-4.464L2.005 8.776H6.47zm-.004 7.9l2.233 3.164L6.467 23H2l4.465-6.324zM22 2.582V23h-3.659V7.764L22 2.582zM22 1l-9.952 14.095-2.233-3.163L17.533 1H22z"></path></symbol><symbol id="company-gemini" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="#3186FF"></path><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#lobe-icons-gemini-0-_R_0_)"></path><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#lobe-icons-gemini-1-_R_0_)"></path><path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" fill="url(#lobe-icons-gemini-2-_R_0_)"></path><defs><linearGradient gradientUnits="userSpaceOnUse" id="lobe-icons-gemini-0-_R_0_" x1="7" x2="11" y1="15.5" y2="12"><stop stop-color="#08B962"></stop><stop offset="1" stop-color="#08B962" stop-opacity="0"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" id="lobe-icons-gemini-1-_R_0_" x1="8" x2="11.5" y1="5.5" y2="11"><stop stop-color="#F94543"></stop><stop offset="1" stop-color="#F94543" stop-opacity="0"></stop></linearGradient><linearGradient gradientUnits="userSpaceOnUse" id="lobe-icons-gemini-2-_R_0_" x1="3.5" x2="17.5" y1="13.5" y2="12"><stop stop-color="#FABC12"></stop><stop offset=".46" stop-color="#FABC12" stop-opacity="0"></stop></linearGradient></defs></symbol><symbol id="company-ollama" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M16.361 10.26a.894.894 0 0 0-.558.47l-.072.148.001.207c0 .193.004.217.059.353.076.193.152.312.291.448.24.238.51.3.872.205a.86.86 0 0 0 .517-.436.752.752 0 0 0 .08-.498c-.064-.453-.33-.782-.724-.897a1.06 1.06 0 0 0-.466 0zm-9.203.005c-.305.096-.533.32-.65.639a1.187 1.187 0 0 0-.06.52c.057.309.31.59.598.667.362.095.632.033.872-.205.14-.136.215-.255.291-.448.055-.136.059-.16.059-.353l.001-.207-.072-.148a.894.894 0 0 0-.565-.472 1.02 1.02 0 0 0-.474.007Zm4.184 2c-.131.071-.223.25-.195.383.031.143.157.288.353.407.105.063.112.072.117.136.004.038-.01.146-.029.243-.02.094-.036.194-.036.222.002.074.07.195.143.253.064.052.076.054.255.059.164.005.198.001.264-.03.169-.082.212-.234.15-.525-.052-.243-.042-.28.087-.355.137-.08.281-.219.324-.314a.365.365 0 0 0-.175-.48.394.394 0 0 0-.181-.033c-.126 0-.207.03-.355.124l-.085.053-.053-.032c-.219-.13-.259-.145-.391-.143a.396.396 0 0 0-.193.032zm.39-2.195c-.373.036-.475.05-.654.086-.291.06-.68.195-.951.328-.94.46-1.589 1.226-1.787 2.114-.04.176-.045.234-.045.53 0 .294.005.357.043.524.264 1.16 1.332 2.017 2.714 2.173.3.033 1.596.033 1.896 0 1.11-.125 2.064-.727 2.493-1.571.114-.226.169-.372.22-.602.039-.167.044-.23.044-.523 0-.297-.005-.355-.045-.531-.288-1.29-1.539-2.304-3.072-2.497a6.873 6.873 0 0 0-.855-.031zm.645.937a3.283 3.283 0 0 1 1.44.514c.223.148.537.458.671.662.166.251.26.508.303.82.02.143.01.251-.043.482-.08.345-.332.705-.672.957a3.115 3.115 0 0 1-.689.348c-.382.122-.632.144-1.525.138-.582-.006-.686-.01-.853-.042-.57-.107-1.022-.334-1.35-.68-.264-.28-.385-.535-.45-.946-.03-.192.025-.509.137-.776.136-.326.488-.73.836-.963.403-.269.934-.46 1.422-.512.187-.02.586-.02.773-.002zm-5.503-11a1.653 1.653 0 0 0-.683.298C5.617.74 5.173 1.666 4.985 2.819c-.07.436-.119 1.04-.119 1.503 0 .544.064 1.24.155 1.721.02.107.031.202.023.208a8.12 8.12 0 0 1-.187.152 5.324 5.324 0 0 0-.949 1.02 5.49 5.49 0 0 0-.94 2.339 6.625 6.625 0 0 0-.023 1.357c.091.78.325 1.438.727 2.04l.13.195-.037.064c-.269.452-.498 1.105-.605 1.732-.084.496-.095.629-.095 1.294 0 .67.009.803.088 1.266.095.555.288 1.143.503 1.534.071.128.243.393.264.407.007.003-.014.067-.046.141a7.405 7.405 0 0 0-.548 1.873c-.062.417-.071.552-.071.991 0 .56.031.832.148 1.279L3.42 24h1.478l-.05-.091c-.297-.552-.325-1.575-.068-2.597.117-.472.25-.819.498-1.296l.148-.29v-.177c0-.165-.003-.184-.057-.293a.915.915 0 0 0-.194-.25 1.74 1.74 0 0 1-.385-.543c-.424-.92-.506-2.286-.208-3.451.124-.486.329-.918.544-1.154a.787.787 0 0 0 .223-.531c0-.195-.07-.355-.224-.522a3.136 3.136 0 0 1-.817-1.729c-.14-.96.114-2.005.69-2.834.563-.814 1.353-1.336 2.237-1.475.199-.033.57-.028.776.01.226.04.367.028.512-.041.179-.085.268-.19.374-.431.093-.215.165-.333.36-.576.234-.29.46-.489.822-.729.413-.27.884-.467 1.352-.561.17-.035.25-.04.569-.04.319 0 .398.005.569.04a4.07 4.07 0 0 1 1.914.997c.117.109.398.457.488.602.034.057.095.177.132.267.105.241.195.346.374.43.14.068.286.082.503.045.343-.058.607-.053.943.016 1.144.23 2.14 1.173 2.581 2.437.385 1.108.276 2.267-.296 3.153-.097.15-.193.27-.333.419-.301.322-.301.722-.001 1.053.493.539.801 1.866.708 3.036-.062.772-.26 1.463-.533 1.854a2.096 2.096 0 0 1-.224.258.916.916 0 0 0-.194.25c-.054.109-.057.128-.057.293v.178l.148.29c.248.476.38.823.498 1.295.253 1.008.231 2.01-.059 2.581a.845.845 0 0 0-.044.098c0 .006.329.009.732.009h.73l.02-.074.036-.134c.019-.076.057-.3.088-.516.029-.217.029-1.016 0-1.258-.11-.875-.295-1.57-.597-2.226-.032-.074-.053-.138-.046-.141.008-.005.057-.074.108-.152.376-.569.607-1.284.724-2.228.031-.26.031-1.378 0-1.628-.083-.645-.182-1.082-.348-1.525a6.083 6.083 0 0 0-.329-.7l-.038-.064.131-.194c.402-.604.636-1.262.727-2.04a6.625 6.625 0 0 0-.024-1.358 5.512 5.512 0 0 0-.939-2.339 5.325 5.325 0 0 0-.95-1.02 8.097 8.097 0 0 1-.186-.152.692.692 0 0 1 .023-.208c.208-1.087.201-2.443-.017-3.503-.19-.924-.535-1.658-.98-2.082-.354-.338-.716-.482-1.15-.455-.996.059-1.8 1.205-2.116 3.01a6.805 6.805 0 0 0-.097.726c0 .036-.007.066-.015.066a.96.96 0 0 1-.149-.078A4.857 4.857 0 0 0 12 3.03c-.832 0-1.687.243-2.456.698a.958.958 0 0 1-.148.078c-.008 0-.015-.03-.015-.066a6.71 6.71 0 0 0-.097-.725C8.997 1.392 8.337.319 7.46.048a2.096 2.096 0 0 0-.585-.041Zm.293 1.402c.248.197.523.759.682 1.388.03.113.06.244.069.292.007.047.026.152.041.233.067.365.098.76.102 1.24l.002.475-.12.175-.118.178h-.278c-.324 0-.646.041-.954.124l-.238.06c-.033.007-.038-.003-.057-.144a8.438 8.438 0 0 1 .016-2.323c.124-.788.413-1.501.696-1.711.067-.05.079-.049.157.013zm9.825-.012c.17.126.358.46.498.888.28.854.36 2.028.212 3.145-.019.14-.024.151-.057.144l-.238-.06a3.693 3.693 0 0 0-.954-.124h-.278l-.119-.178-.119-.175.002-.474c.004-.669.066-1.19.214-1.772.157-.623.434-1.185.68-1.382.078-.062.09-.063.159-.012z"/></symbol><symbol id="company-meta" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M6.915 4.03c-1.968 0-3.683 1.28-4.871 3.113C.704 9.208 0 11.883 0 14.449c0 .706.07 1.369.21 1.973a6.624 6.624 0 0 0 .265.86 5.297 5.297 0 0 0 .371.761c.696 1.159 1.818 1.927 3.593 1.927 1.497 0 2.633-.671 3.965-2.444.76-1.012 1.144-1.626 2.663-4.32l.756-1.339.186-.325c.061.1.121.196.183.3l2.152 3.595c.724 1.21 1.665 2.556 2.47 3.314 1.046.987 1.992 1.22 3.06 1.22 1.075 0 1.876-.355 2.455-.843a3.743 3.743 0 0 0 .81-.973c.542-.939.861-2.127.861-3.745 0-2.72-.681-5.357-2.084-7.45-1.282-1.912-2.957-2.93-4.716-2.93-1.047 0-2.088.467-3.053 1.308-.652.57-1.257 1.29-1.82 2.05-.69-.875-1.335-1.547-1.958-2.056-1.182-.966-2.315-1.303-3.454-1.303zm10.16 2.053c1.147 0 2.188.758 2.992 1.999 1.132 1.748 1.647 4.195 1.647 6.4 0 1.548-.368 2.9-1.839 2.9-.58 0-1.027-.23-1.664-1.004-.496-.601-1.343-1.878-2.832-4.358l-.617-1.028a44.908 44.908 0 0 0-1.255-1.98c.07-.109.141-.224.211-.327 1.12-1.667 2.118-2.602 3.358-2.602zm-10.201.553c1.265 0 2.058.791 2.675 1.446.307.327.737.871 1.234 1.579l-1.02 1.566c-.757 1.163-1.882 3.017-2.837 4.338-1.191 1.649-1.81 1.817-2.486 1.817-.524 0-1.038-.237-1.383-.794-.263-.426-.464-1.13-.464-2.046 0-2.221.63-4.535 1.66-6.088.454-.687.964-1.226 1.533-1.533a2.264 2.264 0 0 1 1.088-.285z"/></symbol></svg><div class="page">
-<nav class="nav"><a href="#">MEDICK</a><a href="#talk">IT opportunities ↓</a></nav>
-<main id="main">
-<section class="intro"><div><p class="eyebrow">Desktop support &amp; systems</p><h1>Desktop support.<br><em>Systems and networking.</em></h1></div><div><p>I work in desktop support, with responsibilities across networking, systems administration and user support.</p><p>Outside work, I use AI development tools to work on code and review changes.</p></div></section>
-<section class="ticker" aria-labelledby="hero-label">
-<div class="kicker"><span class="spark">✳</span> AI tools</div>
-<h2 id="hero-label">AI usage</h2>
-<div class="big-number" id="odometer" aria-hidden="true">38.33B</div><div id="odometer-status" class="sr-only">38,329,109,046 tokens in combined snapshots; possible overlap</div>
-<p class="energy" id="usage-context">Tokens · combined snapshots, may overlap</p>
+    <section class="close rv" id="talk">
+      <h2>Desktop support &amp; sysadmin opportunities</h2>
+      <p><a href="https://github.com/medick51o" target="_blank" rel="noopener noreferrer">View my GitHub profile ↗</a></p>
+    </section>
+  </main>
 
-<div class="bar-track"><div class="usage-bar" id="usage-bar" role="img" aria-label="Combined snapshots: Claude Code 21,586,605,985; ChatGPT 1,927,123,009; Cursor 8,450,874,389 including Grok Bot 4,072,739,590 as a subset; history 6,364,505,663"><span class="bar-part claude" style="flex:21586605985" title="Claude Code"></span><span class="bar-part codex" style="flex:1927123009" title="ChatGPT"></span><span class="bar-part cursor" style="flex:8450874389" title="Cursor"><b title="Grok Bot (within Cursor)" style="width:48.193114730249%"></b></span><span class="bar-part history" style="flex:6364505663" title="Earlier recorded usage"></span></div></div><div class="tool-grid" id="tools">
-<article class="tool-row claude" data-component="21586605985" aria-label="Claude Code, 21,586,605,985 tokens"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#company-anthropic"/></svg><div class="tool-copy"><h3 class="tool-label">Claude Code</h3><div class="tool-number" id="tool-claude">21.59B</div></div></article><article class="tool-row codex" data-component="1927123009" aria-label="ChatGPT, 1,927,123,009 tokens"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#company-openai"/></svg><div class="tool-copy"><h3 class="tool-label">ChatGPT</h3><div class="tool-number" id="tool-codex">1.93B</div></div></article><article class="tool-row cursor" data-component="8450874389" aria-label="Cursor, 8,450,874,389 tokens"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#company-cursor"/></svg><div class="tool-copy"><h3 class="tool-label">Cursor</h3><div class="tool-number" id="tool-cursor">8.45B</div></div><div class="tool-subset" aria-label="Grok Bot is included within Cursor"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#company-xai"/></svg><div class="tool-copy"><h4 class="tool-label">Grok Bot <small>within Cursor</small></h4><div class="tool-number" id="tool-grok">4.07B</div></div></div></article><article class="tool-row history" data-component="6364505663" aria-label="Earlier recorded usage, 6,364,505,663 tokens"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#m-history"/></svg><div class="tool-copy"><h3 class="tool-label">Earlier recorded usage</h3><div class="tool-number" id="tool-history">6.36B</div></div></article>
-</div><div class="also-tools" aria-labelledby="also-label"><p class="also-label" id="also-label">Also used · not included in total</p><article class="also-tool gemini"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#company-gemini"/></svg><div><h3>Gemini <small>Antigravity</small></h3><p>Research and a second opinion.</p></div></article><article class="also-tool grok-build"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#company-xai"/></svg><div><h3>Grok Build</h3><p>Command-line work and review.</p></div></article></div>
-<details class="method" id="method"><summary>How it’s counted</summary>
-<p id="method-note">This isn’t a count of unique tokens. Grok Bot is already included in Cursor. The numbers animate once, not as live usage.</p>
-<p class="exact">Combined: 38,329,109,046 · CLI: 29,878,234,657 · Cursor: 8,450,874,389 · Grok Bot: 4,072,739,590.<br>CLI snapshot: Nov 2, 2026. Cursor’s latest recorded event: Nov 7, 8:25 AM PST. 1,899 blank-token rows excluded. ChatGPT’s figure is counted from Codex CLI logs.</p>
-<div class="stats" id="stats"></div></details></section>
+  <details class="credits">
+    <summary>Built by Medick · methods &amp; credits</summary>
+    <pre id="credits"></pre>
+    <p class="marks-note">Logos belong to their owners and do not imply endorsement.</p>
+  </details>
+  <footer>
+    <span>Medick · 2026</span>
+    <span>Desktop support &amp; sysadmin</span>
+  </footer>
+</div>
 
-
-
-
-<section class="local-restored" id="local-models">
-  <h2>Local open-weight models.</h2>
-  <div class="local rv">
-   <p class="in">Models I run on my own GPUs, no cloud needed.</p>
-   <div class="rt"><span class="rtb" style="--c:#F4F1EA"><svg class="mk" viewBox="0 0 24 24" aria-hidden="true"><use href="#company-ollama"/></svg><b>Ollama</b><small>Local runner for the Qwen LLMs on my home-lab machines</small></span><span class="rtb" style="--c:#0866FF"><svg class="mk" viewBox="0 0 24 24" aria-hidden="true"><use href="#company-meta"/></svg><b>Llama</b><small>Meta’s open model family</small></span></div>
-   <div class="groups">
-    <div><h3 class="group-title">Code &amp; language</h3><div class="chips"><span class="chip" style="--c:#F97316">Qwen3-Coder 30B</span><span class="chip" style="--c:#FB923C">Qwen3.8 27B</span><span class="chip" style="--c:#FBBF24">Qwen3 0.6B</span><span class="chip" style="--c:#4ADE80">Qwen3-VL 8B</span></div></div>
-    <div><h3 class="group-title">Images &amp; vision</h3><div class="chips"><span class="chip" style="--c:#A3E635">Qwen-Image 2.1</span><span class="chip" style="--c:#2DD4BF">Shuttle 3 Diffusion</span><span class="chip" style="--c:#22D3EE">RealVisXL V5</span><span class="chip" style="--c:#38BDF8">IP-Adapter FaceID</span><span class="chip" style="--c:#818CF8">InsightFace</span><span class="chip" style="--c:#F59E0B">Real-ESRGAN</span><span class="chip" style="--c:#34D399">Depth-Anything V2</span></div></div>
-    <div><h3 class="group-title">Sound &amp; music</h3><div class="chips"><span class="chip" style="--c:#C084FC">YuE 7B + 1B</span><span class="chip" style="--c:#F472B6">faster-whisper</span><span class="chip" style="--c:#FB7185">HTDemucs</span><span class="chip" style="--c:#60A5FA">Laya</span></div></div>
-   </div>
-   <div class="re"><svg class="mk" viewBox="0 0 48 48" aria-hidden="true"><use href="#m-re"/></svg>
-    <p><b>Reverse engineering came first.</b> I was taking software apart to see how it works long before AI could help with that. Same habit, now pointed at models and agents.</p></div>
-  </div>
- </section>
-<section class="close" id="talk"><h2>Desktop support &amp; systems opportunities</h2><p><a href="https://github.com/medick51o">View my GitHub profile ↗</a></p></section>
-</main>
-<details class="credits"><summary>Built by Medick · methods &amp; credits</summary><pre id="credits"></pre></details>
-<footer><span>Medick · 2026</span><span>Desktop support &amp; systems</span></footer></div><script type="application/json" id="ledger">
-{
-  "schema_version": 1,
-  "as_of": "2026-11-02T16:02:07Z",
-  "started": "2026-05-31",
-  "measurement_note": "Total tokens processed, measured from local Claude Code and Codex CLI session logs, then BANKED at a cumulative high-water mark: once real work is measured, it is never un-counted, even if the ephemeral logs that first revealed it are later pruned by the CLI's own housekeeping -- a month's or a tool's total can only rise. Cache-read / cached-input tokens are included: every one is a real token a model processed. Claude Code is de-duplicated by assistant message id so resumed/forked sessions are counted once. Codex CLI counted from per-turn token_count events, de-duplicated by cumulative token vector so forked/resumed rollouts count each shared turn once and every divergent branch once. Grok, Claude web, and Claude Desktop leave no local logs and are NOT counted.",
-  "totals": {
-    "all": 29878234657,
-    "by_tool": {
-      "claude_code": 21586605985,
-      "codex_cli": 1927123009
-    },
-    "month_carry": 0,
-    "tool_carry": 6364505663
-  },
-  "monthly": [
-    {
-      "month": "2026-04",
-      "tokens": 724564909
-    },
-    {
-      "month": "2026-05",
-      "tokens": 8246866
-    },
-    {
-      "month": "2026-06",
-      "tokens": 1575630146
-    },
-    {
-      "month": "2026-07",
-      "tokens": 8273279885
-    },
-    {
-      "month": "2026-08",
-      "tokens": 14171901334
-    },
-    {
-      "month": "2026-09",
-      "tokens": 4444748966
-    },
-    {
-      "month": "2026-10",
-      "tokens": 616283149
-    },
-    {
-      "month": "2026-11",
-      "tokens": 63579402
-    }
-  ],
-  "sessions_total": 1220,
-  "fleet": [
-    {
-      "vendor": "Anthropic",
-      "tool": "claude_code",
-      "detected": true,
-      "status": "measured",
-      "measured_tokens": 21586605985,
-      "estimated_tokens": null,
-      "scanned_at": "2026-11-02T16:03:25Z"
-    },
-    {
-      "vendor": "OpenAI",
-      "tool": "codex_cli",
-      "detected": true,
-      "status": "measured",
-      "measured_tokens": 1927123009,
-      "estimated_tokens": null,
-      "scanned_at": "2026-11-02T16:03:25Z"
-    },
-    {
-      "vendor": "xAI",
-      "tool": "grok_cli",
-      "detected": true,
-      "status": "measured",
-      "measured_tokens": 90784181,
-      "estimated_tokens": null,
-      "scanned_at": "2026-11-02T16:03:25Z"
-    },
-    {
-      "vendor": "Google",
-      "tool": "antigravity_cli",
-      "detected": true,
-      "status": "dispatch-measured",
-      "measured_tokens": 101,
-      "estimated_tokens": 13693523,
-      "scanned_at": "2026-11-02T16:03:25Z"
-    },
-    {
-      "vendor": "xAI",
-      "tool": "grok_bot",
-      "detected": true,
-      "status": "detected — no measurable token logs",
-      "measured_tokens": null,
-      "estimated_tokens": null,
-      "scanned_at": "2026-11-02T16:03:25Z"
-    },
-    {
-      "vendor": "Cursor",
-      "tool": "cursor_cli",
-      "detected": true,
-      "status": "detected — no measurable token logs",
-      "measured_tokens": null,
-      "estimated_tokens": 1314929,
-      "scanned_at": "2026-11-02T16:03:25Z"
-    }
-  ]
-}
-</script><script type="application/json" id="usage-snapshot">
-{
-  "schema_version": 1,
-  "scope": "Separate cumulative snapshots, NOT a new CLI ticker sync",
-  "components_not_additive": {
-    "historical_cli_bank": 29878234657,
-    "cursor_export": 8450874389
-  },
-  "cursor": {
-    "tokens": 8450874389,
-    "grok_bot_subset": 4072739590,
-    "cloud_agents_excluding_grok_bot": 3089020309,
-    "other_cursor_not_split_cli_editor": 1289114490,
-    "latest_recorded_event_utc": "2026-11-07T16:25:13.686Z",
-    "selected_utc_dates": [
-      "2026-08-21",
-      "2026-11-07"
-    ],
-    "measurable_rows": 54583,
-    "unknown_token_rows_excluded": 1899,
-    "source_sha256": "b5e29d368c65eaa88893791d9b64bec8ab2660eca88afe22dc0d692ce2168c6d"
-  },
-  "source_dates": {
-    "historical_cli_bank": "2026-11-02T16:02:07Z",
-    "cursor_latest_event": "2026-11-07T16:25:13.686Z",
-    "antigravity_measured_on": "2026-10-25",
-    "grok_cli_measured_on": "2026-10-26"
-  },
-  "limits": "Cross-source overlap is not established; components are not additive. Grok Bot is included inside Cursor once. Blank token rows excluded. Antigravity prior measured snapshot skipped four WAL files. Old/new exports never merged. No new CLI/editor attribution; no monthly allocation. CLI ticker remains November2."
-}
-</script><script>function isNonnegSafeInt(n) {
-    return Number.isSafeInteger(n) && n >= 0;
-  }
-function dateOnly(s) {
-    return String(s).slice(0, 10);
-  }
-function isValidUtcDateOnly(s) {
-    const raw = dateOnly(s);
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return false;
-    const parts = raw.split("-").map(Number);
-    const y = parts[0], mo = parts[1], day = parts[2];
-    const dt = new Date(Date.UTC(y, mo - 1, day));
-    return (
-      dt.getUTCFullYear() === y &&
-      dt.getUTCMonth() === mo - 1 &&
-      dt.getUTCDate() === day
-    );
-  }
-function validateLedger(d) {
-    if (!d || typeof d !== "object") return false;
-    if (d.schema_version !== 1) return false;
-    if (typeof d.as_of !== "string" || typeof d.started !== "string") return false;
-    if (!isValidUtcDateOnly(d.started) || !isValidUtcDateOnly(d.as_of)) return false;
-    if (dateOnly(d.started) > dateOnly(d.as_of)) return false;
-    if (!d.totals || typeof d.totals !== "object") return false;
-    if (!d.totals.by_tool || typeof d.totals.by_tool !== "object") return false;
-    if (!isNonnegSafeInt(d.totals.all) || d.totals.all <= 0) return false;
-    if (!isNonnegSafeInt(d.totals.by_tool.claude_code)) return false;
-    if (!isNonnegSafeInt(d.totals.by_tool.codex_cli)) return false;
-    // THE BANK's carry fields (round 2, BLOCKER 1 fix) — a byte-for-byte
-    // mirror of validate_ledger()'s Python side. Absent → 0 (the raw
-    // collector.py ledger never carries these; reduces to the pre-bank
-    // checks exactly). Present and nonzero on the published/banked ledger
-    // whenever months/by_tool's marginal sums don't independently agree
-    // with totals.all — see propose_bank_merge()'s docstring.
-    const monthCarry = d.totals.month_carry === undefined ? 0 : d.totals.month_carry;
-    const toolCarry = d.totals.tool_carry === undefined ? 0 : d.totals.tool_carry;
-    if (!isNonnegSafeInt(monthCarry)) return false;
-    if (!isNonnegSafeInt(toolCarry)) return false;
-    if (!Number.isSafeInteger(d.sessions_total) || d.sessions_total <= 0) return false;
-    if (!Array.isArray(d.monthly) || d.monthly.length === 0) return false;
-    for (let i = 0; i < d.monthly.length; i++) {
-      const m = d.monthly[i];
-      if (!m || typeof m.month !== "string" || !/^\d{4}-\d{2}$/.test(m.month)) return false;
-      if (!isNonnegSafeInt(m.tokens)) return false;
-    }
-    const monthSum = d.monthly.reduce(function (acc, m) { return acc + m.tokens; }, 0);
-    const toolSum = d.totals.by_tool.claude_code + d.totals.by_tool.codex_cli;
-    if (monthSum + monthCarry !== d.totals.all) return false;
-    if (toolSum + toolCarry !== d.totals.all) return false;
-    return true;
-  }
-(function(){
- function render(){
-  const d=JSON.parse(document.getElementById('ledger').textContent),s=JSON.parse(document.getElementById('usage-snapshot').textContent);
-  if(!validateLedger(d)||d.totals.all!==29878234657||d.as_of!=='2026-11-02T16:02:07Z'||s.cursor.tokens!==8450874389||s.cursor.grok_bot_subset!==4072739590)throw Error('Snapshot integrity failure');
-  const total=d.totals.all+s.cursor.tokens;if(total!==38329109046)throw Error('Combined snapshot mismatch');
-  window.__tickerLedger=d;
-  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const entries=[['odometer',total],['tool-grok',s.cursor.grok_bot_subset],['tool-cursor',s.cursor.tokens],['tool-claude',d.totals.by_tool.claude_code],['tool-codex',d.totals.by_tool.codex_cli],['tool-history',d.totals.tool_carry]];
-  const compact=n=>(n/1e9).toFixed(2)+'B';
-  entries.forEach(([id,target])=>{
-   const el=document.getElementById(id);if(!el)throw Error('Missing measured display');
-   if(reduced||typeof requestAnimationFrame!=='function'){el.textContent=compact(target);if(id==='odometer')document.getElementById('usage-bar').style.clipPath='inset(0 0% 0 0)';return;}
-   const start=performance.now(),duration=1200;el.textContent='0.00B';if(id==='odometer')document.getElementById('usage-bar').style.clipPath='inset(0 100% 0 0)';
-   function tick(now){const t=Math.max(0,Math.min(1,(now-start)/duration));el.textContent=compact(t===1?target:Math.floor(target*(1-Math.pow(1-t,3))));if(id==='odometer')document.getElementById('usage-bar').style.clipPath='inset(0 '+(100*(1-t))+'% 0 0)';if(t<1)requestAnimationFrame(tick);}
-   requestAnimationFrame(tick);
-  });
-  const stats=document.getElementById('stats');stats.textContent=d.sessions_total.toLocaleString('en-US')+' CLI sessions recorded';
- }
- function safe(){try{render();}catch(e){document.getElementById('odometer').textContent='—';document.getElementById('odometer-status').textContent='Snapshot integrity check failed';throw e;}}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',safe,{once:true});else safe();
-})();</script><script>
-(function(){
-  /* ── VISIT COUNTER CONFIG — the owner's knobs. Edit these three lines only. ── */
-  const COUNTER = {
-    enabled: true,        // false = no counter, no network call, strip never renders
-    siteCode: "medick",   // GoatCounter site code — live. "" = counter off.
-    baseline: 1000        // displayed as its own LABELED "estimated" figure. 0 = hidden.
-  };
-
-  /* Copy template — reword freely. {baseline} / {measured} stay separate labeled figures. */
-  const COUNTER_COPY =
-    "Yes, this page fired a tick at its counter the moment you arrived. No, you didn't feel it — no cookies sent, no fingerprinting, no consent banner. Whether yours landed is between you and the counter. Tracking is easy; knowing what NOT to collect is the craft. VISITS: {baseline} estimated + {measured} measured.";
-  /* When baseline is 0, only the measured figure is shown (still labeled). */
-  const COUNTER_COPY_MEASURED_ONLY =
-    "VISITS: {measured} measured so far. (Yours was just fired at the counter.)";
-
-  /* Renders CREDITS as text, with both method names as safe DOM-built links
-     (never innerHTML). Both method repos are public as of 2026-07-22. */
-  var CREDIT_LINKS = {
-    "Anderson Method": "https://github.com/medick51o/anderson-method",
-    "Team Rocket Method": "https://github.com/medick51o/team-rocket-method"
-  };
-  function renderCredits() {
-    var el = document.getElementById("credits");
-    el.textContent = "";
-    var parts = CREDITS.split(/(Anderson Method|Team Rocket Method)/);
-    for (var i = 0; i < parts.length; i++) {
-      if (CREDIT_LINKS.hasOwnProperty(parts[i])) {
-        var a = document.createElement("a");
-        a.href = CREDIT_LINKS[parts[i]];
-        a.target = "_blank";
-        a.rel = "noopener";
-        a.className = "credits-link";
-        a.textContent = parts[i];
-        el.appendChild(a);
-      } else if (parts[i]) {
-        el.appendChild(document.createTextNode(parts[i]));
-      }
-    }
-  }
-
-  const CREDITS = `Built by Medick (medick51o), with Grok Bot, Cursor, Claude Code,
-Codex, Grok CLI and Antigravity (Gemini).
-Anderson Method (human↔model intent) · Team Rocket Method.
-Process receipts: BUILD-LOG-PUBLIC.md.`;
-
-
-function fmt(n){return Math.round(n).toLocaleString("en-US");}
-  /* ── Visit counter (GoatCounter fetch + JSON; no third-party script) ── */
-  function counterIsLive() {
-    if (COUNTER.enabled !== true) return false;
-    if (typeof COUNTER.siteCode !== "string") return false;
-    var code = COUNTER.siteCode.trim();
-    if (!code) return false;
-    /* Subdomain-safe only — bad values fail closed (no network). */
-    if (!/^[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(code)) return false;
-    return true;
-  }
-
-  function counterSiteCode() {
-    return COUNTER.siteCode.trim();
-  }
-
-  function counterPagePath() {
-    /* Fixed path only: one shared total for the whole deploy.
-       Never transmit location.pathname — file:// leaks the owner path;
-       hosted deploys would otherwise couple the total to the URL path. */
-    return "/";
-  }
-
-  /* Accept only a safe integer number, or a pure digit / comma-grouped digit string. */
-  function parseGoatCount(raw) {
-    if (typeof raw === "number") {
-      if (!Number.isSafeInteger(raw) || raw < 0) return null;
-      return raw;
-    }
-    if (typeof raw !== "string") return null;
-    var s = raw;
-    if (/^\d{1,15}$/.test(s)) {
-      var n = Number(s);
-      if (!Number.isSafeInteger(n) || n < 0) return null;
-      return n;
-    }
-    if (/^\d{1,3}(,\d{3})*$/.test(s)) {
-      var n2 = Number(s.replace(/,/g, ""));
-      if (!Number.isSafeInteger(n2) || n2 < 0) return null;
-      return n2;
-    }
-    return null;
-  }
-
-  function visitCopy(measured) {
-    var baseline = COUNTER.baseline;
-    if (typeof baseline !== "number" || !Number.isFinite(baseline) || baseline < 0) {
-      baseline = 0;
-    }
-    baseline = Math.floor(baseline);
-    var measuredLabel = fmt(measured);
-    /* Structural honesty: never sum baseline + measured into one figure. */
-    if (baseline > 0) {
-      return COUNTER_COPY
-        .replace("{baseline}", fmt(baseline))
-        .replace("{measured}", measuredLabel);
-    }
-    return COUNTER_COPY_MEASURED_ONLY.replace("{measured}", measuredLabel);
-  }
-
-  function renderVisitStrip(measured) {
-    try {
-      if (document.getElementById("visit-counter")) return;
-      var stats = document.getElementById("stats");
-      if (!stats || !stats.parentNode) return;
-      var el = document.createElement("div");
-      el.id = "visit-counter";
-      el.className = "visit-counter";
-      el.setAttribute("role", "note");
-      var full = visitCopy(measured);
-      var split = full.indexOf("VISITS:");
-      if (split > 0) {
-        el.appendChild(document.createTextNode(full.slice(0, split).trim()));
-        var fig = document.createElement("span");
-        fig.className = "visit-figures";
-        fig.textContent = full.slice(split);
-        el.appendChild(fig);
-      } else {
-        el.textContent = full;
-      }
-      stats.insertAdjacentElement("afterend", el);
-    } catch (e) {
-      /* silent */
-    }
-  }
-
-  function appendHonestNetworkSentence() {
-    var honest = document.querySelector("p.honest");
-    if (!honest) return;
-    var marker = "exactly one external service";
-    if ((honest.textContent || "").indexOf(marker) !== -1) return;
-    honest.appendChild(
-      document.createTextNode(
-        " This page makes network requests to exactly one external service: its own credential-free visit counter."
-      )
-    );
-  }
-
-  function readVisitTotal(code, path) {
-    if (typeof fetch !== "function") return;
-    /* Fixed path "/": GoatCounter key is /counter//.json (root path key). */
-    var pathKey = path === "/" ? "/" : path.charAt(0) === "/" ? path.slice(1) : path;
-    var primaryUrl = "https://" + code + ".goatcounter.com/counter/" + pathKey + ".json";
-    var altUrl = "https://" + code + ".goatcounter.com/counter/.json"; /* silent alt root key */
-
-    function attempt(url, allowAlt) {
-      fetch(url, {
-        method: "GET",
-        mode: "cors",
-        credentials: "omit",
-        cache: "no-store"
-      })
-        .then(function (res) {
-          if (!res || !res.ok) {
-            if (allowAlt) attempt(altUrl, false);
-            return null;
-          }
-          return res.json();
-        })
-        .then(function (data) {
-          if (data === null) return;
-          if (!data) {
-            if (allowAlt) attempt(altUrl, false);
-            return;
-          }
-          var n = parseGoatCount(data.count);
-          if (n === null) {
-            if (allowAlt) attempt(altUrl, false);
-            return;
-          }
-          renderVisitStrip(n);
-        })
-        .catch(function () {
-          if (allowAlt) attempt(altUrl, false);
-        });
-    }
-
-    attempt(primaryUrl, true);
-  }
-
-  function bootVisitCounter() {
-    if (!counterIsLive()) return;
-
-    var code = counterSiteCode();
-    var path = counterPagePath();
-
-    try {
-      appendHonestNetworkSentence();
-    } catch (e) {
-      /* silent */
-    }
-
-    /* Count via credential-free fetch — do not load GoatCounter's script file. */
-    if (typeof fetch !== "function") return;
-    var countUrl =
-      "https://" +
-      code +
-      ".goatcounter.com/count?p=" +
-      encodeURIComponent(path);
-    try {
-      fetch(countUrl, {
-        method: "GET",
-        mode: "no-cors",
-        credentials: "omit",
-        referrerPolicy: "no-referrer",
-        cache: "no-store",
-        keepalive: true
-      })
-        .then(function () {
-          /* Opaque no-cors resolve counts: settle, then read. */
-          setTimeout(function () {
-            readVisitTotal(code, path);
-          }, 300);
-        })
-        .catch(function () {
-          /* Reject: no read, no strip. Honest sentence already on attempt. */
-        });
-    } catch (e) {
-      /* silent */
-    }
-  }
-
-  bootVisitCounter();
-
-
-renderCredits();
-})();
-
-</script></body></html>
+<script type="application/json" id="ticker-data-fallback">{"schema_version":2,"generated_at":"2026-11-18T22:39:46Z","featured_total":38810286939,"unit":"tokens","context_caption":"38,810,286,939 tokens across Claude Code, ChatGPT, Cursor and earlier usage","components":{"claude_code":{"label":"Claude Code","company":"Anthropic","icon":"company-anthropic","tokens":22040292615,"source_kind":"local_cli_banked","snapshot_date":"2026-11-18","snapshot_label":"CLI bank Nov 18, 2026","color":"#f0bb97"},"codex_cli":{"label":"ChatGPT","counted_from":"Codex CLI logs","company":"OpenAI","icon":"company-openai","tokens":1954614272,"source_kind":"local_cli_banked","snapshot_date":"2026-11-18","snapshot_label":"Codex CLI logs · Nov 18, 2026","color":"#87dbba"},"cursor":{"label":"Cursor","company":"Cursor","icon":"company-cursor","tokens":8450874389,"source_kind":"official_csv_snapshot","snapshot_at":"2026-11-07T16:25:13.686Z","snapshot_date":"2026-11-07","snapshot_range":["2026-08-21","2026-11-07"],"snapshot_label":"Aug 21 – Nov 7, 2026","color":"#c7c1ff","subset":{"key":"grok_bot","label":"Grok Bot","relation":"within Cursor","company":"xAI","icon":"company-xai","tokens":4072739590,"included_in_parent":true,"never_added_twice":true,"color":"#f1a8d3"},"breakdown":{"other_cloud":{"label":"Other cloud","tokens":3089020309,"included_in_parent":true,"never_added_twice":true},"other_cursor":{"label":"Other Cursor","tokens":1289114490,"included_in_parent":true,"never_added_twice":true},"grok_bot":{"label":"Grok Bot","tokens":4072739590,"included_in_parent":true,"never_added_twice":true}}},"earlier_recorded":{"label":"Earlier recorded usage","company":"Archive","icon":"m-history","tokens":6364505663,"source_kind":"frozen_bank_carry","snapshot_date":null,"snapshot_label":"Carried in Nov 18, 2026 CLI bank","color":"#d4bc83"}},"also_used":[{"key":"gemini_antigravity","label":"Gemini","sublabel":"Antigravity","icon":"company-gemini","note":"Research and a second opinion.","tokens":null,"included_in_total":false},{"key":"grok_build","label":"Grok Build","sublabel":null,"icon":"company-xai","note":"Command-line work and review.","tokens":null,"included_in_total":false}],"cli_summary":{"cli_bank_total":30359412550,"sessions_recorded":1279,"started":"2026-05-31","as_of":"2026-11-18T22:39:46Z","as_of_label":"Nov 18, 2026","claude_as_of":"2026-11-18T22:39:46Z","codex_as_of":"2026-11-18T22:39:46Z","monthly":[{"month":"2026-04","tokens":724564909},{"month":"2026-05","tokens":8246866},{"month":"2026-06","tokens":1575630146},{"month":"2026-07","tokens":8273279885},{"month":"2026-08","tokens":14171901334},{"month":"2026-09","tokens":4444748966},{"month":"2026-10","tokens":616283149},{"month":"2026-11","tokens":544757295}]},"cursor_snapshot_meta":{"latest_recorded_event_utc":"2026-11-07T16:25:13.686Z","selected_utc_dates":["2026-08-21","2026-11-07"],"measurable_rows":54583,"blank_token_rows_excluded":1899,"source_sha256":"b5e29d368c65eaa88893791d9b64bec8ab2660eca88afe22dc0d692ce2168c6d"},"methodology":{"summary":"Counts come from two measured sources: local CLI session logs saved through Nov 18, 2026 (including cached input tokens) and Cursor's official usage CSV export through Nov 7, 2026 (1,899 blank-token rows excluded). Grok Bot, other cloud agents, and other Cursor usage are parts of the Cursor total and are never added twice. Nothing estimated enters the token totals, and the numbers animate briefly once on load rather than streaming live. The sources are separate snapshots, so some overlap between them is possible."}}</script>
+<script defer src="app.js"></script>
+</body>
+</html>
