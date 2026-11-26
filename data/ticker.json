@@ -1,18 +1,18 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-11-25T16:00:01Z",
-  "featured_total": 39065205264,
+  "generated_at": "2026-11-26T16:00:02Z",
+  "featured_total": 39099537328,
   "unit": "tokens",
-  "context_caption": "39,065,205,264 tokens across Claude Code, ChatGPT, Cursor and earlier usage",
+  "context_caption": "39,099,537,328 tokens across Claude Code, ChatGPT, Cursor and earlier usage",
   "components": {
     "claude_code": {
       "label": "Claude Code",
       "company": "Anthropic",
       "icon": "company-anthropic",
-      "tokens": 22292510929,
+      "tokens": 22326842993,
       "source_kind": "local_cli_banked",
-      "snapshot_date": "2026-11-25",
-      "snapshot_label": "CLI bank Nov 25, 2026",
+      "snapshot_date": "2026-11-26",
+      "snapshot_label": "CLI bank Nov 26, 2026",
       "color": "#f0bb97"
     },
     "codex_cli": {
@@ -79,7 +79,7 @@
       "tokens": 6364505663,
       "source_kind": "frozen_bank_carry",
       "snapshot_date": null,
-      "snapshot_label": "Carried in Nov 25, 2026 CLI bank",
+      "snapshot_label": "Carried in Nov 26, 2026 CLI bank",
       "color": "#d4bc83"
     }
   },
@@ -104,12 +104,12 @@
     }
   ],
   "cli_summary": {
-    "cli_bank_total": 30614330875,
+    "cli_bank_total": 30648662939,
     "sessions_recorded": 1284,
     "started": "2026-05-31",
-    "as_of": "2026-11-25T16:00:01Z",
-    "as_of_label": "Nov 25, 2026",
-    "claude_as_of": "2026-11-25T16:00:01Z",
+    "as_of": "2026-11-26T16:00:02Z",
+    "as_of_label": "Nov 26, 2026",
+    "claude_as_of": "2026-11-26T16:00:02Z",
     "codex_as_of": "2026-11-23T16:00:01Z",
     "monthly": [
       {
@@ -142,7 +142,7 @@
       },
       {
         "month": "2026-11",
-        "tokens": 799675620
+        "tokens": 834007684
       }
     ]
   },
@@ -157,6 +157,6 @@
     "source_sha256": "b5e29d368c65eaa88893791d9b64bec8ab2660eca88afe22dc0d692ce2168c6d"
   },
   "methodology": {
-    "summary": "Counts come from two measured sources: local CLI session logs saved through Nov 25, 2026 (including cached input tokens) and Cursor's official usage CSV export through Nov 7, 2026 (1,899 blank-token rows excluded). Grok Bot, other cloud agents, and other Cursor usage are parts of the Cursor total and are never added twice. Nothing estimated enters the token totals, and the numbers animate briefly once on load rather than streaming live. The sources are separate snapshots, so some overlap between them is possible."
+    "summary": "Counts come from two measured sources: local CLI session logs saved through Nov 26, 2026 (including cached input tokens) and Cursor's official usage CSV export through Nov 7, 2026 (1,899 blank-token rows excluded). Grok Bot, other cloud agents, and other Cursor usage are parts of the Cursor total and are never added twice. Nothing estimated enters the token totals, and the numbers animate briefly once on load rather than streaming live. The sources are separate snapshots, so some overlap between them is possible."
   }
 }
